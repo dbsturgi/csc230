@@ -1,0 +1,511 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta http-equiv="Content-Style-Type" content="text/css" />
+  <meta name="generator" content="pandoc" />
+  <title>CSC230 Coding Style Guide – </title>
+  <style type="text/css">code{white-space: pre;}</style>
+  <style type="text/css">
+div.sourceCode { overflow-x: auto; }
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+code > span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code > span.dt { color: #902000; } /* DataType */
+code > span.dv { color: #40a070; } /* DecVal */
+code > span.bn { color: #40a070; } /* BaseN */
+code > span.fl { color: #40a070; } /* Float */
+code > span.ch { color: #4070a0; } /* Char */
+code > span.st { color: #4070a0; } /* String */
+code > span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code > span.ot { color: #007020; } /* Other */
+code > span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code > span.fu { color: #06287e; } /* Function */
+code > span.er { color: #ff0000; font-weight: bold; } /* Error */
+code > span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+code > span.cn { color: #880000; } /* Constant */
+code > span.sc { color: #4070a0; } /* SpecialChar */
+code > span.vs { color: #4070a0; } /* VerbatimString */
+code > span.ss { color: #bb6688; } /* SpecialString */
+code > span.im { } /* Import */
+code > span.va { color: #19177c; } /* Variable */
+code > span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code > span.op { color: #666666; } /* Operator */
+code > span.bu { } /* BuiltIn */
+code > span.ex { } /* Extension */
+code > span.pp { color: #bc7a00; } /* Preprocessor */
+code > span.at { color: #7d9029; } /* Attribute */
+code > span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code > span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+  </style>
+  <link rel="stylesheet" href="./style.css" type="text/css" />
+</head>
+<body>
+
+  <h1 id="csc230-coding-style">CSC230 Coding Style</h1>
+
+  <p>Coding style is important because it increases readability and
+  maintainability of your code. Most companies will have some form of
+  style expectations for their employees, and this class supports this
+  by defining our own style guidelines for student work. Following the
+  guidelines will make it easier for the teaching staff to read and
+  help diagnose problems with your code, without having to spend extra
+    time figuring out your formatting.</p>
+
+  <p>Student code is expected to follow this guide for
+  the <b>homework assignments</b> and the <b>semester
+  project</b>.  You'll probably want to follow the same style for all
+  your C code, but style rules are not checked for the smaller
+  <b>programming exercises</b>.<p>
+
+  <p>The Coding Style Guidelines for CSC230 are adapted from
+  the <a href="https://www.kernel.org/doc/html/v4.10/process/coding-style.html">Linux
+  Kernel's Coding Style</a> document. Since we'll be covering more and
+  more of the language as the semester progresses, some of these
+  guidelines will make more sense after we get to the relevant part of
+  the language.</p>
+
+  <h1 id="comments">Comments</h1>
+
+  <p>
+    You are encouraged to include comments within the body of your
+    functions.  Particularly for long sections of code, this can help
+    to explain what you're trying to do to another developer or to
+    yourself in the future.  For the homeworks and semester project, the
+    commenting part of your grade will reflect your comments in a few
+    particularly important places.
+  </p>
+
+  <h2 id="file-comments">File comments</h2>
+
+  <p>Every source file (.c, .h) will contain a javadoc-style block
+  comment at the top which includes the following:</p>
+
+  <ul>
+
+    <li><p>A file tag (<code>@file</code>) giving the name of the source file.</p></li>
+
+    <li><p>An author tag (<code>@author</code>), giving the
+    author's <strong>name</strong> and <strong>unity ID</strong>
+    (e.g., jqpublic).</p></li>
+
+    <li><p>A brief description of the purpose of the program or module
+    within a larger program. This may be terse, but should convey the
+    logic/content contained within the file.</p></li>
+
+  </ul>
+
+  <h2 id="function-comments">Function comments</h2>
+
+  <p>
+  Function declarations or definitions will be preceded by a
+  javadoc-style block comment. This comment should only appear in one
+  place in the source code; you don't want to duplicate comments if
+  you can avoid it.  Where do you put the comment?  That depends on
+  whether the function is expected to be used only within a single
+  component or if it is intended for use outside the component.
+  </p>
+
+  <p>
+  If the function is expected to be used outside the component where
+  it is defined, then it will have a prototype in the header file for
+  that component.  That's where you should put the block comment.
+  This policy makes sense.  Other client code will need access to the
+  header in order to use the function.  Putting the block comment
+  there will also make the function's documentation available to
+  programmers who need to use the function.  If a function is intended
+  for use only within a single component, then it should be marked as
+  static and it should <b>not</b> have a prototype in the header.  For
+  these internal functions, their block comment should be given right
+  above the function definition.
+  </p>
+
+  <p> A function's block comment should contain:</p>
+
+  <ul>
+
+    <li>
+
+      <p>A description of the function's purpose. This should start
+      with a sentence summarizing what the function does, followed by
+      additional explanation. Any pre-conditions, post-conditions or
+      side effects of the for this function should be described in
+      here (we don't require separate tags for pre- and post-conditions).</p></li>
+
+    <li><p>A description of each function parameter, marked with
+    the <code>@param</code> tag. The format for this tag is just like
+    javadoc. If the function has no parameters, this may be
+    omitted.</p></li>
+
+    <li><p>A description of the function's return value, marked with the <code>@return</code> tag. If the function has no return value, this may be omitted.</p></li>
+
+  </ul>
+
+  <h2 id="constant-and-file-level-variable-comments">Constant and
+  Global  variable comments</h2>
+
+  <p>Preprocessor-defined constants and file-level (e.g., global)
+  variables should be proceeded by a javadoc-style block comment
+  describing their purpose.  These don't require specific tags, just a
+  short description of what the variable or constant is for.  Be sure
+  to see the restriction on global variables below.</p>
+
+  <h2 id="type-definitions">Type definitions</h2>
+
+  <p>Definition of new types (e.g., structs or typedefs) should be
+  preceded by a javadoc-style block comment describing their
+  purpose.  No particular tags are required here; just a short
+  description of what the type represents. </p>
+
+  <h1 id="code-organization">Code Organization</h1>
+
+  <p>Each statement should start on a new line; don't put multiple
+  statements on the same line.  This includes statements in the body
+  of an <code>if</code> statement, a <code>for</code> loop
+  or a <code>while</code> loops.   For longer
+  statements, you may have to split them up across multiple lines in
+    order to make the code easier to read.
+  </p>
+  
+  For <code>if</code> statements, <code>for</code> loops
+  and <code>while</code> loops, if the body is just one statement you
+  are not required to put curly brackets around it.  You may still put
+  curly brackets here, if you want.  It's probably a good idea.
+  Either way, each statement in the body should start on a new line.</p>
+
+  <h2 id="indentation">Indentation</h2>
+
+  <p>All code indentation will be done with spaces. No hard tab
+  characters may be used (except for Makefiles, where we have to use
+  hard tabs). Why do we have this requirement? Hard tabs behave
+  inconsistently from one editor to the next, so the nice, pretty
+  indenting you did on one editor may not look as good when someone
+  else views your file. Spaces generally behave the same across all
+  editors.</p>
+
+  <p>You can choose how many spaces you'd like to indent with.
+  Four-space indentation is common, but you can use 2-space if you'd
+  like (or 3 or 5 or 8, just not zero).  Whatever you use, be sure
+  you're consistent.  Don't mix 2-space indentation and 4-space
+  indentation.  Depending on the editor you use, you may be able to
+  configure it to automatically perform the kind of indentation you
+  want (that's what I do).</p>
+
+  <p>As usual, the indentation level will indicate how deeply nested
+  the current section of code is.  The indentation level will increase
+  in the following circumstances:</p>
+
+  <ul>
+
+    <li>Statements in a function</li>
+
+    <li>Statements in the body of a control structure (e.g., if, while or switch)</li>
+
+    <li>Statements in a block (code surrounded by { and })</li>
+
+  </ul>
+
+  <h2 id="curly-braces">Curly Braces</h2>
+
+  <p>For function definitions, the opening curly brace will appear at
+  the start of the line after the function header. For everything else
+  (e.g., while or switch), the opening curly brace will be at end of
+  the line containing the control structure.  The sample program
+  below shows several examples of this.</p>
+
+  <h2 id="line-termination">Line Termination</h2>
+
+  <p>Line termination can be a little tricky, for two
+  reasons. Different operating systems use different character codes
+  to mark the ends of lines, and different editors behave differently
+  in their treatment of the last line of a file.</p>
+
+  <p>In general, we'll expect all lines of text (including the last
+  line) to end with Unix-style line termination, a single linefeed
+  character (<code>\n</code>, hexadecimal 0x0A). If you've used a text
+  editor on a Window machine, or if you cut-and-paste on a Windows
+  machine it may insert different line termination sequences. Before
+  submitting, you may want to use a tool like <code>dos2unix</code> to
+  fix this. If your source file is named <code>prog.c</code>, running
+  the following command on a Linux machine should change your line
+  termination from Windows-style to Unix-style.</p>
+
+  <div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash">$ <span class="kw">dos2unix</span> prog.c</code></pre></div>
+
+  <p>Sometimes, it's handy to be able to see exactly what's in a
+  file. The hexdump program can help with this. The following command
+  will show the sequence of characters in the source
+  file, <code>prog.c</code>, in hexadecimal on the left and as symbols
+  on the right where possible:</p>
+
+  <div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash">$ <span class="kw">hexdump</span> -C prog.c</code></pre></div>
+
+  <h2 id="magic-numbers">Magic numbers</h2>
+
+  <p>You shouldn't have magic numbers in your source code. Obvious
+  values are generally OK, ones you might use to iterate over an array
+  (like 0, 1, -1, maybe even 2). Rather than classifying particular
+  values as being magic numbers, we try to consider what job the
+  number is doing. When we're trying to decide if a value should be
+  considered a magic number, we'll consider the following:</p>
+
+  <ul>
+
+    <li><p>Could the value have some kind of explanation, like 3.14159265</p></li>
+
+    <li><p>Could the value potentially be a tunable parameter?</p></li>
+
+    <li><p>Does the value need show up more than once in the source code?</p></li>
+
+  </ul>
+
+  <p>We will generally use the C preprocessor define named constants
+  for values that have special meaning in our programs. As a name,
+  choose something meaningful that helps explain what the value is
+  for; don't use a word for the current value as the name (like the
+  last example below).</p>
+
+  <div class="sourceCode"><pre class="sourceCode c"><code class="sourceCode c">    <span class="co">// All good</span>
+    <span class="ot">#define PI 3.14159265</span>
+    <span class="ot">#define BASE_SCORE 350</span>
+    <span class="ot">#define BUFFER_SIZE 100</span>
+
+    <span class="co">// Bad</span>
+    <span class="ot">#define FIVE 5</span></code></pre>
+  </div>
+
+  <p>When terminating, the exit status should always be a named
+  constant, either defined in the program itself or via a header
+    file:</p>
+
+  <div class="sourceCode"><pre class="sourceCode c"><pre class="sourceCode c"> <code class="sourceCode c">   <span class="co">// The standard library constant for unsuccessful execution.</span>
+    <span class="ot">exit( EXIT_FAILURE );</span>
+    
+    <span class="co">// Maybe some constant I defined for an error condition.</span>
+    <span class="ot">exit( MEMORY_EXHAUSTED );</span></code></pre>
+  </div>
+
+    <p>
+      It's common to need small constant values to check the return
+      value of scanf(), fscanf() or sscanf(), like in the sample code
+      below.  Here, the value, 3, would not be considered a magic
+      number.  It is specific to the format string being used on the
+      very same line of code.  It probably wouldn't' be meaningful or
+      helpful to give a name for this value and define it elsewhere in
+      the code.
+    </p>
+
+    <pre>
+      if ( scanf( "%d%f%c", &a, &b, &c ) == 3 ) {
+        ...
+      }
+    </pre>
+
+    <p>
+      Parsing command-line arguments can sometimes require looking at
+      a few nearby elements in `argv[]`.  There are some opportunities
+      to use named constants to make argument parsing code readable
+      and maintainable, but a value like the 1 in the following
+      example generally wouldn't be considered a magic number.
+    </p>
+
+    <pre>
+      if ( strcmp( argv[ argpos + 1 ], "green" ) == 0 ) {
+        ...
+      }
+    </pre>
+
+  <h1 id="design">Design</h1>
+
+  <h2 id="global-variables">Global Variables</h2>
+
+  <p>In general, global variables should be avoided. Unless a project
+  description expressly permits it, you're not allowed to define new
+  global variables as part of your solution. Typically, this means
+  that a function will need parameters to pass in any data it needs to
+  work with, and it can return its results via the parameters or the
+  return value.</p>
+
+  <h2 id="function-types-and-behavior">Function Types and Behavior</h2>
+
+  <p>Programming assignments may specify the parameter types, return
+  types and expected behavior for particular functions you're expected
+  to implement. In your solution, you need to stick to types and
+  behavior described in the assignment. We may test some of
+  these functions individually, and your solution won't pass our tests
+  if you implement them differently.</p>
+
+  <h2 id="function-visibility">Function Visibility</h2>
+
+  <p>When you're defining functions in a component, you should
+  consider whether the function is for internal use, only to be
+  used by other code in the component, or if it's provided for use by
+  other code outside the component.  This is like thinking about
+  whether a Java method should be private or public.  If a function
+  is intended for use outside the component where it is defined, it
+  should have prototype in the component's header.  If it's intended
+  for use only inside the component, it should not have a prototype
+  in the header, and it should be marked as static so other code
+  can't use it. </p>
+
+  <h2 id="const-ness">Const-ness</h2>
+
+  <p>Array and pointer parameters to functions should be marked as
+  const whenever possible, whenever the function doesn't need to
+  modify the value that the parameter refers to.  This makes the
+  function more useful, since it lets the function be used with values
+  that are either const or non-const.  Likewise, a returned
+  pointer should be marked as const if the caller should not modify
+  the memory the pointer points to.  Code should respect the
+  const-ness of function parameters and return values. If you feel
+  like you have to cast away const, you're probably doing something
+  wrong.</p>
+
+  <h1 id="automated-style-checking">Style Checking</h1>
+
+  <p>
+    We don't provide an automated style checker for this class.  The
+    style rules are simple enough that we're expecting students to
+    learn the rules early in the semester and then just keep them in
+    mind as they're writing code for the programming assignments.  A
+    good text editor can help you follow some of the rules.
+  </p>
+
+
+  <p>
+    When we grade assignments, we'll just look at the source code to
+    see if it follows what the guide says.  Starting with project 2,
+    we will use a Jenkins system to automatically run some tests on
+    each submission.  On the earlier homework assignments, the Jenkins
+    system will also check some parts of the style guide and a few
+    other expectations for the submission (e.g., working Makefile, all
+    the right files submitted).  As we move to the later homeworks or
+    the project, the Jenkins system won't do as much automated
+    checking, and you'll need to check more of these things yourself.
+  </p>
+  
+
+  <h1 id="automated-style-checking">Github Repo Housekeeping</h1>
+
+  <p>
+    You'll be submitting homework 2-4 and the semester project using a
+    github repo.  A small part of your project grade will reflect repo
+    management, whether or not your repo contains appropriate files
+    for the project.  Your repo should contain your source files,
+    along with any other files needed to build your project (e.g., a
+    makefile).  Typically, your repo will also contain test inputs and
+    outputs, testing scripts and possibly some test driver code.
+    However, your repo shouldn't contain extraneous files like
+    temporary output files, object files, executables or other files
+    that could be re-built from the source.  On the homeworks and the
+    semester project, we'll let you know what should be in your repo.
+    Missing some expected files or having extraneous files may cost
+    you a small number of points.
+  </p>
+  
+
+  <h1 id="example">Example</h1>
+
+  <p>The following example is intended to be a good demonstration of
+  our commenting and formatting requirements. In addition to helping
+  to illustrate the style guidelines, this program will help detect
+  line termination problems, if you give it another program's source
+  code on standard input.</p> 
+
+<div class="sourceCode"><pre class="sourceCode c"><code class="sourceCode c"><span class="co">/** </span>
+<span class="co">    </span><span class="kw">@file</span><span class="co"> </span><span class="kw">check.c</span>
+<span class="co">    </span><span class="kw">@author</span><span class="co"> John Q Public (jqpublic)</span>
+<span class="co">    This program performs a few basic style checks on C source code</span>
+<span class="co">    read from standard input.  It looks for hard tab characters and for</span>
+<span class="co">    different types of line termination.</span>
+<span class="co">*/</span>
+
+<span class="ot">#include &lt;stdio.h&gt;</span>
+<span class="ot">#include &lt;stdlib.h&gt;</span>
+
+<span class="co">/** Exit code if style problems are encountered. */</span>
+<span class="ot">#define STYLE_ERROR 255</span>
+
+<span class="co">/** True if the input contains windows-style line termination.</span>
+<span class="co">    (this is a global variable, something to avoid) */</span>
+<span class="dt">int</span> windowsNewlines = <span class="dv">0</span>;
+
+<span class="co">/** True if the input contains unix-style line termination. */</span>
+<span class="dt">int</span> unixNewlines = <span class="dv">0</span>;
+
+<span class="dt">void</span> detectNewline( <span class="dt">int</span>, <span class="dt">int</span> );
+
+<span class="co">/** </span>
+<span class="co">    Program starting point, reads characters from standard input until end-of-file.</span>
+<span class="co">    </span><span class="kw">@param</span><span class="co"></span> <span class="kw">argc</span><span class="co"> number of command-line arguments, not used.</span>
+<span class="co">    </span><span class="kw">@param</span><span class="co"> </span><span class="kw">argv</span><span class="co"> list of command-line arguments, not used.</span>
+<span class="co">    </span><span class="kw">@return</span><span class="co"> program exit status</span>
+<span class="co">*/</span>
+<span class="dt">int</span> main( <span class="dt">int</span> argc, <span class="dt">char</span> *argv[] )
+{
+    <span class="co">// Previous characters read, with EOF indicating no previous character.</span>
+    <span class="dt">int</span> prev = EOF;
+
+    <span class="co">// Set to true if the file contains a tab.</span>
+    <span class="dt">int</span> containsTab = <span class="dv">0</span>;
+
+    <span class="co">// Normally, standard input will be in text mode, so we may not see</span>
+    <span class="co">// differences in line termination.  This should fix that.</span>
+    freopen( NULL, <span class="st">&quot;rb&quot;</span>, stdin );
+
+    <span class="co">// Read all the input characters.</span>
+    <span class="kw">for</span> ( <span class="dt">int</span> ch = getchar(); ch != EOF; ch = getchar() ) {
+        <span class="kw">if</span> ( ch == <span class="ch">&#39;\t&#39;</span> )
+            containsTab = <span class="dv">1</span>;
+        
+        detectNewline( prev, ch );
+
+        prev = ch;
+    }
+
+    <span class="co">// Is there a style problem?</span>
+    <span class="kw">if</span> ( containsTab || windowsNewlines ) {
+        <span class="kw">if</span> ( containsTab )
+            printf( <span class="st">&quot;This file contains hard tab characters</span><span class="ch">\n</span><span class="st">&quot;</span> );
+
+        <span class="kw">if</span> ( windowsNewlines ) {
+            <span class="kw">if</span> ( unixNewlines )
+                printf( <span class="st">&quot;This file contains mixed types of line termination</span><span class="ch">\n</span><span class="st">&quot;</span> );
+            <span class="kw">else</span>
+                printf( <span class="st">&quot;This file contains windows line termination</span><span class="ch">\n</span><span class="st">&quot;</span> );
+        }
+
+        <span class="kw">return</span> STYLE_ERROR;
+    }
+
+    <span class="co">// Did the last line have line termination?</span>
+    <span class="kw">if</span> ( prev != EOF &amp;&amp; prev != <span class="ch">&#39;\n&#39;</span> )
+        printf( <span class="st">&quot;The last line of this file doesn&#39;t have line termination</span><span class="ch">\n</span><span class="st">&quot;</span> );
+
+    <span class="kw">return</span> EXIT_SUCCESS;
+}
+
+<span class="co">/**</span>
+<span class="co">   Given a two-character sequence, determine whether it looks like</span>
+<span class="co">   windows- or unix-style line termination.  Updates windowsNewlines</span>
+<span class="co">   or unixNewlines to indicate line termination encountered.</span>
+<span class="co">   </span>
+<span class="co">   </span><span class="kw">@param</span><span class="co"> </span><span class="kw">prev</span><span class="co"> previous character read, or EOF if there is no previous character.</span>
+<span class="co">   </span><span class="kw">@param</span><span class="co"> </span><span class="kw">current</span><span class="co"> most recent character read.</span>
+<span class="co">*/</span>
+<span class="dt">void</span> detectNewline( <span class="dt">int</span> prev, <span class="dt">int</span> current )
+{
+    <span class="kw">if</span> ( current == <span class="ch">&#39;\n&#39;</span> ) {
+        <span class="kw">if</span> ( prev == <span class="ch">&#39;\r&#39;</span> )
+            windowsNewlines = <span class="dv">1</span>;
+        <span class="kw">else</span>
+            unixNewlines = <span class="dv">1</span>;
+    }
+}</code></pre></div>
+</body>
+</html>
