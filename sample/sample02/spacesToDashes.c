@@ -1,9 +1,10 @@
 /**
    A character I/O program that echos the input, replacing spaces with
-   dashes.
+   dashes and capitalizing all the letters.
 */
 #include <stdio.h>
 #include <stdlib.h>
+#include <ctype.h>
 
 int main()
 {
@@ -15,7 +16,7 @@ int main()
     if ( ch == ' ' )
       putchar( '-' );
     else
-      putchar( ch );
+      putchar( toupper( ch ) );
     ch = getchar();
   }
 
