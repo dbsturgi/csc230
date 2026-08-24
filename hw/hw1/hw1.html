@@ -1,0 +1,1152 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>CSC230 Homework 1</title>
+  <style>
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+    /* CSS for syntax highlighting */
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+        color: #aaaaaa;
+      }
+    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+    div.sourceCode
+      {   }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+    code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+    code span.at { color: #7d9029; } /* Attribute */
+    code span.bn { color: #40a070; } /* BaseN */
+    code span.bu { color: #008000; } /* BuiltIn */
+    code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+    code span.ch { color: #4070a0; } /* Char */
+    code span.cn { color: #880000; } /* Constant */
+    code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+    code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+    code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+    code span.dt { color: #902000; } /* DataType */
+    code span.dv { color: #40a070; } /* DecVal */
+    code span.er { color: #ff0000; font-weight: bold; } /* Error */
+    code span.ex { } /* Extension */
+    code span.fl { color: #40a070; } /* Float */
+    code span.fu { color: #06287e; } /* Function */
+    code span.im { color: #008000; font-weight: bold; } /* Import */
+    code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+    code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+    code span.op { color: #666666; } /* Operator */
+    code span.ot { color: #007020; } /* Other */
+    code span.pp { color: #bc7a00; } /* Preprocessor */
+    code span.sc { color: #4070a0; } /* SpecialChar */
+    code span.ss { color: #bb6688; } /* SpecialString */
+    code span.st { color: #4070a0; } /* String */
+    code span.va { color: #19177c; } /* Variable */
+    code span.vs { color: #4070a0; } /* VerbatimString */
+    code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+  </style>
+  <link rel="stylesheet" href="./style.css" />
+</head>
+<body>
+<nav id="TOC" role="doc-toc">
+<ul>
+<li><a href="#csc230-homework-1" id="toc-csc230-homework-1">CSC230
+Homework 1</a></li>
+<li><a href="#getting-started" id="toc-getting-started">Getting
+Started</a>
+<ul>
+<li><a href="#preparing-your-github-credentials"
+id="toc-preparing-your-github-credentials">Preparing your GitHub
+Credentials</a>
+<ul>
+<li><a href="#generating-a-key-pair"
+id="toc-generating-a-key-pair">Generating a Key Pair</a></li>
+<li><a href="#adding-your-key-pair-to-github"
+id="toc-adding-your-key-pair-to-github">Adding Your Key Pair to
+GitHub</a></li>
+<li><a href="#authorizing-your-key"
+id="toc-authorizing-your-key">Authorizing your Key</a></li>
+</ul></li>
+<li><a href="#cloning-your-repository"
+id="toc-cloning-your-repository">Cloning your Repository</a></li>
+<li><a href="#expanding-the-starter"
+id="toc-expanding-the-starter">Expanding the Starter</a></li>
+<li><a href="#instructions-for-submission"
+id="toc-instructions-for-submission">Instructions for Submission</a>
+<ul>
+<li><a href="#adding-your-files" id="toc-adding-your-files">Adding your
+Files</a></li>
+<li><a href="#committing-your-changes"
+id="toc-committing-your-changes">Committing your Changes</a></li>
+<li><a href="#pushing-your-changes"
+id="toc-pushing-your-changes">Pushing your Changes</a></li>
+</ul></li>
+<li><a href="#keeping-your-repo-clean"
+id="toc-keeping-your-repo-clean">Keeping your repo clean</a></li>
+</ul></li>
+<li><a href="#part-1-correcting-style-25-pts"
+id="toc-part-1-correcting-style-25-pts">Part 1 : Correcting Style (25
+pts)</a>
+<ul>
+<li><a href="#editing-style.c" id="toc-editing-style.c">Editing
+style.c</a></li>
+<li><a href="#program-execution" id="toc-program-execution">Program
+execution</a></li>
+<li><a href="#style.c-grading" id="toc-style.c-grading">style.c
+Grading</a></li>
+</ul></li>
+<li><a href="#part-2-text-box-25-pts"
+id="toc-part-2-text-box-25-pts">Part 2 : Text Box (25 pts)</a>
+<ul>
+<li><a href="#design-and-implementation"
+id="toc-design-and-implementation">Design and Implementation</a></li>
+<li><a href="#testing" id="toc-testing">Testing</a></li>
+<li><a href="#textbox.c-grading" id="toc-textbox.c-grading">textbox.c
+Grading</a></li>
+</ul></li>
+<li><a href="#part-3-trigonometric-function-calculation"
+id="toc-part-3-trigonometric-function-calculation">Part 3 :
+Trigonometric Function Calculation</a>
+<ul>
+<li><a href="#user-input" id="toc-user-input">User Input</a></li>
+<li><a href="#approximating-sine-and-cosine"
+id="toc-approximating-sine-and-cosine">Approximating Sine and
+Cosine</a></li>
+<li><a href="#approximating-tangent"
+id="toc-approximating-tangent">Approximating Tangent</a></li>
+<li><a href="#value-representation" id="toc-value-representation">Value
+Representation</a></li>
+<li><a href="#table-output" id="toc-table-output">Table Output</a></li>
+<li><a href="#accuracy-threshold" id="toc-accuracy-threshold">Accuracy
+Threshold</a></li>
+<li><a href="#design-and-implementation-1"
+id="toc-design-and-implementation-1">Design and Implementation</a></li>
+<li><a href="#testing-1" id="toc-testing-1">Testing</a></li>
+<li><a href="#trig.c-grading" id="toc-trig.c-grading">trig.c
+Grading</a></li>
+</ul></li>
+<li><a href="#notes-on-completing-the-assignment"
+id="toc-notes-on-completing-the-assignment">Notes on Completing the
+Assignment</a></li>
+<li><a href="#common-problems" id="toc-common-problems">Common
+Problems</a></li>
+<li><a href="#learning-outcomes" id="toc-learning-outcomes">Learning
+Outcomes</a></li>
+</ul>
+</nav>
+<h1 id="csc230-homework-1">CSC230 Homework 1</h1>
+<p>This is your first, easy homework assignment. The others will be
+larger and more interesting. This one will let you get started writing,
+formatting, compiling, running and testing simple C programs. This
+requires that you familiarize yourself with the <a
+href="https://dbsturgi.github.io/csc230/CommonPlatform.pdf">Common
+Platform</a> and our <a
+href="https://dbsturgi.github.io/csc230/coding_style.html">Coding Style
+Guidelines</a>. A full list of the relevant <a href="#outcomes">Learning
+Outcomes</a> is included at the end of this page.</p>
+<p>This assignment is to be done individually. You should be able to
+solve these problems using the material up to the end of the Lecture 2
+slides. You’ll also need the bool type from near the start of lecture 4.
+Please don’t go find other resources for designing and coding your
+solution. Solving these problems with material from just the first few
+lectures should let you start on your code early, and it will give you a
+chance to practice using basic C features for things like I/O.</p>
+<h1 id="getting-started">Getting Started</h1>
+<p>Before attempting this assignment, you may want to complete exercise
+1. The course Moodle site describes some alternatives for how you can
+complete this first exercise, depending on what operating system you’re
+using and how you’d like to work. You can try out a few of these options
+for the first exercise, then use whatever technique you like best on
+this homework assignment.</p>
+<p>To get started on this assignment, you’ll need to clone your GitHub
+repo and unpack the given starter into the hw1 directory of your repo.
+You’ll submit by committing files to your repo and pushing the changes
+back up to GitHub.</p>
+<h2 id="preparing-your-github-credentials">Preparing your GitHub
+Credentials</h2>
+<p>To access your repo on <code>github.com</code>, you’ll need a key
+pair. You’ll need to tell GitHub the public key so it can validate your
+authenticity when you try to clone your repo or whenever you need to
+push or pull changes. Probably, you’ve already made a key pair and
+registered it with GitHub in a previous class. If not, I’ve tried to
+describe what you’ll need to do below. More extensive documentation for
+this is available. At <code>github.coma</code>, you can read about how
+to [Generate a new SSH
+key)[https://docs.github.com/en/enterprise-cloud@latest/authentication/connecting-to-github-with-ssh/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent?platform=linux#generating-a-new-ssh-key].
+After you make an SSH key, you can <a
+href="https://docs.github.com/en/enterprise-cloud@latest/authentication/connecting-to-github-with-ssh/adding-a-new-ssh-key-to-your-github-account">Add
+the SSH key to your GitHub account</a>. Finally, you’ll need to <a
+href="https://docs.github.com/en/enterprise-cloud@latest/authentication/authenticating-with-single-sign-on/authorizing-an-ssh-key-for-use-with-single-sign-on">Authorize
+your SSH key</a> before you can use it with your NCSU repositories. For
+a couple of these pages, there are tabs near the top of the document
+document to get instructions specific to MacOS, Windows or Linux.</p>
+<h3 id="generating-a-key-pair">Generating a Key Pair</h3>
+<p>To access your repo from the command line, you’ll need a key pair
+stored on whatever system you plan to run git command on. Maybe you plan
+to run git commands on the university remote Linux machines. If so,
+you’ll want to make a key pair on one of these systems and let it be
+stored in your NCSU drive space, so it will be there whenever you run
+commands from a university Linux machine. Or, maybe you plan to run git
+commands from your laptop. If so, you’ll want to generate a key pair on
+your laptop and let it be stored under you home directory on your
+laptop. Of course, if you plan to run git on your own system, you’ll
+need to have git or git bash installed.</p>
+<p>If you plan to generate a new key pair, be sure you don’t
+accidentally overwrite a key that you might need to use again in the
+future. When you make a new key pair, you get to choose a pathname for
+that key. If you already have a key with the default name, you can
+choose a different filename under your <code>.ssh</code> directory. If
+you already have a key pair, you can probably just use that to
+authenticate yourself with GitHub. If you already have a pair of files
+named ‘id_<em>’ and ’id_</em>.pub’ under your <code>.ssh</code>
+directory, you could try skipping ahead to the “Adding Your Key Pair to
+GitHub” and see if you can just use your existing key. In fact, if
+you’ve taken prerequisite classes at NC state, you’ve probably already
+done this.</p>
+<p>The command for generating a key pair should be the same, whither
+you’re working on Linux, MacOS or Windows. If you plan to run git
+commands on one of the university Linux machines, you can login on one
+of these systems and enter the following command from the shell prompt.
+From a MacOS system, you can enter the command from a terminal window.
+On windows, you should be able to run this from a git bash window.
+Before you enter the command, replace the dummy email address at the end
+with your actual NCSU email address.</p>
+<pre><code>ssh-keygen -t ed25519 -C &quot;your_email@example.com&quot;</code></pre>
+<p>When you enter the ssh-keygen command, you get a chance to choose an
+alternative filename for the key, if you want to (e.g., to avoid
+overwriting a key you’ve previously generated). You can also enter a
+passphrase if you want. This provides some additional security for your
+new key, but you will need to enter the same passphrase in order to use
+the key in the future. If you feel like you don’t need additional
+security, you can just hit enter for a blank passphrase.</p>
+<p>When you generate a key pair on the remote Linux machines, it doesn’t
+automatically get its file permissions set properly. I think this is
+because it’s being stored in NCSU drive. Before you can use the key, you
+will need to log out and then log back in on the remote Linux machines.
+I’m guessing there’s a script that gets run when you login to fix the
+permissions.</p>
+<h3 id="adding-your-key-pair-to-github">Adding Your Key Pair to
+GitHub</h3>
+<p>After you make a key, have a look at you public key. In your terminal
+window, if you’re in your home directory, you should be able to see your
+public key by entering a command like the following. Here, we’re
+assuming you used the default name for your new key pair. If you used a
+different filename, use that name here instead of
+<code>id_ed25519</code>, with <code>.pub</code> at the end to get the
+public side of the key pair.</p>
+<pre><code>cat .ssh/id_ed25519.pub</code></pre>
+<p>After you enter the <code>cat</code> command, you should see a copy
+of your public key in the terminal. It will probably be short, just a
+couple of lines. Copy this text so you can paste it into a text field in
+GitHub later on.</p>
+<p>After you have a copy of your key, visit <code>github.com</code> and
+login. Use <em>unity</em>_ncstate as your username, where <em>unity</em>
+is your unity ID. Then, press the “Sign in with your identity provider”
+button below and you should get a chance to login using your NC State
+credentials. From your main dashboard page, select the menu in the upper
+right corner, then select “Settings”.</p>
+<figure>
+<img src="github-main-page.png"
+alt="Figure: Getting to your settings" />
+<figcaption aria-hidden="true">Figure: Getting to your
+settings</figcaption>
+</figure>
+<p>From the settings page, you should see an item for “SSH and GPG keys”
+over on the left. Select this and it should take you to a page where you
+can provide a new SSH key for authentication. This might be a good time
+to check and see if you already have a key entered. Maybe you did this
+in a previous class.</p>
+<p>If you don’t already have an authentication key you can use, choose
+the green “New SSH key” button near the top. From here, you can enter a
+short description of the key you’re entering (e.g., Remote Linux” or “My
+Windows Laptop”). This will help you remember what the key goes with.
+Maybe there will be a time when you want to use the key again or when
+you decide you can delete it.</p>
+<p>You can leave the “Key type” as “Authentication Key”, then paste in
+the contents of your public key file into the “Key” field. Press the
+“Add SSH key” button near the bottom and now you should see an entry for
+the new key in your list of authentication keys.</p>
+<h3 id="authorizing-your-key">Authorizing your Key</h3>
+<p>Your new key will let you clone, push and pull without having to
+enter a password, but, before you can use it, you need to authorize the
+key for use with your NCSU GitHub account. After you’ve added your key
+via the “SSH and GPG keys” page in your settings, you should see a menu
+next to your new key that says “Configure SSO”. This should pop up a
+list of organizations for which you can authorize the key. Select
+“Authorize” next to the ncstate-csc-coursework organization. This will
+probably require you to re-authorize with NC State, but, once your done,
+the key should be marked as authorized and ready to use.</p>
+<h2 id="cloning-your-repository">Cloning your Repository</h2>
+<p>Everyone in CSC 230 has been assigned their own NCSU GitHub
+repository to be used for homeworks and the project the semester. It
+already has subdirectories (mostly empty) for working on each of the
+homeworks and the final project. How do you figure out what repo you’ve
+been assigned? Use a web browser to visit <a
+href="https://github.com">github.com</a>. To authenticate, you can enter
+<em>unity</em>_ncstate as your username, where <em>unity</em> is your
+unity ID. Then click “Sign in with your identity provider” below. This
+should take you to an NC State page where you can authenticate with your
+regular NCSU credentials (and probably some two-factor authentication).
+After authenticating, you should see a drop-down menu over in the
+upper-left, probably with <em>unity</em>_ncstate as your current
+organization. Switch this to <code>ncstate-csc-coursework</code>, and
+then select “Browse organization’s Repositories” just below on the
+left.</p>
+<figure>
+<img src="choose-org.png"
+alt="Figure: Choosing the current organization" />
+<figcaption aria-hidden="true">Figure: Choosing the current
+organization</figcaption>
+</figure>
+<p>This should give you a lit of repositories you can access. Among
+these, there should be one named csc230-f26-<em>unity</em>, where
+<em>unity</em> is your unity ID. Click on this and you should see the
+main page for your CSC230 GitHub repo.</p>
+<p>To clone your repository, You should be able to enter a command like
+the following, where <em>unity</em> is your unity ID. You can also get
+the URL for this clone operation by clicking on the green “Code” box on
+repo’s main page, selecting the SSH tab and then copying the URL it
+gives you. Enter this command on whatever machine where you plan to run
+git commands (i.e., the system on which you generated your key pair).
+Also, be sure to change directory to the place you plan to work on
+homeworks before you clone your repo. If you make a mistake on this, you
+can always clone another copy of your repo somewhere else.</p>
+<pre><code>$ git clone git@github.com:ncstate-csc-coursework/csc230-f26-unity.git</code></pre>
+<p>If you have successfully created a key pair and registered it with
+GitHub, this command should be able to clone your repo without any
+additional help from you. If you used a passphrase to protect your key
+pair, you may be asked to enter it here.</p>
+<p>If you used an alternative name when you saved your key pair, you’ll
+need to enter a command like the following before you run the
+<code>git clone</code> command. This tells git to use your alternative
+key pair, until you change it again or until you logout. In the command,
+change the <em>id_alt_key</em> to the name of the file you used when you
+saved your key.</p>
+<pre><code>$ export GIT_SSH_COMMAND=&quot;ssh -i ~/.ssh/id_alt_key -o IdentitiesOnly=yes&quot;</code></pre>
+<p>After successfully cloning your repo, you should get a new
+subdirectory with a name matching your repo name. If you <code>cd</code>
+into the directory, you should see directories for each homework
+assignment and for the final project. You’ll want to do your development
+for this assignment right under the <code>hw1</code> directory. That’s
+where we’ll expect to find your homework 1 files when we’re grading.</p>
+<h2 id="expanding-the-starter">Expanding the Starter</h2>
+<p>There is a starter file for this assignment, <a
+href="starter1.tgz">starter1.tgz</a>. This file is a compressed tar
+archive containing several source files and test files you’ll need. You
+can get a copy of the starter by using the link in this document. To
+extract the files it contains, you can temporarily put your copy in the
+<code>hw1</code> directory of your cloned repo. Then, you should be able
+to unpack it with the following command:</p>
+<pre><code>$ tar xzvpf starter1.tgz</code></pre>
+<p>Once you start working on the assignment, be sure you don’t
+accidentally commit the starter archive to your repo (that would be an
+example of an extraneous file that doesn’t need to be there). After
+you’ve successfully unpacked it, you may want to delete the starter from
+your <code>hw1</code> directory, or move it out of your repo.</p>
+<pre><code>$ rm starter1.tgz</code></pre>
+<p>Or, if you’re working on one of the EOS Linux machines, instead of
+copying the starter file to your working directory, you can unpack it
+from a shared copy that’s available on these systems. You should be able
+to change directory to <code>hw1</code> in your cloned repo and run the
+following command. If you unpack the starter like this, rather than
+downloading your own copy, then you won’t need to delete it when you’re
+done, and you won’t have to worry about a copy of the starter getting
+submitted to your repo.</p>
+<pre><code>$ tar xzvpf /mnt/coe/workspace/csc/CSC230/hw/hw1/starter1.tgz</code></pre>
+<p>In general, when we grade your programs, we expect them to behave
+exactly as described in the assignment. This includes producing the
+right output with the right spacing and line termination. The homework 1
+starter includes some input files and expected output files to help you
+make sure your programs are behaving correctly. As described below, you
+can capture your program’s output in a file and then use the
+<code>diff</code> command to compare the output you got with the output
+we were expecting you to get. If <code>diff</code> sees any differences,
+even in little things like spacing, line termination or capitalization,
+it will tell you where they are. There’s a little guide linked from the
+course home page explaining <a
+href="https://dbsturgi.github.io/csc230/guide/diff.pdf">how to use
+diff</a> and how to read its output.</p>
+<h2 id="instructions-for-submission">Instructions for Submission</h2>
+<p>If you’ve set up your repository properly, pushing your changes to
+your assigned CSC 230 repository should be all that’s required for
+submission. When you’re done, we’re expecting your repo to have the
+following files under the hw1 directory. You can use the web interface
+on <code>github.com</code> to confirm that the right versions of all
+your files made it.</p>
+<ul>
+<li><p><code>style.c</code> : The source file for the first little
+program in this homework.</p></li>
+<li><p><code>expected-style.txt</code> : The expected output file for
+the <code>style.c</code> program.</p></li>
+<li><p><code>textbox.c</code> : The source file for the second program
+in this homework.</p></li>
+<li><p><code>input-text-1.txt</code> .. <code>input-text-4.txt</code> :
+Test input files for the <code>text.c</code> program.</p></li>
+<li><p><code>expected-text-1.txt</code> ..
+<code>expected-text-4.txt</code> : Expected output files for the
+<code>text.c</code> program.</p></li>
+<li><p><code>trig.c</code> : The source file for the last program in
+this homework.</p></li>
+<li><p><code>input-trig-1.txt</code> .. <code>input-trig-5.txt</code> :
+Test input files for the <code>trig.c</code> program.</p></li>
+<li><p><code>expected-trig-1.txt</code> ..
+<code>expected-trig-5.txt</code> : Expected output files for the
+<code>trig.c</code> program.</p></li>
+<li><p><code>.gitignore</code> : A support file for this assignment,
+telling git some files to not commit to the repo.</p></li>
+</ul>
+<p>To submit your solution, you’ll need to commit your latest version to
+your local repository then push up to your remote repo in
+<code>github.com</code>.</p>
+<h3 id="adding-your-files">Adding your Files</h3>
+<p>Before you can commit, you’ll need to add each new file to your repo.
+This tells git to track the file and stage the current version for the
+next commit. You can add files one at a time using a command like:</p>
+<pre><code>$ git add some-file-name</code></pre>
+<p>When you’re adding new files to your repo, you can use the shell
+wildcard character to match multiple, similar filenames. For example,
+the following will add all files ending with a <code>.c</code> extension
+to your repo.</p>
+<pre><code>$ git add *.c</code></pre>
+<p>When you start your homework, don’t forget to add the
+<code>.gitignore</code> file to your repo. Since its name starts with a
+period, it’s considered a hidden file. Commands like <code>ls</code>
+won’t show this file automatically, so it might be easy to forget.</p>
+<pre><code>$ git add .gitignore</code></pre>
+<p>This is a place to be careful. You don’t want to accidentally add
+temporary files or other garbage to your repo. After you’ve added new
+files, it’s probably a good idea to do a <code>git status</code> to make
+sure you’re committing the files you want to. If you accidentally add
+some files you don’ want, you can un-stage it with a command like:</p>
+<pre><code>$ git restore --staged bad-file.txt</code></pre>
+<h3 id="committing-your-changes">Committing your Changes</h3>
+<p>After you’ve added any new files to your repo, you can commit all the
+staged changes by running <code>git commit</code>.</p>
+<pre><code>$ git commit</code></pre>
+<p>When you run <code>git commit</code> without any other options, it
+will only update files you’ve added since your last commit, and it will
+automatically start up an editor to let you type in a short commit
+message. Often, students will prefer to run git like the following. The
+<code>-am</code> option tells git to automatically commit any tracked
+files that have been modified (that’s the <code>a</code> part of the
+option). With this, you only have to explicitly add files that weren’t
+previously tracked as part of your repo. The ‘-m’ part of this option
+tells git that you want to give a commit message right on the command
+line instead of starting up a text editor to write it. The quoted string
+at the end is the commit message you want to provide.</p>
+<pre><code>$ git commit -am &quot;&lt;a meaningful message about what you&#39;re committing&gt;&quot;</code></pre>
+<h3 id="pushing-your-changes">Pushing your Changes</h3>
+<p><strong>Beware</strong>, a commit doesn’t actually submit anything
+for grading. It just puts changes in the local copy of your git repo. To
+push changes up to your repo on <code>github.com</code>, you need to use
+the push command:</p>
+<pre><code>$ git push</code></pre>
+<p>You should plan to commit and push often as you develop your
+solution, whenever you finish making a significant change to your work.
+This will help to show that you’re working on the assignment. Whenever
+you’ve made a set of changes you’re happy with, you can run the
+following to update your submission.</p>
+<pre><code>$ git add any-new-files
+$ git status
+$ git commit -am &quot;&lt;a meaningful message about what you&#39;re committing&gt;&quot;
+$ git push</code></pre>
+<h2 id="keeping-your-repo-clean">Keeping your repo clean</h2>
+<p>Be careful not to commit files that don’t need to be part of your
+repo. Temporary files or files that can be easily re-generated will just
+take up space and obscure what’s really changing as you modify your
+source code.</p>
+<p>The <code>.gitignore</code> file helps with this, but it’s always a
+good idea to check with <code>git status</code> before you commit, to
+make sure you’re getting what you expect.</p>
+<h1 id="part-1-correcting-style-25-pts">Part 1 : Correcting Style (25
+pts)</h1>
+<p>The program, <a href="style.c">style.c</a> is an example of some bad
+style. It has everything, bad or missing comments, bad curly bracket
+placement, some hard tabs for indentation, some incorrect line
+termination, no line termination at the end of the last line, maybe more
+problems. Edit this program to make it consistent with the <a
+href="https://https://dbsturgi.github.io/csc230/coding_style.html">class
+style guidelines</a>.</p>
+<p>The style guide requires particular types of block comments before
+each function and at the top of each file. After reformatting the
+program, add these comments. You may need to read the code for the
+various functions so your comments can summarize what they each do.
+You’ll also find some opportunities to make sure the program uses
+meaningfully-named constants instead of some magic numbers. Remember
+that your defined constants also need a short javadoc comment saying
+what they represent.</p>
+<h2 id="editing-style.c">Editing style.c</h2>
+<p>To edit the <code>style.c</code> source file, you can use a text
+editor or the IDE of your choice. Most of the style errors will be easy
+to see by just looking at the source file and consulting the class style
+guide document. Some style errors are in the whitespace of the source
+file (spaces or line termination). These may be more difficult to see in
+your editor.</p>
+<p>One way to check for otherwise invisible style mistakes is to use the
+<strong>cat</strong> program with the <strong>-A</strong> option. For
+example, you could use <strong>cat</strong> as follows. Here, the dollar
+sign at the very start represents your shell prompt (don’t type it as
+part of the command). The dollar signs at the end of the rest of the
+lines are part of the <strong>cat</strong> output.</p>
+<pre><code>$ cat -A style.c
+#include &lt;stdio.h&gt;$
+#include &lt;stdlib.h&gt;$
+$
+#define SEVENTY 72$
+$
+void printWord( int x )$
+{$
+    for ( int i = 0; i &lt; x; i++ )$
+    {$
+            // Print a random lower-case letter.$
+... more cat output omitted ...</code></pre>
+<p>When run this way, the <strong>cat</strong> program will
+automatically put a dollar sign at the end of every line, where it finds
+a newline character. It will show other non-printable characters using
+escape sequences. For example, a tab character will be shown as ‘^I’,
+and it will show a carriage return (part of line termination on a
+Windows machine) as ‘^M’. You can use this to check for tabs used for
+indentation, bad line termination and to make sure the last line of the
+file has line termination at the end.</p>
+<p>If you see any of these problems in style.c, you’ll want to use your
+text editor to delete the bad characters and replace them if needed. For
+example, if there are tabs used for indentation, you will need to delete
+them and replace them with an appropriate number of spaces.</p>
+<p>If you have trouble correcting the line termination in the file, you
+may want to try the <code>dos2unix</code> command installed on the
+common platform systems. It can change the type of line termination used
+everywhere in a text file. There’s a document, “Understanding Line
+Termination” up near the top of our Moodle page. It explains line
+termination, and includes some instructions for running
+<code>dos2unix</code> on the common platform systems.</p>
+<p>Be sure to read over the whole style guide as you’re fixing the
+style.c program. There are lots of errors to fix, and you will need to
+change some of the source code and add comments to fix them all.</p>
+<h2 id="program-execution">Program execution</h2>
+<p>When your <code>style.c</code> program runs (even before you correct
+the style), it should exit with a successful exit status and produce the
+following output. The starter also includes a expected-style.txt file
+you can use to make sure your style-corrected program produces exactly
+the output we’re expecting (a randomly-generated paragraph of text).</p>
+<p>You should be able to build and run the program as follows.</p>
+<pre><code>$ gcc -Wall -std=c99 style.c -o style
+$ ./style
+wlrb mqbhcd r owkk hiddqsc xrjm wfr sjyb dbef arcbynecd ggx pklore
+nmpa qfwkho kmcoqhnw kuewhsqmgb uqcljj vsw dkqtbxi mvtrrbljpt snfwzqfj
+fadrrwsof b nuvqhff saqxwpqcac hchzv rkmlno jkpqpx jxkitzyx cbhhkic
+oendtomfg wdwf gpxiq kuytdlcgde htaciohor tq vwcsgspqo msb agu nny
+nz gd wpbtr blnsade guumoqc rubetoky hoachwdvmx rdryxl n qtukwa mleju
+wci xubume meya drmydiajxl ghiqfmz lvihjo vsuyoyp yul eim otehzri c
+kpggkbb p zrzu xamludf kgruowz i oobpple lwphapjna qhdcnvwdtx bmyppp
+uxnspusgd iixqmbfjxj v djsuyib ebmws q oygyxym evypzvje ebeocfu
+sxdixtigsi ehkch dflilrjq nxzt rsvbspkyh enbppkqtp dbuotbbqcw vrf ju jd
+tg iqvdg ijvwcya bwewpjvyg hljxepb iwuqzdzu du zv fspqp wuz f ovydd
+Words: 103</code></pre>
+<p>To make sure your program’s output is exactly right, you can capture
+it in a file and then use <strong>diff</strong> to compare that file to
+the expected output. The following commands show how to do that,
+including a check of the program’s exit status to make sure it ran
+successfully:</p>
+<pre><code>$ ./style &gt;| output.txt
+$ echo $?
+0
+$ diff output.txt expected-style.txt</code></pre>
+<p>This program’s output depends on the random number generator. If you
+run it on a system that’s not a common platform machine, you may get a
+different sequence of random numbers, so your output may not match the
+expected output. Be sure to check it on a real common platform system to
+make sure you’re getting the output we expect. Your style corrections
+shouldn’t change the program behavior, but checking the output is a good
+way to make sure you didn’t modify the program’s behavior
+accidentally.</p>
+<h2 id="style.c-grading">style.c Grading</h2>
+<p>For the <code>style.c</code> program, your submission will be graded
+according to the following:</p>
+<ul>
+<li>Adding the required block comments: <strong>10 points</strong></li>
+<li>Correcting source code formatting and other style problems:
+<strong>10 points</strong></li>
+<li>Program still compiles cleanly and produces the right output:
+<strong>5 points</strong></li>
+<li>Late submission penalty of up to <strong>10 percent</strong> for
+submissions within within 24 hours of the on-time deadline.</li>
+<li>Late submission penalty of up to <strong>20 percent</strong> for
+submissions within within 48 hours of the on-time deadline.</li>
+</ul>
+<h1 id="part-2-text-box-25-pts">Part 2 : Text Box (25 pts)</h1>
+<p>Have a look at the <a href="textbox.c">textbox.c</a> source file.
+This program is intended to give you a chance to try reading input
+character-by-character using getchar() and printing characters using
+putchar(). The overall skeleton of this program is done for you, but
+you’ll need to fill in the bodies of the functions to get it
+working.</p>
+<p>The job of this program is to print text from standard input, but
+with a border around the text. The figure below shows how it’s supposed
+to work.</p>
+<figure>
+<img src="textbox.png"
+alt="Figure: job of the textbox.c program, wrapping a border around input text." />
+<figcaption aria-hidden="true">Figure: job of the textbox.c program,
+wrapping a border around input text.</figcaption>
+</figure>
+<p>The border drawn around the text is a fixed-width, and made from a
+chosen character. It should be tall enough to contain every line read
+from standard input. Both the box width and the character it’s made of
+are specified via preprocessor constants, so it would be easy to change
+them and then re-compile the program. We’ll use a border that’s made of
+asterisks and contains lines of 60 characters (so, a lot wider than the
+figure above shows).</p>
+<p>This width value is the length of each line of text <em>inside</em>
+the border. With a border character at the start and end of each output
+line, these will actually be two characters longer. So, by default,
+output lines will all be 62 characters, with 60 characters in between he
+first and last character of the border. If the input is empty, then the
+output should just have the top line of 62 asterisks and the bottom line
+of 62 asterisks, with nothing in between.</p>
+<p>Input lines may not all be exactly the right length; probably, many
+of them will be shorter than 60 characters or longer. We don’t know how
+to work with strings yet, so we’ll have to work character-by-character.
+As you’re reading the input and printing the output, you’ll need to
+count the characters on the current line. For lines that are shorter
+than 60 characters, you’ll need to print some extra spaces at the end,
+to get the output length up to 60 characters. For input lines that are
+too long, you’ll need to read and print the first 60 characters. After
+that, you’ll still need to read the rest of the characters up to the end
+of the line, but you won’t want to print more than the first 60
+characters to the output.</p>
+<h2 id="design-and-implementation">Design and Implementation</h2>
+<p>Your program will define and use the following three functions. You
+can have more if you want, but we’ll be looking for at least these
+three.</p>
+<ul>
+<li><p><code>void lineOfChars( char ch, int count )</code><br />
+This function prints out multiple copies of the given character,
+followed by a newline. The number of copies is determined by the count
+parameter. Use this function to help print the top and bottom border
+around the text.</p></li>
+<li><p><code>bool paddedLine()</code><br />
+This function will read and print <em>a single line of text</em> inside
+the border. Your main function will call this over and over, once for
+each line of input. The function returns true or false to tell the
+caller if there was another input line to process. If it successfully
+reads (and prints) an input line, it should return true. Otherwise
+(i.e., it hits EOF before it can read any characters), it should return
+false to tell the caller that there’s no more text to put in the box.
+This function will read the text from standard input and print to
+standard output. If the line of text isn’t long enough, it will add
+extra spaces at the end to make the box rectangular. If a line of text
+is too long, it will read and discard extra characters on the line
+(i.e., up to the end-of-line) to keep the box rectangular.</p>
+<p>We don’t know how to store strings yet, so this function will need to
+work by reading in and handling just one character at a time. You can do
+this by keeping up with how many characters you’ve read in for the
+current line and deciding what to do with each character as you read it.
+Remember, each time the paddedLine() function is called, it should read
+in a whole line of characters, but it may not be able to print all those
+characters and it may have to print some extra characters. Specifically,
+if the line is shorter than the width of the box, it will need to print
+some extra spaces at the end. If the line is longer than the width of
+the box, the function will still need to read the whole line; it just
+won’t print any of the characters out past the end of the box.</p>
+<p>This function is probably the most fun/tricky part of this
+assignment. The test cases provided with the starter will help you try
+out your function’s behavior and make sure it’s doing the right thing in
+all situations. When printing out a line in the middle part of the text
+box, you can either make main() responsible for printing the border
+characters at the start and the end, or you can make this function
+handle it, whichever seems easier to you.</p></li>
+<li><p><code>int main()</code><br />
+This is, of course, the starting point of your program. It will use the
+other two functions to print the text from standard input with a border
+around it.</p></li>
+</ul>
+<p>Be sure to fill in the empty block comments in this program according
+to the style guide. Remember, a file comment has a short summary of the
+file/program, along with a file and an author tag. A block comment on a
+function needs a short summary of what the function does, along with
+param tags for any parameters the function takes, and return tag if it’s
+not a void function.</p>
+<h2 id="testing">Testing</h2>
+<p>Compile your program using the following command.</p>
+<div class="sourceCode" id="cb19"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> gcc <span class="at">-Wall</span> <span class="at">-std</span><span class="op">=</span>c99 textbox.c <span class="at">-o</span> textbox</span></code></pre></div>
+<p>You can run the program and type input to it yourself, but the output
+will look a lot better if you use redirection to read input from a file.
+If you just want to see what your program’s output looks like, you can
+run it like:</p>
+<pre><code>$ ./textbox &lt; input-text-1.txt</code></pre>
+<p>If you really want to make sure your output is right, you can capture
+the output in file and compare it against one of our expected output
+examples. The <code>&gt;|</code> syntax below tells the shell to send
+the program’s output to a file rather than letting it go to the terminal
+window. Even if the output file already exists, this syntax tells the
+shell to overwrite it. Try running your program as follows to tell it to
+read input from our first test case (input-text-1.txt) and send output
+to a file named <code>output.txt</code>. Then, check your programs exit
+status to make sure it reported successful execution, and use diff to
+help make sure it produced output that matches what we were
+expecting.</p>
+<pre><code>$ ./textbox &lt; input-text-1.txt &gt;| output.txt
+$ echo $?
+0
+$ diff output.txt expected-text-1.txt</code></pre>
+<p>You can use similar commands to test your program against each of the
+four test cases we’re providing. Here’s what they each do:</p>
+<ol type="1">
+<li><p>This test input contains five lines, each one 60 characters long,
+exactly long enough to fill a line of the box. It should be
+easy.</p></li>
+<li><p>This test has lines that are all shorter than the box width, so
+they’ll all have to be padded with extra spaces at the end to make the
+box the right width.</p></li>
+<li><p>This test has some lines that are too long, so the extra
+characters at the end will have to be discarded as the line is
+processed.</p></li>
+<li><p>This test contains a few lines of text, some that have to be
+padded with spaces and some (one) that has to be truncated.</p></li>
+</ol>
+<p>Remember, you need check the exit status right after you run your
+program. If you get an exit status of zero and diff doesn’t report any
+differences between the expected output and the actual output you got,
+then it looks like your program is behaving correctly. If diff notices
+any differences, it will report the line number where there’s a
+discrepancy, along with the contents of the lines that don’t match. If
+you have trouble interpreting the output of diff, you can try out the
+<code>sdiff</code> command. This works like diff, but it will display
+the expected and actual output files side by side, and may make it
+easier to see inconsistencies between the files. To use sdiff, just
+replace <code>diff</code> with <code>sdiff</code> in the shell code
+above.</p>
+<h2 id="textbox.c-grading">textbox.c Grading</h2>
+<p>For this part of the assignment, you’ll be submitting your modified
+source file, <code>textbox.c</code> to the Homework 1 assignment in
+Moodle. Don’t pack up your submission in an archive; just submit each of
+your sources files to the assignment. Your edits to
+<code>textbox.c</code> will be graded according to the following:</p>
+<ul>
+<li>Compiling cleanly: <strong>5 points</strong></li>
+<li>Producing the right output during execution: <strong>15
+points</strong></li>
+<li>Following the style guidelines: <strong>5 points</strong><br />
+This includes commenting, consistent indentation (you can change the
+indentation from the starter code, if you want), curly bracket
+placement, etc.</li>
+<li>Not following the design: <strong>Up to 20 percent
+deduction</strong><br />
+This includes implementing and using the functions described above and
+using the preprocessor constants defined in the starter.</li>
+<li>Late submission penalty of up to <strong>10 percent</strong> for
+submissions within within 24 hours of the on-time deadline.</li>
+<li>Late submission penalty of up to <strong>20 percent</strong> for
+submissions within within 48 hours of the on-time deadline.</li>
+</ul>
+<h1 id="part-3-trigonometric-function-calculation">Part 3 :
+Trigonometric Function Calculation</h1>
+<p>C has a math library, containing functions for things like square
+roots, logarithms and trigonometry. We’ll learn about this library soon.
+For this part of the assignment, we’ll try out a way to compute the
+trigonometric functions yourself, without using the math library.</p>
+<p>Our program will be called <code>trig.c</code>. When run, it will
+read an angle, <em>x</em>, from the user as a double value. Then, it
+will print out a table of successively more accurate approximations of
+the sine of <em>x</em>, the cosine of <em>x</em> and the tangent of
+<em>x</em>. The following shows a sample execution of our program. The
+first line shows the user running the program at the shell prompt. Then,
+the user enters 1.75 as the input angle. Then, the program prints out a
+table giving better and better approximations. It stops when the result
+seems accurate enough. For this example, it takes 14 iterations.</p>
+<pre>
+$ <b>./trig</b>
+<b>1.75</b>
+terms |         sin |         cos |         tan 
+------+-------------+-------------+-------------
+    1 |   0.0000000 |   1.0000000 |   0.0000000
+    2 |   1.7500000 |   1.0000000 |   1.7500000
+    3 |   1.7500000 |  -0.5312500 |  -3.2941176
+    4 |   0.8567708 |  -0.5312500 |  -1.6127451
+    5 |   0.8567708 |  -0.1404622 |  -6.0996524
+    6 |   0.9935465 |  -0.1404622 |  -7.0734067
+    7 |   0.9935465 |  -0.1803552 |  -5.5088336
+    8 |   0.9835733 |  -0.1803552 |  -5.4535359
+    9 |   0.9835733 |  -0.1781735 |  -5.5203117
+   10 |   0.9839975 |  -0.1781735 |  -5.5226925
+   11 |   0.9839975 |  -0.1782477 |  -5.5203924
+   12 |   0.9839857 |  -0.1782477 |  -5.5203262
+   13 |   0.9839857 |  -0.1782460 |  -5.5203795
+   14 |   0.9839860 |  -0.1782460 |  -5.5203808
+</pre>
+<h2 id="user-input">User Input</h2>
+<p>Our program expects the user to enter an angle in radians as input.
+It doesn’t print out a prompt; the user is just expected to know what to
+do after they run the program. If the user enters a value that can’t be
+parsed as a double, or if they enter something larger than <var>π</var>
+or smaller than <var>-π</var>, the program will print a line with the
+following error message (printed to the terminal, standard output) and
+then exit with an exit status of 1.</p>
+<pre><code>Invalid input</code></pre>
+<h2 id="approximating-sine-and-cosine">Approximating Sine and
+Cosine</h2>
+<p>Our program will use the Taylor series to compute our approximation
+of sine and cosine. You probably remember the Taylor series from
+calculus class. It lets us compute the value of a function at any point,
+<em>x</em>, as long as we know the value of the function at a nearby
+point, <em>a</em>, and we know first, second, third, … derivatives of
+the function at <em>a</em>. There’s a <a
+href="https://en.wikipedia.org/wiki/Taylor_series">wikipedia page</a> if
+you’d like a more detailed reminder.</p>
+<p>The following shows the Taylor series for a point, <em>x</em>, based
+on the value and derivatives of f() at some nearby point, <em>a</em>.
+The first term of the series is just the value of f() at <em>a</em>. The
+next term is the derivative of f() at <em>a</em> times (x - a) divided
+by one factorial. Successive terms are similar. They use successive
+derivatives of f() (i.e., the second derivative, the third derivative
+and so on), they use successive powers of (x - a) and they use
+successive factorials in the denominator.</p>
+<figure>
+<img src="generic-taylor.png"
+alt="Figure: Taylor series for f(x) based on the value and derivatives of f() at a nearby point, a." />
+<figcaption aria-hidden="true">Figure: Taylor series for f(x) based on
+the value and derivatives of f() at a nearby point, a.</figcaption>
+</figure>
+<p>We can simplify the Taylor series a little bit if we use zero for
+<em>a</em>. The following shows the series after this simplification.
+This is how we’ll use the Taylor series for this program.</p>
+<figure>
+<img src="generic-zero.png"
+alt="Figure: Simplified Taylor series for f(x) based on the value and derivatives of f() at zero." />
+<figcaption aria-hidden="true">Figure: Simplified Taylor series for f(x)
+based on the value and derivatives of f() at zero.</figcaption>
+</figure>
+<p>If we use the notation f<sup>(i)</sup>( 0 ) to represent the ith
+derivative of f(), then we can write the Taylor series using summation.
+To compute an approximation, we’ll just use the first few terms in this
+infinite series.</p>
+<figure>
+<img src="sum-taylor.png"
+alt="Figure: Taylor series as an infinite sum" />
+<figcaption aria-hidden="true">Figure: Taylor series as an infinite
+sum</figcaption>
+</figure>
+<p>This series works out very nicely when we’re using it to compute sine
+and cosine. The table below shows the value of sin(a) at a = 0 and its
+successive derivatives. The value of sin( 0 ) is zero. You may remember
+that the first derivative of sin() is the cosine function, so the first
+derivative of sin(a) at a = 0 is 1 (that’s the value of cos( 0 ) ). The
+second derivative of sin() is -sin(), so the value of the second
+derivative of sin(a) at a = 0 is 0. The third derivative of sin() is
+-cos(), so the value of the third derivative of sin(a) at a = 0 is -1.
+The fourth derivative of sin() is just sin(), so the derivatives of
+sin() form a cycle that goes like: sin() → cos() → -sin() → -cos() →
+sin()</p>
+<table border="1">
+<tr>
+<th>
+derivative of f()
+</th>
+<th>
+for f(a) = sin(a)
+</th>
+<th>
+value at a = 0
+</th>
+</tr>
+<tr>
+<td>
+f(a)
+</td>
+<td>
+sin(a)
+</td>
+<td>
+0
+</td>
+</tr>
+<tr>
+<td>
+f<sup>(1)</sup>(a)
+</td>
+<td>
+cos(a)
+</td>
+<td>
+1
+</td>
+</tr>
+<tr>
+<td>
+f<sup>(2)</sup>(a)
+</td>
+<td>
+-sin(a)
+</td>
+<td>
+0
+</td>
+</tr>
+<tr>
+<td>
+f<sup>(3)</sup>(a)
+</td>
+<td>
+-cos(a)
+</td>
+<td>
+-1
+</td>
+</tr>
+<tr>
+<td>
+f<sup>(4)</sup>(a)
+</td>
+<td>
+sin(a)
+</td>
+<td>
+0
+</td>
+</tr>
+<tr>
+<td>
+f<sup>(5)</sup>(a)
+</td>
+<td>
+cos(a)
+</td>
+<td>
+1
+</td>
+</tr>
+</table>
+<p>If we fill in these values to get the taylor series for sin(), we get
+the following. You can see that half the terms have a coefficient of
+zero. They don’t affect the result, but we’ll still count them when
+we’re reporting the number of terms used to get the current
+approximation (see below).</p>
+<figure>
+<img src="subst-sin.png" alt="Figure: Taylor series for sin()" />
+<figcaption aria-hidden="true">Figure: Taylor series for
+sin()</figcaption>
+</figure>
+<p>To compute the Taylor series for cosine, you can think about the
+value of cosine at zero and what the derivatives of cos() evaluate to.
+You’ll come up with a series that’s similar to the one above, but with
+zero, one and negative one coefficients on different terms.</p>
+<h2 id="approximating-tangent">Approximating Tangent</h2>
+<p>The value of tan( x ) should be equal to sin( x ) / cos( x ). So,
+whenever we update the approximation for sine or cosine, we can compute
+a new, more accurate approximation for tangent.</p>
+<h2 id="value-representation">Value Representation</h2>
+<p>You should use the double type to represent the input angle and other
+values used to compute your approximations of sine, cosine and tangent.
+Using the float type may not give you the number of digits of precision
+we’re expecting and the integer types (short, int, long etc.) don’t have
+enough capacity to store the large factorials we’ll need.</p>
+<h2 id="table-output">Table Output</h2>
+<p>As shown above, the program’s output table has four columns, with a
+header at the top. Columns are separated by a vertical bar, with a space
+on either side of every bar. The first column is an integer, printed in
+a 5-column field. The rest of the values are all real numbers, printed
+in an 11-character field and rounded to 7 fractional digits. Each row of
+the table gives an approximation of the sine, cosine and tangent for the
+input angle based on the Taylor series.</p>
+<p>The first column reports the number of terms used in the Taylor
+series approximation. Each line of the table uses an additional term, to
+give us successively more accurate approximations. For terms, we’ll
+count every term in the taylor series, even the ones with coefficients
+of zero. So, for example, a Taylor series with just one term would look
+like:</p>
+<p><img src="one-term.png" /></p>
+<p>A series with four terms would look like:</p>
+<p><img src="four-terms.png" /></p>
+<h2 id="accuracy-threshold">Accuracy Threshold</h2>
+<p>The <code>trig.c</code> program should print out lines of the table
+until it gets values for sine and cosine that appear to be accurate
+enough. It will check this by comparing the new values for sine and
+cosine with the previous values. If each of these differ by no more than
+0.000001 (that’s <var>10<sup>-6</sup></var>) from their previous values,
+then the program can stop after the current row.</p>
+<p>In the example output above, the last two values of sine differ by
+about 0.0000003 (that’s 3 * <var>10<sup>-7</sup></var>) and the last two
+estimates for cosine differ by zero, so the program stopped after 14
+rows.</p>
+<h2 id="design-and-implementation-1">Design and Implementation</h2>
+<p>The starter contains a partial implementation for the <a
+href="trig.c">trig.c</a> program. You get to fill in the functions and
+create meaningful named constants to make the program easy to understand
+and modify. You’ll define and use the following five functions. You can
+have more if you want.</p>
+<ul>
+<li><p><code>double getAngle()</code><br />
+This function reads the angle input from the user and returns it. It
+should check to make sure the user enters a valid real number for the
+input and that the value is in the right range. If not, it should print
+the “Invalid input” error message and exit the program
+unsuccessfully.</p></li>
+<li><p><code>double difference( double a, double b )</code><br />
+This function returns the positive difference between a and b. It is
+used to tell when the current estimate of sine and cosine is accurate
+enough.</p></li>
+<li><p><code>void tableHeader()</code><br />
+Print the two header lines at the top of the table.</p></li>
+<li><p><code>void tableRow( int terms, double s, double c, double t )</code><br />
+Print a row of the table, reporting the number of terms used for the
+Taylor series approximation (terms), the current value of sine (s),
+cosine (c) and tangent (t).</p></li>
+<li><p><code>int main()</code><br />
+This is the starting point for running your program. It will use the
+other four functions to read user input and to help write out the output
+table.</p></li>
+</ul>
+<p>Be sure to fill in the block comments for the source file and the
+bodies of the functions you get to write. For preprocessor constants you
+define, be sure to give a short Javadoc-style comment that says what
+they’re for.</p>
+<h2 id="testing-1">Testing</h2>
+<p>You should be able to compile your program using the following gcc
+command:</p>
+<div class="sourceCode" id="cb23"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> gcc <span class="at">-Wall</span> <span class="at">-std</span><span class="op">=</span>c99 trig.c <span class="at">-o</span> trig</span></code></pre></div>
+<p>This program is easy to run with input entered by the user. While
+you’re developing and debugging, you may just want to type in an input
+value yourself and watch how the program behaves. Once you think it’s
+running correctly, you can start comparing the output against expected
+output for our provided test cases. You can use commands like the
+following. Here, we’re running the program on test input 1 for the trig
+program and sending its output to a file named <code>output.txt</code>.
+Immediately after it finishes, we check the exit status. For test input
+1, it should exit successfully, and it does here. Then, we compare the
+output with the expected output to make sure there are no
+differences.</p>
+<pre><code>$ ./trig &lt; input-trig-1.txt &gt;| output.txt
+$ echo $?
+0
+$ diff output.txt expected-trig-1.txt</code></pre>
+<p>For the trig program, a couple of the tests are invalid inputs. For
+these, the program isn’t expected to exit successfully, and it should
+print an error message. Below, we’re showing how to test against one of
+these invalid test cases. First, we run the program with test input 4
+and send its output to a file named <code>output.txt</code>. After that,
+we check the exit status. For this test, it should exit with a status of
+1, and it does. Then, we check if the program’s output (an error
+message) matches the expected output.</p>
+<pre><code>$ ./trig &lt; input-trig-4.txt &gt;| output.txt
+$ echo $?
+1
+$ diff output.txt expected-trig-4.txt</code></pre>
+<p>We’re providing five test cases to try your program with, each with
+an input file and an expected output file. They provide different values
+for the input angle, including two with invalid user input.</p>
+<ol type="1">
+<li><p>This test uses an input angle of 1.0</p></li>
+<li><p>This test uses an input angle of 3.1415. This is a valid angle,
+but it will require more terms to converge to an estimate that’s
+accurate enough.</p></li>
+<li><p>This test uses an input angle of -0.5. This test should converge
+more quickly.</p></li>
+<li><p>This test gives an invalid input. It’s a legal real number but
+it’s out of range for the program.</p></li>
+<li><p>This test gives an invalid input. It’s not even a valid real
+number input.</p></li>
+</ol>
+<h2 id="trig.c-grading">trig.c Grading</h2>
+<p>For this part of the assignment, you’ll be submitting your modified
+source file, <code>trig.c</code> to the Homework 1 assignment in Moodle.
+Don’t pack up your submission in an archive; just submit each of your
+sources files to the assignment. We’ll grade it using the same criteria
+as the <code>textbox.c</code> program:</p>
+<ul>
+<li>Compiling cleanly: <strong>5 points</strong></li>
+<li>Producing the right output and exit status during execution:
+<strong>15 points</strong></li>
+<li>Following the style guidelines: <strong>5 points</strong><br />
+commenting, consistent indentation, curly bracket placement, magic
+numbers, etc.</li>
+<li>Following the design <strong>Up to 20 percent
+deduction</strong><br />
+Implementing and using the expected functions, no global variables.</li>
+<li>Late submission penalty of up to <strong>10 percent</strong> for
+submissions within within 24 hours of the on-time deadline.</li>
+<li>Late submission penalty of up to <strong>20 percent</strong> for
+submissions within within 48 hours of the on-time deadline.</li>
+</ul>
+<h1 id="notes-on-completing-the-assignment">Notes on Completing the
+Assignment</h1>
+<p>Of course, before you submit, you’ll want to be sure both of your
+programs are consistent with the CSC 230 <a
+href="https://dbsturgi.github.io/csc230/coding_style.html">Style
+Guidelines</a>. Also, make sure they compile cleanly (no errors or
+warnings) on a common platform machine using the required compiler
+options.</p>
+<p>There is a 48 hour window for late submissions. Normally, the late
+penalty will apply to the entire assignment, but, for this first
+assignment, we’ll apply it separately to each individual program. If you
+can’t complete one of the programs by the deadline, you can submit up to
+24 hours late for a 10-percent penalty for just that program. Submitting
+within 48 hours of the on-time deadline will cost you a 20 percent
+deduction.</p>
+<h1 id="common-problems">Common Problems</h1>
+<ul>
+<li><p>While developing, if a program enters an infinite loop, use
+<code>Ctrl+C</code> to stop it.</p></li>
+<li><p>Make sure you submit source files (ending in .c), not your
+executable programs.</p></li>
+<li><p>Make sure you’ve submitted all of your files. You can check the
+web interface for GitHub to make sure everything is there.</p></li>
+<li><p>Contact the teaching staff if you run into a problem submitting
+your work. Or, visit Piazza and see if someone else has run into the
+same kind of problem.</p></li>
+</ul>
+<p><a name="outcomes"></a></p>
+<h1 id="learning-outcomes">Learning Outcomes</h1>
+<p>The syllabus lists a number of learning outcomes for this course. For
+this assignment, we’re mostly just working on one of these
+objectives:</p>
+<ul>
+<li>Language: write, debug, and modify C programs using data types,
+control structures, operators, library utilities, and variables,
+including scope in a single function, across multiple functions, and
+across multiple modules.</li>
+</ul>
+</body>
+</html>
