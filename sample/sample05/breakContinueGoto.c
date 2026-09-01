@@ -10,37 +10,41 @@
 int main( void )
 {
   // A nested loop, with no fancy changes in the flow of control.
+  int val = 0;
   for ( int i = 0; i < 10; i++ ) {
     for ( int j = 0; j < 10; j++ ) {
-      printf( "." );
-      printf( "*" );
+      printf( "%2d ", val );
+      val += 1;
     }
     printf( "\n" );
   }
   
   printf( "\n-------------------------\n\n" );
 
-  // A nested loop, with break to exit the innermost loop early.
+  // A nested loop, with continue to sometimes skip part of a loop
+  // iteration.
+  
+  val = 0;
   for ( int i = 0; i < 10; i++ ) {
     for ( int j = 0; j < 10; j++ ) {
-      printf( "." );
-      if ( i + j > 12 )
-        break;
-      printf( "*" );
+      printf( "%2d ", val );
+      if ( j > i )
+        continue;
+      val += 1;
     }
     printf( "\n" );
   }
 
   printf( "\n-------------------------\n\n" );
 
-  // A nested loop, with continue to sometimes skip part of a loop
-  // iteration.
+  // A nested loop, with break to exit the innermost loop early.
+  val = 0;
   for ( int i = 0; i < 10; i++ ) {
     for ( int j = 0; j < 10; j++ ) {
-      printf( "." );
-      if ( i + j > 12 )
-        continue;
-      printf( "*" );
+      printf( "%2d ", val );
+      if ( j > i )
+        break;
+      val += 1;
     }
     printf( "\n" );
   }
@@ -48,21 +52,23 @@ int main( void )
   printf( "\n-------------------------\n\n" );
 
   // A nested loop, with goto to do the job of break.
+  val = 0;
   for ( int i = 0; i < 10; i++ ) {
     for ( int j = 0; j < 10; j++ ) {
-      printf( "." );
-      if ( i + j > 12 )
+      printf( "%2d ", val );
+      if ( val >= 55 )
         goto done;
-      printf( "*" );
+      val += 1;
     }
     printf( "\n" );
   }
-  done:
+ done:
 
   printf( "\n-------------------------\n\n" );
 
   // No structured loops at all.  We can do it all with goto.
   // I don't like to write this code; I sure wouldn't like to read it.
+  val = 0;
   int i = 0;
  outer_top:
   if ( i >= 10 )
@@ -71,8 +77,8 @@ int main( void )
  inner_top:
   if ( j >= 10 )
     goto done_2;
-  printf( "." );
-  printf( "*" );
+  printf( "%2d ", val );
+  val += 1;
   j++;
   goto inner_top;
  done_2:
@@ -81,19 +87,23 @@ int main( void )
   goto outer_top;
  finished:
 
-
   // The following code is bad, so I've used the preorocessor to
   // omit it.
 
 #ifdef NEVER
-  // You can even jump inside a loop, but should you?
+  // You can even jump inside a loop, but it's probably a bad idea.
+  
+  val = 0;
   goto inside;
-
-  for ( int k = 1; k < 10; k++ ) {
-  inside:
-    // I wonder what value k will have. The compiler will
-    // probably warn you about this.
-    printf( "%d\n", k );
+  for ( int i = 0; i < 10; i++ ) {
+    for ( int j = 0; j < 10; j++ ) {
+    inside:
+      // After jumping to this label, there's no way to know what i
+      // and j will be.
+      printf( "%2d ", val );
+      val += 1;
+    }
+    printf( "\n" );
   }
 #endif
 
