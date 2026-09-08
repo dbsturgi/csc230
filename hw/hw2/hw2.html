@@ -1,0 +1,1133 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>CSC230 Homework 2</title>
+  <style>
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+    /* CSS for syntax highlighting */
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+        color: #aaaaaa;
+      }
+    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+    div.sourceCode
+      {   }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+    code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+    code span.at { color: #7d9029; } /* Attribute */
+    code span.bn { color: #40a070; } /* BaseN */
+    code span.bu { color: #008000; } /* BuiltIn */
+    code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+    code span.ch { color: #4070a0; } /* Char */
+    code span.cn { color: #880000; } /* Constant */
+    code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+    code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+    code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+    code span.dt { color: #902000; } /* DataType */
+    code span.dv { color: #40a070; } /* DecVal */
+    code span.er { color: #ff0000; font-weight: bold; } /* Error */
+    code span.ex { } /* Extension */
+    code span.fl { color: #40a070; } /* Float */
+    code span.fu { color: #06287e; } /* Function */
+    code span.im { color: #008000; font-weight: bold; } /* Import */
+    code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+    code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+    code span.op { color: #666666; } /* Operator */
+    code span.ot { color: #007020; } /* Other */
+    code span.pp { color: #bc7a00; } /* Preprocessor */
+    code span.sc { color: #4070a0; } /* SpecialChar */
+    code span.ss { color: #bb6688; } /* SpecialString */
+    code span.st { color: #4070a0; } /* String */
+    code span.va { color: #19177c; } /* Variable */
+    code span.vs { color: #4070a0; } /* VerbatimString */
+    code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+  </style>
+  <link rel="stylesheet" href="./style.css" />
+</head>
+<body>
+<nav id="TOC" role="doc-toc">
+<ul>
+<li><a href="#csc-230-homework-2" id="toc-csc-230-homework-2">CSC 230
+Homework 2</a></li>
+<li><a href="#spelling-corrector" id="toc-spelling-corrector">Spelling
+Corrector</a>
+<ul>
+<li><a href="#rules-for-homework-2" id="toc-rules-for-homework-2">Rules
+for Homework 2</a></li>
+</ul></li>
+<li><a href="#requirements" id="toc-requirements">Requirements</a>
+<ul>
+<li><a href="#correction-list-input"
+id="toc-correction-list-input">Correction List Input</a></li>
+<li><a href="#document-input" id="toc-document-input">Document
+Input</a></li>
+<li><a href="#target-word-matching-replacement-and-capitalization"
+id="toc-target-word-matching-replacement-and-capitalization">Target Word
+Matching, Replacement and Capitalization</a></li>
+<li><a href="#document-output" id="toc-document-output">Document
+Output</a></li>
+<li><a href="#performance-and-extra-credit"
+id="toc-performance-and-extra-credit">Performance and Extra
+Credit</a></li>
+</ul></li>
+<li><a href="#design" id="toc-design">Design</a>
+<ul>
+<li><a href="#correction-list-representation"
+id="toc-correction-list-representation">Correction List
+Representation</a></li>
+<li><a href="#required-functions" id="toc-required-functions">Required
+Functions</a></li>
+<li><a href="#globals-and-magic-numbers"
+id="toc-globals-and-magic-numbers">Globals and Magic Numbers</a></li>
+</ul></li>
+<li><a href="#build-automation" id="toc-build-automation">Build
+Automation</a>
+<ul>
+<li><a href="#selective-rebuilding"
+id="toc-selective-rebuilding">Selective Rebuilding</a></li>
+</ul></li>
+<li><a href="#testing" id="toc-testing">Testing</a>
+<ul>
+<li><a href="#unit-testing" id="toc-unit-testing">Unit Testing</a></li>
+<li><a href="#system-testing" id="toc-system-testing">System
+Testing</a></li>
+<li><a href="#test-inputs-and-system-test-cases"
+id="toc-test-inputs-and-system-test-cases">Test Inputs and System Test
+Cases</a></li>
+<li><a href="#performance-and-extra-credit-testing"
+id="toc-performance-and-extra-credit-testing">Performance and Extra
+Credit Testing</a></li>
+</ul></li>
+<li><a href="#grading" id="toc-grading">Grading</a></li>
+<li><a href="#getting-started" id="toc-getting-started">Getting
+Started</a>
+<ul>
+<li><a href="#unpack-the-starter-into-your-cloned-repo"
+id="toc-unpack-the-starter-into-your-cloned-repo">Unpack the starter
+into your cloned repo</a></li>
+<li><a href="#instructions-for-submission"
+id="toc-instructions-for-submission">Instructions for
+Submission</a></li>
+<li><a href="#pushing-your-changes"
+id="toc-pushing-your-changes">Pushing your Changes</a></li>
+<li><a href="#keeping-your-repo-clean"
+id="toc-keeping-your-repo-clean">Keeping your repo clean</a></li>
+<li><a href="#checking-jenkins-feedback"
+id="toc-checking-jenkins-feedback">Checking Jenkins Feedback</a></li>
+</ul></li>
+<li><a href="#succeeding-on-homework-2"
+id="toc-succeeding-on-homework-2">Succeeding on Homework 2</a></li>
+<li><a href="#learning-outcomes" id="toc-learning-outcomes">Learning
+Outcomes</a></li>
+</ul>
+</nav>
+<h1 id="csc-230-homework-2">CSC 230 Homework 2</h1>
+<h1 id="spelling-corrector">Spelling Corrector</h1>
+<p>For this assignment, you will be writing a program that can
+automatically correct spelling mistakes and typos in a plain-text
+document. The program maintains a <em>correction list</em>, consisting
+of <em>target words</em>, each with a <em>replacement string</em>. The
+program corrects mistakes in the document by replacing occurrences of
+the target words with their replacements.</p>
+<p>The program is called <code>spellcheck</code>. It expects an input
+that gives the correction list, followed by the text of a document. For
+output, the program prints out the document, with every occurrence of a
+target word replaced with its corresponding replacement string.</p>
+<p>The following shows the <code>input-07.txt</code> file, one of the
+sample inputs provided with the starter. This file starts with a list of
+five corrections that might need to be applied. For example, the word
+“computr” should be replaced by “computer” or the word “ncsu” should be
+replaced by “NCSU” (with all the letters capitalized). Here, the
+document is just the one line of text at the end, a line of text with
+lots of corrections needed.</p>
+<pre><code>5
+depertment department
+computr computer
+welcom welcome
+sience science
+ncsu NCSU
+Welcom to the Ncsu Computr Sience Depertment</code></pre>
+<p>The following shows the <code>spellcheck</code> program being run
+with this file as input. It replaces each occurrence of one of the
+targets with its corresponding replacement, fixing all the errors.</p>
+<pre><code>$ ./spellcheck &lt; input-07.txt
+Welcome to the NCSU Computer Science Department</code></pre>
+<p>Instead of giving the list of corrections in the same file as the
+document, you can split them into two separate files. This would let you
+maintain an extensive list of correction that could be applied to any
+text document you want. For example, the starter provides the following
+file, <code>clist-a.txt</code>, containing a list of 12 commonly
+misspelled words (according to <a
+href="https://www.merriam-webster.com/grammar/commonly-misspelled-words">Merriam-Webster</a>).</p>
+<pre><code>12
+absense absence
+accomodate accommodate
+basicly basically
+brocolli broccoli
+cemetary cemetery
+comittee committee
+concensus consensus
+definate definite
+mispell misspell
+plagarism plagiarism
+tommorrow tomorrow
+vaccum vacuum</code></pre>
+<p>The starter also contains a file, <code>document-09.txt</code>, with
+a lot of spelling errors that could be corrected using this list:</p>
+<pre><code>Dear Mr. McBean,
+
+It is the concensus of the comittee
+that your absense for the last three
+months is an abuse of the company
+telecommuting policy.  We have tried
+to accomodate your &quot;eccentric&quot; work
+style, but your tendency to mispell
+and occasional plagarism make your
+work a definate embarrassment to the
+company.  Tommorrow is basicly your
+last chance to demonstrate the good
+work we think you&#39;re capable of.
+
+           Sincerely
+
+           Quality Oversight Comittee</code></pre>
+<p>The <code>cat</code> program makes it easy to combine the correction
+list and the document as input for our <code>spellcheck</code> program.
+It can be used to concatenate any files you list as command-line
+arguments, sending the concatenated output to standard out. With a pipe
+(vertical bar), we can get the shell to send the output of
+<code>cat</code> as input to <code>spellcheck</code>. That’s what a pipe
+does, it sends the standard output from one program as standard input to
+the next program. So, the following shell syntax will let us combine
+<code>clist-a.txt</code> and <code>document-09.txt</code> right before
+running <code>spellcheck</code> and then see the spell-corrected output
+on the terminal.</p>
+<pre><code>$ cat clist-a.txt document-09.txt | ./spellcheck 
+Dear Mr. McBean,
+
+It is the consensus of the committee
+that your absence for the last three
+months is an abuse of the company
+telecommuting policy.  We have tried
+to accommodate your &quot;eccentric&quot; work
+style, but your tendency to misspell
+and occasional plagiarism make your
+work a definite embarrassment to the
+company.  Tomorrow is basically your
+last chance to demonstrate the good
+work we think you&#39;re capable of.
+
+           Sincerely
+
+           Quality Oversight Committee</code></pre>
+<p>To help get you started with this assignment, we’re providing you
+with an automated system test script, a unit test program for one of
+your components, and several test inputs and expected outputs. There are
+also some starter source files with some includes and preprocessor
+constants. See the <a href="#started">Getting Started</a> section for
+instructions on how to set up your development environment so that you
+can be sure to submit everything needed when you’re done.</p>
+<p>This homework supports a number of our course objectives. See the <a
+href="#outcomes">Learning Outcomes</a> section for a list.</p>
+<h2 id="rules-for-homework-2">Rules for Homework 2</h2>
+<p>You get to complete this assignment individually. If you’re unsure
+what’s permitted, you can have a look at the academic integrity
+guidelines in the course syllabus.</p>
+<p>You should be able to complete this assignment using material covered
+in the lecture slides up to lecture 07. In particular, you’ll need the
+material from lecture 6 for working with arrays and strings, and you’ll
+need the lecture 7 material on 2D arrays and build automation. Please
+don’t go find other resources for implementing your solution. This will
+help you to practice using the C language and library features we’ve
+covered up to this point in the class.</p>
+<p>All code submitted for this assignment should be from the starter or
+written by you for this course. You are not permitted to use code that
+has been generated or obtained from sources other than course materials
+(class slides, the textbook, posted class examples), even if you modify
+this code before turning it in. In the design section, you’ll see some
+instructions for how your implementation is expected to work. Be sure
+you follow these rules. It’s not enough to just turn in a working
+program; your program needs to follow the design constraints we’ve asked
+you to follow.</p>
+<h1 id="requirements">Requirements</h1>
+<p>Requirements are a way of describing what a program is supposed to be
+able to do. In software development, writing down and discussing
+requirements is a way for developers and customers to agree on the
+details of a system’s capabilities, often before coding has even begun.
+Here, we’re trying to demonstrate good software development practice by
+writing down requirements for our program, before we start talking about
+how we’re going to implement it.</p>
+<p>The functional requirements for the program are accompanied by more
+detailed specifications for exactly what the program’s input and output
+should be like and how it should behave for valid and invalid input.
+These details will help you to implement your program so it behaves
+exactly like we’re expecting. This will be important in grading your
+work.</p>
+<p>This program only has one functional requirement. It is summarized in
+FR-1 below, but the following subsections specify many details that are
+needed in order to implement this requirement correctly.</p>
+<p><strong>FR-1</strong> : Given a correction list followed by a
+document on standard input, the <code>spellcheck</code> program will
+print to standard output a copy of the document, with every occurrence
+of a target word replaced with its corresponding replacement string.</p>
+<p>The output of the <code>spellcheck</code> program is called the
+<em>corrected document</em>, with occurrences of target strings replaced
+by their corresponding replacement strings.</p>
+<h2 id="correction-list-input">Correction List Input</h2>
+<p>The correction list will start with an integer, <em>n</em>. This will
+be followed by a sequence of <em>n</em> pairs of words, each consisting
+of a target string followed by a corresponding replacement string. There
+can be any amount of whitespace before and after the value <em>n</em> or
+between target and replacement strings. Target and replacement strings
+will normally be given one pair per input line, but permitting arbitrary
+whitespace in the correction list should make it easier to parse.</p>
+<p>So, the correction list could be given with one pair of words per
+line, like the following:</p>
+<pre><code>2
+thier their
+wierd weird</code></pre>
+<p>Or, the following would be an equivalent way of given the same list,
+with different amounts of whitespace around the number <em>n</em> and
+between the words:</p>
+<pre><code>     2
+ thier 
+their     wierd
+     weird</code></pre>
+<p>Target and replacement strings must be between 1 and 20 characters
+long. A target string can consist of only lower-case letters and
+apostrophes (ASCII code 39). A replacement string can consist of
+lower-case letters, capital letters or apostrophes. The correction list
+can consist of up to 50,000 target / replacement pairs. All target
+strings in the correction list must be unique; there can’t be any
+duplicate targets.</p>
+<p>If the given correction list doesn’t satisfy all these constraints,
+the <code>spellcheck</code> program should terminate with an exit status
+of 100. This exit status indicates that the correction list was bad.</p>
+<h2 id="document-input">Document Input</h2>
+<p>The input document is given on standard input, starting on the next
+line after the last replacement string in the correction list. For
+example, the document would start at “This is the start …” in the
+following input.</p>
+<pre><code>2
+thier their
+wierd weird
+This is the start of the document.</code></pre>
+<p>The following correction list has some extra spaces, but the document
+would still start at the beginning of the line: “This is the start …”.
+There could even be some extra whitespace after the word “weird” on the
+5th line.</p>
+<pre><code>2
+thier
+       their
+wierd
+       weird
+This is the start of the document.</code></pre>
+<p>The document can contain an arbitrary number of lines (even zero).
+Any individual line of the input document must be no longer than 80
+characters. This doesn’t include the newline at the end or a null
+terminator that may be used internally to store the line as a string. If
+the input document has a line that’s longer than 80 characters, the
+<code>spellcheck</code> program should terminate immediately with an
+exit status of 101. This exit status indicates that the input document
+was bad.</p>
+<p>It’s possible that the program will print some output before
+encountering an input line that’s too long. This is OK. It is sufficient
+to exit with the appropriate exit status, and any incomplete output of
+the corrected document won’t be considered in evaluating the
+program.</p>
+<h2 id="target-word-matching-replacement-and-capitalization">Target Word
+Matching, Replacement and Capitalization</h2>
+<p>A word in the input document is a sequence of characters consisting
+of letters (capital or lower-case) and apostrophes. To match a target
+word in the correction list, a word in the document must be maximal; it
+can’t be a substring of a longer word in the document. So, for example,
+the target “thier” could match a word in a document like:</p>
+<pre><code>When thier name was called, they knew they were in trouble.</code></pre>
+<p>but, it wouldn’t match a word in a line of a document like:</p>
+<pre><code>They were considered the clothier to the rich and famous.</code></pre>
+<p>Matching words from the document with target strings is
+case-insensitive. So, if <code>thier</code> is a target string on the
+correction list, it could match the word “thier”, “Thier”, “THIER” or
+“ThiER” in the document.</p>
+<p>If a word in the document matches a target string, it will be
+replaced by the replacement string in the output. Other parts of the
+document, including other words, spacing and non-word characters will
+remain exactly the same.</p>
+<p>Each Word in the document will be replaced at most once. It’s
+possible for a word to match a target string even after it is replaced.
+For example, this happens in the example at the start of the assignment.
+The word “Ncsu” matches the target, “ncsu”, so it is replaced by “NCSU”.
+The new word “NCSU” still matches the “ncsu” target, but it should not
+be replaced again; that would just cause an infinite loop, replacing the
+same word over and over.</p>
+<p>If a word from the document has a capital letter as its first
+character, we say the word is <em>capitalized</em>. It doesn’t matter
+whether remaining characters in the word are capital letters;
+capitalization only depends on the first character. When a capitalized
+word in the document matches a target string from the correction list,
+it is replaced with a capitalized version of the replacement string,
+with the first character capitalized (if it’s a letter) and all
+remaining characters identical to the replacement string.</p>
+<p>So, for example, if the correction list contains the target /
+replacement pair, “teh” / “the”, then an occurrence of the word “Teh” in
+the document will be replaced by “The”. An occurrence of the word “TEH”
+would be replaced by “The”, and an occurrence of the word “teh” would be
+replaced by “the”.</p>
+<p>Other than capitalization of the of the first character, remaining
+characters of the replacement string are never changed during
+replacement. So, for example, if the correction list contains the target
+/ replacement pair, “nsaa” / “NASA”, then an occurrence of “Nsaa” or
+“NSAA” or “nsaa” in the document would be replaced by “NASA”.</p>
+<h2 id="document-output">Document Output</h2>
+<p>The <code>spellcheck</code> program should output the corrected
+document to standard output. No output line should be longer than 80
+characters. If a line of the document is longer than 80 characters after
+performing all replacements, the program should terminate immediately
+with an exit status of 102. This exit status indicates that there was a
+problem with the corrected document.</p>
+<p>As with invalid input lines, it’s possible that the program will
+print some output before encountering an output line that’s too long.
+This is OK. It is sufficient to exit with the appropriate exit status,
+and any incomplete output of the corrected document won’t be considered
+in evaluating the program.</p>
+<h2 id="performance-and-extra-credit">Performance and Extra Credit</h2>
+<p>This assignment has a couple of non-functional requirements related
+to performance. To receive full credit, the solution doesn’t need to be
+too fast.</p>
+<p><strong>NFR-1</strong> : The <code>spellcheck</code> program must be
+able to process a document of 10,000 lines with a 50,000-element
+correction list in less than one minute.</p>
+<p>The starter includes a test input of the size described above. We’ll
+try this out on a system similar to the pool of Linux machines at
+remote.eos.ncsu.edu. Your implementation shouldn’t need to be too clever
+to achieve this level of performance.</p>
+<p>For up to <strong>5 points of extra credit</strong>, you can satisfy
+the following performance requirement instead.</p>
+<p><strong>NFR-2</strong> : The <code>spellcheck</code> program must be
+able to process a document of 10,000 lines with a 50,000-element
+correction list in less than half a second.</p>
+<h1 id="design">Design</h1>
+<p>The following figure shows the three components that will be used to
+implement this program. Each component consists of an implementation
+file (.c) and a header file (.h), except for the main component,
+<code>spellcheck.c</code> which doesn’t need a header.</p>
+<figure>
+<img src="dependency.png"
+alt="Figure: dependencies among the program’s components" />
+<figcaption aria-hidden="true">Figure: dependencies among the program’s
+components</figcaption>
+</figure>
+<p>The following list briefly describes what each component is
+responsible for.</p>
+<ul>
+<li><p>util.h / util.c<br />
+This component provides some basic functions for inserting and removing
+substrings from a line of text. After finding an occurrence of a target
+word, these functions will make it easy to remove the word and insert
+the replacement word in its place.</p></li>
+<li><p>correction.h / correction.c<br />
+This component maintains the list of corrections read in at program
+start-up. It provides functions for reading in the list and looking up
+target/replacement pairs that match a word from the document.</p></li>
+<li><p>spellcheck.c<br />
+This is the top-level component, containing the main() function and
+supporting code and functions to read in the document, find words in
+each line, check each word to see if it’s the target of a correction and
+replace the word if it is.</p></li>
+</ul>
+<p>The dependency figure above shows how the code is organized. You can
+see we’ve tried to make sure this is a layered design. The
+<code>util</code> and <code>correction</code> components are low-level.
+They can use standard C library features, but they don’t need code
+implemented in other parts of the assignment. The top-level
+<code>spellcheck</code> component can use the other two components to
+help find and apply corrections to words in the document.</p>
+<h2 id="correction-list-representation">Correction List
+Representation</h2>
+<p>The correction list will be stored using static global variables in
+the <code>correction</code> component. You can decide how you want to
+represent this list, and it’s OK if you want to use more than one static
+global variable.</p>
+<p>Storing the list using static, global variables will let any code in
+the component access the representation, but other components won’t be
+able to access it directly. Code outside the component will need to use
+the functions provided by <code>correction.c</code> to read in and
+lookup words in the list.</p>
+<h2 id="required-functions">Required Functions</h2>
+<p>You can use as many functions as you want to solve this problem, but
+you’ll need to implement and use a few specific functions that we’re
+asking you to write. For the <code>util</code> component in particular,
+organizing your code into the functions we’re asking for will help you
+to test your code early with the help of a provided, unit test
+driver.</p>
+<p>The <code>util.c</code> component contains functions for basic string
+operations. It should have at least the following functions:</p>
+<ul>
+<li><p><code>void removeSubstr( char str[], int pos, int len )</code><br />
+This function modifies the string, <code>str</code>, by removing the
+substring of length <code>len</code> starting at index <code>pos</code>.
+For example, if <code>str</code> is the string “refused”, then
+<code>removeSubstr( str, 2, 4 )</code> should leave the string “red” in
+`str’. The caller is responsible for making sure the parameters are
+valid, that the given substring doesn’t extend past the end of str. The
+function isn’t expected to check this, so behavior is undefined if the
+caller uses the function with invalid parameters.</p></li>
+<li><p><code>void insertSubstr( char str[], int pos, char const substr[] )</code><br />
+This function modifies the string, <code>str</code>, by inserting the
+given string, <code>substr</code> starting at index, <code>pos</code>.
+For example, if <code>str</code> is the string “grass” and
+<code>substr</code> is the string “shopper”, then
+<code>insertSubstr( str, 4, substr )</code> will leave the string
+“grasshoppers” in <code>str</code>. The given position,
+<code>pos</code>, can be any value between zero (to insert at the start)
+and the length of <code>str</code> (to insert at the end). The caller is
+responsible for making sure this function is called with valid
+parameters. In particular, the caller must ensure that the
+<code>str</code> array is large enough to hold the resulting string.
+Behavior is undefined if the function is called with invalid
+parameters.</p></li>
+</ul>
+<p>The <code>correction.c</code> component contains functions for
+reading and using the correction list. It should contain at least the
+following functions:</p>
+<ul>
+<li><p><code>void readCorrections()</code><br />
+This function reads the correction list from standard input and stores
+it in static global variables for future use by the
+<code>findCorrection()</code> function. It should read the rest of the
+input line containing the last replacement string (including the newline
+character), so standard input will be right at the start of the document
+when the function returns.</p></li>
+<li><p><code>bool findCorrection( char const target[ WORD_LIMIT + 1 ], char replacement[ WORD_LIMIT + 1 ] )</code><br />
+This function looks for the given <code>target</code> in the correction
+list. If the target word is found, the function sets
+<code>replacement</code> to the corresponding replacement word and
+returns true. If the given target isn’t on the list, it returns
+false.</p></li>
+</ul>
+<p>You will want to consider defining some more functions, in addition
+to those described above. This can help you to organize your code and
+avoid duplication. It can also help you to test your code in smaller
+pieces.</p>
+<p>If you define your own functions, be sure to consider the right
+component to put them in. The <code>util</code> component is for general
+functions that work with strings, the <code>correction</code> component
+is for working with the correction list and the top-level component is
+for code that’s specific to this particular application (i.e., code
+that’s less likely to be reusable in another application). Also, be sure
+to consider if a function you define is for internal use only by its
+component, or if it’s for use by other components. Mark a function as
+static and don’t put a prototype in the header if it’s for internal use
+by just one component. If the function should be made available to other
+components, don’t mark it as static, and be sure to put its prototype
+and documentation comment in the header.</p>
+<h2 id="globals-and-magic-numbers">Globals and Magic Numbers</h2>
+<p>The only globals you’ll need are the static global variables used to
+store the correction list inside the <code>correction</code> component.
+For other parts of the application, the parameters passed to each
+function should give the function everything it needs to do its job.</p>
+<p>Be sure to avoid magic numbers in your source code. The starter comes
+with some constants already defined for you. Use these and define
+additional preprocessor constants as needed to give meaningful names to
+all the important, non-obvious values used within the program.</p>
+<p>As described in the style guide, values used to check the return
+value of calls to scanf() are not considered magic numbers. For example,
+the value 3 used below is specific to the format string being used on
+the very same line of code. It probably wouldn’t be meaningful or
+helpful to give a name for this value and define it elsewhere in the
+code.</p>
+<pre><code>if ( scanf( &quot;%d%f%c&quot;, &amp;a, &amp;b, &amp;c ) == 3 ) {
+  ...
+}</code></pre>
+<h1 id="build-automation">Build Automation</h1>
+<p>You get to implement your own Makefile for this assignment. We’re
+expecting it to be called “Makefile”, with a capital M at the start and
+no filename extension at the end.</p>
+<p>Your Makefile should be smart enough to separately create each of the
+object files needed by your program. It should have a separate rule to
+create an object file by compiling the corresponding implementation
+file. It will also have a rule to build the executable by linking
+together the object files. When it’s creating an object file, your
+Makefile should use the usual compile-time flags, -Wall, -std=c99, and
+-g. When you’re linking, you will need to use the -o flag to specify the
+name of the executable you want to create. You won’t need any other
+flags for the linker. For example, you won’t need the <code>-lm</code>
+flag since we won’t be using the math library for this assignment.</p>
+<p>From class, you’ll remember that make includes default rules for
+building common types of targets. You can use these built-in rules for
+the compile steps if you want. If you do use the built-in rules, be sure
+to set up variables like <code>CFLAGS</code> so your code compiles with
+the options we need.</p>
+<p>The Makefile should also have a rule with the word <code>clean</code>
+as the target. This will let the user easily delete any temporary files
+that aren’t really part of the project or can be rebuilt the next time
+make is run (e.g., the object files, executables and any temporary
+output files). A clean rule is a convenient way to delete temporary
+files, if, for example, you move your source code to a different
+operating system and need to rebuild everything without trying to use
+old executables or object files.</p>
+<p>A clean rule can look like the following. It doesn’t have any
+prerequisites, so it’s only run when it’s explicitly specified on the
+command-line as a target. It doesn’t actually build anything; it just
+runs a sequence of shell commands to clean up the project workspace. In
+the example below, we used the &lt;tab&gt; notation to remind you where
+the hard tabs need to go in a Makefile. Don’t actually put &lt;tab&gt;;
+use a real tab character instead. You can see that this rule runs
+commands to delete temporary files from the project workspace directory.
+In your clean rule, replace things like all-your-object-files with a
+list of the object files that get built as part of your project.</p>
+<pre><code>clean:
+&lt;tab&gt; rm -f all-your-object-files
+&lt;tab&gt; rm -f your-executable-programs
+&lt;tab&gt; rm -f any-temporary-output-files
+&lt;tab&gt; rm -f anything-else-that-doesn&#39;t-need-to-go-in-your-repo</code></pre>
+<p>To use your <code>clean</code> target, type the following at the
+command line, <strong><em>but first be sure you have committed all of
+the files that you need to your github repo</em></strong>. If you make a
+mistake in this rule, you could accidentally delete some of your files.
+Committing them to your repo first can help make sure you don’t lose
+anything important. You can always recover your files from your
+repository if something goes wrong.</p>
+<pre><code>$ make clean</code></pre>
+<h2 id="selective-rebuilding">Selective Rebuilding</h2>
+<p>Your Makefile should correctly describe the source file dependencies,
+so targets can be rebuilt selectively, based on what source files have
+changed since the last build. The following figure tries to show how the
+various files in your project depend on each other. For example,
+<code>util.c</code> includes <code>util.h</code>, so, if either of these
+files is changed, the object file, <code>util.o</code>, will need to be
+rebuilt. The top-level source file, <code>spellcheck.c</code> includes
+both headers, <code>util.h</code> and <code>correction.h</code>, so
+<code>spellcheck.o</code> will need to be rebuilt if any of these three
+source files changes.</p>
+<figure>
+<img src="make-dependency.png"
+alt="Figure: Dependency structure for source files and make targets" />
+<figcaption aria-hidden="true">Figure: Dependency structure for source
+files and make targets</figcaption>
+</figure>
+<p>The arrows show where one file depends on another. The blue files are
+source files and the green ones are objects generated by make. The red
+file is the executable target, created by linking together the object
+files.</p>
+<p>If none of the targets have been built (e.g., if you just ran make
+clean), then your Makefile will have to rebuild all the targets. Running
+<code>make</code> should produce output like the following. The order of
+the compile steps may be different, but you should see each of your
+implementation files being compiled to an object file, then you should
+see a <code>gcc</code> command for linking your object files into an
+executable.</p>
+<pre><code>$ make
+gcc -Wall -std=c99 -g   -c -o spellcheck.o spellcheck.c
+gcc -Wall -std=c99 -g   -c -o correction.o correction.c
+gcc -Wall -std=c99 -g   -c -o util.o util.c
+gcc   spellcheck.o correction.o util.o   -o spellcheck</code></pre>
+<p>After building your objects and executable once, make should be smart
+enough to avoid unnecessary steps on subsequent builds. If you try to
+run make again without changing anything, it should tell you there’s
+nothing to rebuild:</p>
+<pre><code>$ make
+make: &#39;spellcheck&#39; is up to date.</code></pre>
+<p>If you modify just some of your source files, the dependencies in
+your Makefile should let make figure out what targets need to be
+rebuilt. For example, if you change just the <code>spellcheck.c</code>
+source file and then run make, only the object file
+<code>spellcheck.o</code> and the executable, <code>spellcheck</code>
+need to be rebuilt. From the figure above, you can see that these are
+the only files that depend on this source file. You can try this out by
+making a small edit to your <code>spellcheck.c</code> file then saving
+it, or you can use the <code>touch</code> command to make the computer
+think the file has been modified without having to actually edit it.</p>
+<pre><code>$ make
+gcc -Wall -std=c99 -g   -c -o spellcheck.o spellcheck.c
+gcc   spellcheck.o correction.o util.o   -o spellcheck</code></pre>
+<p>However, if you change the header file, <code>util.h</code>, make
+will have to rebuild the two object files <code>util.o</code> and
+<code>spellcheck.o</code>. The implementation files for both of these
+components include the <code>util.h</code> header. After rebuilding
+these two objects, it will have to link all the objects into an
+executable:</p>
+<pre><code>$ make
+gcc -Wall -std=c99 -g   -c -o spellcheck.o spellcheck.c
+gcc -Wall -std=c99 -g   -c -o util.o util.c
+gcc   spellcheck.o correction.o util.o   -o spellcheck</code></pre>
+<h1 id="testing">Testing</h1>
+<p>The starter includes a unit test program to test the
+<code>util</code> component. It also includes an automated system test
+script to help you check the correctness of your completed program. When
+we’re grading your work, we will use the same test cases used by the
+system test script, along with a few other test inputs that aren’t being
+provided with the starter.</p>
+<h2 id="unit-testing">Unit Testing</h2>
+<p>The <code>utilTest.c</code> source file is a small unit test for the
+<code>util</code> component. It calls each of the functions in
+<code>util.c</code> a few times, with different parameter values,
+checking the results to make sure they look right.</p>
+<p>The unit test program won’t be used for grading, but it should be
+helpful to you as you start developing your program. You can implement
+your <code>util</code> component first, using the provided unit test to
+help make sure your basic string functions are doing what’s expected. If
+you want, you can add more test cases to the unit test program, to help
+you debug or to check your string functions with different
+parameters.</p>
+<p>Your Makefile isn’t expected to build the unit test program
+automatically. It’s fine if you want to add a rule for this, but be sure
+that the default target for your Makefile is the <code>spellcheck</code>
+program. To build the unit test program, you can compile it from the
+command line using the following command:</p>
+<div class="sourceCode" id="cb19"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> gcc <span class="at">-Wall</span> <span class="at">-std</span><span class="op">=</span>c99 <span class="at">-g</span> utilTest.c util.c <span class="at">-o</span> utilTest</span></code></pre></div>
+<p>Then, you can run it by running the <code>utilTest</code> executable.
+It will try out each of the test cases, and, at the end, it will report
+how many passed. If you’re passing all the unit tests, this should look
+like:</p>
+<div class="sourceCode" id="cb20"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> ./utilTest </span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a><span class="ex">Passed</span> 8 of 8 unit tests</span></code></pre></div>
+<p>If your program fails a unit test, you will get a report of which one
+failed. You can look at the code for the failing test, run the test
+program in <code>gdb</code> and try to fix what’s going wrong.</p>
+<div class="sourceCode" id="cb21"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> ./utilTest </span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a><span class="ex">Failed</span> test: removeSubstr test 2</span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a><span class="ex">Passed</span> 7 of 8 unit tests</span></code></pre></div>
+<h2 id="system-testing">System Testing</h2>
+<p>To run the automated system test, you should be able to enter the
+following commands. The <code>chmod</code> command sets the script to be
+executable; you probably just need to do this once for the first time
+you run it, and you shouldn’t need it at all if you’re working in your
+NCSU Drive space on a common platform system.</p>
+<div class="sourceCode" id="cb22"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> chmod +x stest.sh <span class="co"># probably just need to do this once</span></span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> ./stest.sh</span></code></pre></div>
+<p>The system test script will try to build your program using your
+Makefile. Then, it will see how it behaves on all the provided test
+inputs. These are described briefly below. The test script is what’s
+called a shell script. It contains the same kinds of commands you type
+at the terminal when you’re working on a Unix machine.</p>
+<p>You probably won’t pass all the system tests the first time. In fact,
+until you have a working Makefile, you won’t be able to use the test
+script at all.</p>
+<p>If you want to compile your program by hand, the following command
+should do the job. Here, we’re compiling and linking the three source
+files into an executable named <code>spellcheck</code>. Your Makefile
+should be smarter than this, compiling each source file individually and
+then linking all the resulting objects together, rather than compiling
+and linking everything all at once.</p>
+<div class="sourceCode" id="cb23"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> gcc <span class="at">-Wall</span> <span class="at">-std</span><span class="op">=</span>c99 <span class="at">-g</span> util.c correction.c spellcheck.c <span class="at">-o</span> spellcheck</span></code></pre></div>
+<p>When you run the system test script, it prints out how it’s running
+your program for each test case, along with the commands it uses to
+check your output. This should make it easy to check on individual test
+cases you’re having trouble with. For the smaller test inputs, the
+correction list and the document are already combined into a single
+input file. For these, you should be able to run your program as follows
+to see how it handles the test case:</p>
+<div class="sourceCode" id="cb24"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> ./spellcheck <span class="op">&lt;</span> input-06.txt <span class="op">&gt;</span> output.txt</span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> echo <span class="va">$?</span></span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a><span class="ex">0</span></span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> diff output.txt expected-06.txt </span></code></pre></div>
+<p>The commands above run the program with input from
+<code>input-06.txt</code> and with output written to the file,
+<code>output.txt</code>. Then, we check the exit status to make sure the
+program exited successfully (it should for this particular test case).
+Finally, we use diff to make sure the output we got looks exactly like
+the expected output for test case 06.</p>
+<p>Keep in mind that you don’t always need to send your program’s output
+to a file. If you’re debugging or running it in gdb, it might be easier
+to let your output go to the screen. This wll let you see what your
+program is printing as soon as it prints it. Also, remember that
+terminal output may be buffered in memory before it goes to the screen.
+Normally, a line of output is stored temporarily and only printed to the
+screen when a newline character is printed. Keep this in mind if you’re
+adding debug output to your program. If you forget to put a newline at
+the end, your output may not show up until later.</p>
+<p>If a test case uses separate correction list and document input
+files, you can run them as follows, using <code>cat</code> to combine
+the two input files then sending the combined input to the
+<code>spellcheck</code> program via a pipe. The following example shows
+how to run test 09 like this:</p>
+<div class="sourceCode" id="cb25"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> cat clist-a.txt document-09.txt <span class="kw">|</span> <span class="ex">./spellcheck</span> <span class="op">&gt;</span> output.txt</span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> echo <span class="va">$?</span></span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a><span class="ex">0</span></span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> diff output.txt expected-09.txt</span></code></pre></div>
+<p>If you want to run a test like this, with two input files, from gdb,
+you will probably want to combine the inputs into one file, to make it
+easier to read from gdb. To do this, you can concatenate the correction
+list and the document input into a single temporary file, using a
+command like the following:</p>
+<pre><code>$ cat clist-a.txt document-09.txt &gt; input.txt</code></pre>
+<p>Then, when you run your program in gdb, you can tell it to read all
+its input from the combined input file you just created, something like
+this:</p>
+<div class="sourceCode" id="cb27"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> gdb ./spellcheck</span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a><span class="ex">...</span> gdb welcome message ...</span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a><span class="kw">(</span><span class="fu">gdb</span><span class="kw">)</span> <span class="ex">...</span> set breakpoints as needed ...</span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a><span class="kw">(</span><span class="fu">gdb</span><span class="kw">)</span> <span class="ex">run</span> <span class="op">&lt;</span> input.txt</span></code></pre></div>
+<p>For system tests that exit unsuccessfully, we only expect your
+program to generate the appropriate exit status. We don’t check your
+partial output. If you want to try out a test like this, you should be
+able to run it like the following. Test 17 has a bad correction list, so
+it should fail with an exit status of 100:</p>
+<div class="sourceCode" id="cb28"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> ./spellcheck <span class="op">&lt;</span> input-17.txt</span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> echo <span class="va">$?</span></span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a><span class="ex">100</span></span></code></pre></div>
+<h2 id="test-inputs-and-system-test-cases">Test Inputs and System Test
+Cases</h2>
+<p>For the smaller test cases, the correction list and the document are
+already combined into one input file. This simplifies the commands for
+running the program and makes it easier to debug. For most of the larger
+test cases, we use separate files for the correction list and the
+document. The following correction lists are used for some of these
+larger test cases:</p>
+<ul>
+<li><p><code>clist-a.txt</code> is a list of 12 common misspellings
+obtained from <a
+href="https://www.merriam-webster.com/grammar/commonly-misspelled-words">Merriam-Webster</a>.</p></li>
+<li><p><code>clist-b.txt</code> is a list of about 4000 corrections,
+obtained from <a
+href="https://en.wikipedia.org/wiki/Wikipedia:Lists_of_common_misspellings/For_machines">Wikipedia</a>)</p></li>
+</ul>
+<p>We’ve prepared several test cases to help you make sure your program
+is working right. Most of these are valid inputs, where your program
+should exit successfully and print the document with all substitutions
+applied. A few test cases at the end check for correct handling of
+errors in the inputs.</p>
+<ol type="1">
+<li><p>This is a small test input, with an empty correction list and a
+one-line document.</p></li>
+<li><p>This test has one word on the correction list, followed by a
+document that contains just that one word.</p></li>
+<li><p>This test has two words on the correction list. The document
+contains one of them.</p></li>
+<li><p>This test has a correction list with 5 words and a multi-line
+document with some words at the start and end of lines that require
+replacement.</p></li>
+<li><p>This test has some target words on the correction list that show
+up inside words of the document. These occurrences shouldn’t be
+replaced.</p></li>
+<li><p>The document contains some copies of target words right next to
+punctuation characters.</p></li>
+<li><p>This document has some capitalized copies of the target words.
+They should be replaced with capitalized versions of the replacement
+string.</p></li>
+<li><p>This input has some extra whitespace in the correction
+list.</p></li>
+<li><p>This is the example from the start of the assignment. It uses a
+separate correction list (<code>clist-a.txt</code>) and document that
+get concatenated when the test is run.</p></li>
+<li><p>This test uses a document like the one from test 09, but it uses
+the <code>clist-b.txt</code> as the correction list and the document has
+a lot more misspellings.</p></li>
+<li><p>This test uses <code>clist-b.txt</code> as the correction list
+and a version of Mark Antony’s speech from Julius Caesar as the
+document.</p></li>
+<li><p>This test uses <code>clist-b.txt</code> as the correction list
+and a version of the Gettysburg Address as the document, with spaces
+replaced by non-word characters.</p></li>
+<li><p>The document in this test contains a word longer than 20
+characters. This is OK, but a word like this could never match a target
+string.</p></li>
+<li><p>The document has a line that’s exactly 80 characters
+long.</p></li>
+<li><p>The document has a line that could be temporarily longer than 80
+characters while corrections are being applied, but it will be no longer
+than 80 characters by the time all replacements have been made.</p></li>
+<li><p>This is a large test case with 50,000 randomly-generated words on
+the correction list and a document with 10,000 lines.</p></li>
+<li><p>This is a test for error handling. The correction list has a
+target word that’s too long.</p></li>
+<li><p>This is a test for error handling. There are too many words on
+the correction list.</p></li>
+<li><p>This is a test for error handling. There’s a target string
+containing an invalid character.</p></li>
+<li><p>This is a test for error handling. One of the lines in the input
+document is too long.</p></li>
+<li><p>This is a test for error handling. One of the output lines ends
+up being too long after replacement.</p></li>
+</ol>
+<h2 id="performance-and-extra-credit-testing">Performance and Extra
+Credit Testing</h2>
+<p>The starter includes one large test case for checking the performance
+of your solution. The file <code>input-16.txt</code> has a correction
+list with 50,000 entries and a 10,000-line document. For regular credit,
+your solution should be able to handle this input in less than a minute.
+For the extra credit, it should take your program less than half a
+second. You can use the time command to see how long your program takes.
+Below, I’m sending program output to <code>/dev/null</code>. This simply
+discards all the output. Performance like the following could get you
+full credit:</p>
+<pre><code>$ time ./spellcheck &lt; input-16.txt &gt; /dev/null
+
+real    0m42.415s
+user    0m41.769s
+sys     0m0.006s</code></pre>
+<p>If you did the extra credit, you should expect performance more like
+the following:</p>
+<pre><code>$ time ./spellcheck &lt; input-16.txt &gt; /dev/null
+
+real    0m0.126s
+user    0m0.093s
+sys     0m0.008s</code></pre>
+<h1 id="grading">Grading</h1>
+<p>The grade for your program will depend mostly on how well it
+functions. We’ll also expect it to have a working Makefile, to compile
+cleanly, to follow the style guide and to follow the design given for
+the program.</p>
+<ul>
+<li>Compiling cleanly on the common platform: <strong>10
+points</strong></li>
+<li>Working Makefile: <strong>8 points</strong></li>
+<li>Correct behavior on all tests: <strong>80 points</strong></li>
+<li>Programs follow the style guide: <strong>20 points</strong></li>
+<li>Extra credit performance bonus: <strong>5 extra credit
+points</strong></li>
+<li>Deductions
+<ul>
+<li>Up to <strong>-50 percent</strong> for not following the required
+design.</li>
+<li>Up to <strong>-30 percent</strong> for failing to submit required
+files or submitting files with the wrong name.</li>
+<li>Up to <strong>-10 percent</strong> penalty for late submission
+within 24 hours.</li>
+<li>Up to <strong>-20 percent</strong> penalty for late submission
+within 48 hours.</li>
+</ul></li>
+</ul>
+<p><a name="started"></p>
+<h1 id="getting-started">Getting Started</h1>
+<p>To get started on this assignment, you’ll need to clone your assigned
+CSC 230 repo and unpack the given starter into the hw2 directory. You’ll
+submit by committing files to your repo and pushing the changes back up
+to the NCSU github.</p>
+<p>Homework 1 has instructions for cloning your CSC 230 git repository.
+Probably, you already have a local copy of your repo left over from from
+the previous assignment. If not, you can look back at homework 1 to see
+how to set up your github credentials and clone your repo.</p>
+<h2 id="unpack-the-starter-into-your-cloned-repo">Unpack the starter
+into your cloned repo</h2>
+<p>You will need to copy and unpack the homework 2 starter. We’re
+providing this file as a compressed tar archive, <a
+href="starter2.tgz">starter2.tgz</a>. You can get a copy of the starter
+by using the link in this document. Temporarily, put your copy of the
+starter in the <code>hw2</code> directory of your cloned repo. Then, you
+should be able to unpack it with the following command:</p>
+<pre><code>$ tar xzvpf starter2.tgz</code></pre>
+<p>Once you start working on the assignment, be sure you don’t
+accidentally commit the starter archive to your repo (that would be an
+example of an extraneous file that doesn’t need to be there). After
+you’ve successfully unpacked it, you may want to delete the starter from
+your <code>hw2</code> directory, or move it out of your repo.</p>
+<pre><code>$ rm starter2.tgz</code></pre>
+<p>Or, if you’re working on one of the EOS Linux machines, instead of
+copying the starter file to your working directory, you can unpack it
+from a shared copy that’s available on these systems. You should be able
+to change directory to <code>hw2</code> in your cloned repo and run the
+following command:</p>
+<pre><code>$ tar xzvpf /mnt/coe/workspace/csc/CSC230/hw/hw2/starter2.tgz</code></pre>
+<h2 id="instructions-for-submission">Instructions for Submission</h2>
+<p>If you’ve set up your repository properly, pushing your changes to
+your assigned CSC 230 repository should be all that’s required for
+submission. When you’re done, we’re expecting your repo to contain the
+following files. You can use the web interface on github.com to confirm
+that the right versions of all your files made it.</p>
+<ul>
+<li><code>spellcheck.c</code> : Top-level component for your
+program.</li>
+<li><code>correction.c / correction.h</code> : Implementation and header
+file for the component that maintains the correction list.</li>
+<li><code>util.c / util.h</code> : Implementation and header file for
+the component performs string functions used by the main component.</li>
+<li><code>utilTest.c</code> : Unit test program for the functions
+implemented in the util component.</li>
+<li><code>input-*.txt</code> : Input files for most of the system
+test.</li>
+<li><code>clist-*.txt</code> : These are the correction lists for the
+system tests that use a separate correction list and document.</li>
+<li><code>document-*.txt</code> : These are the document files for the
+system tests that use a separate correction list and document.</li>
+<li><code>expected-*.txt</code> : These are the expected output files
+for system tests that run successfully.</li>
+<li><code>Makefile</code> : Makefile for building your program.</li>
+<li><code>stest.sh</code> : System test script, provided with the
+starter.</li>
+<li><code>.gitignore</code> : a file for this assignment, telling git
+some files to not commit to the repo.</li>
+</ul>
+<h2 id="pushing-your-changes">Pushing your Changes</h2>
+<p>You’ll need to add the files list above to the local copy of your
+repo. As you make progress on your solution, be sure to commit your
+changes and push them up to your remote repo at github.com. For grading,
+we’ll grade the last copy you push before the late deadline.</p>
+<h2 id="keeping-your-repo-clean">Keeping your repo clean</h2>
+<p>Be careful not to commit files that don’t need to be part of your
+repo. Temporary files or files that can be easily re-generated will just
+take up space and obscure what’s really changing as you modify your
+source code. And, the NCSU github site puts a file size limit on what
+you can push to your repo. Adding files you don’t really need could
+create a problem for you later.</p>
+<p>The <code>.gitignore</code> file helps with this, but it’s always a
+good idea to check with <code>git status</code> before you commit, to
+make sure you’re getting what you expect.</p>
+<h2 id="checking-jenkins-feedback">Checking Jenkins Feedback</h2>
+<p>I’m expecting we will have Jenkins jobs to help you test your code. I
+still need to figure out some things about how our these jobs will work,
+now that we no longer have github.ncsu.edu. The following are our old
+instructions for accessing Jenkins. I’ll update these once I figue out
+how the jobs will work this semester.</p>
+<p>We have created a <a
+href="http://go.ncsu.edu/jenkins-csc230">Jenkins</a> build job for your
+project. it’s only available from on campus, so if you want to check
+your Jenkins results from off-campus, you’ll need to VPN into a campus
+address first. If you’ve never used VPN before, you’ll find instructions
+for setting it up and connecting at:<a
+href="https://oit.ncsu.edu/campus-it/campus-data-network/vpn/">https://oit.ncsu.edu/campus-it/campus-data-network/vpn/</a>.</p>
+<p>Follow the instructions for your type of system and get connected to
+the campus network. It will take a little bit of work to get this
+configured, but it will pay off in later classes if you already know how
+to use VPN. If you’ve been accessing your NCSU Drive file space from
+your laptop, then you’ve probably already gone through the work of
+configuring VPN for your system.</p>
+<p>Jenkins is a continuous integration server that is used by industry
+to automatically build and test applications as they are being
+developed. We’ll be doing the same thing with your assignment as you
+push changes to the NCSU github. This will provide early feedback on the
+quality of your work and your progress toward completing the
+assignment.</p>
+<p>The Jenkins job associated with your GitHub repository will receive
+notification from GitHub every time you push changes to your repo. After
+a change, jenkins will automatically start a build process on your code.
+The following actions will occur:</p>
+<ul>
+<li><p>Code will be pulled from your GitHub repository.</p></li>
+<li><p>A testing script will be run to make sure you submitted all of
+the required files, to check your code against parts of the course style
+guidelines and to try out your solution on the system test
+script.</p></li>
+<li><p>The system test script doesn’t execute test 16. This test takes a
+while, depending on whether or not you did the extra credit. We’ll try
+out this test when we’re grading submissions, but this one test is
+disabled for Jenkins jobs.</p></li>
+<li><p>Jenkins jobs try out your Makefile to see if it builds your job
+using separate compile and link steps, and they try simulating a few
+changes to your source code to see if your Makefile knows how to rebuild
+just the parts of the project that need rebuilding.</p></li>
+</ul>
+<p>Jenkins will record the results of each execution. To obtain your
+Jenkins feedback, do the following tasks (remember, after a push, you
+may have to wait a couple of minutes for the latest results to
+appear):</p>
+<ul>
+<li><p>Go to <a href="http://go.ncsu.edu/jenkins-csc230">Jenkins</a> for
+CSC230. Your web browser will probably complain that this site doesn’t
+have a valid certificate. That’s OK. Tell your browser to make an
+exception for this site and it should let you continue to the
+site.</p></li>
+<li><p>You’ll need to authenticate with your unity ID and
+password.</p></li>
+<li><p>Click the project named hw2-<em>unityid</em>.</p></li>
+<li><p>There will be a table called <em>Build History</em> in the lower
+left, click the link for the latest build.</p></li>
+<li><p>Click the <em>Console Output</em> link in the left menu (4th
+item).</p></li>
+<li><p>The console output provides the feedback from compiling your
+program and executing the provided test cases. If the bottom of the
+output says you failed some tests, there should be one or more lines
+earlier in the output that starts with four stars. These should say
+something about what parts of the test your program failed on.</p></li>
+</ul>
+<h1 id="succeeding-on-homework-2">Succeeding on Homework 2</h1>
+<p>Be sure to follow the style guidelines and make sure your program
+compiles cleanly on the common platform with the required compile
+options. If you have your program producing the right output, it should
+be easy to clean up little problems with style or warnings from the
+compiler.</p>
+<p>Be sure your files are named correctly, including capitalization.
+We’ll have to charge you a few points if you submit something with the
+wrong name, and we have to rename it to evaluate your work.</p>
+<p>We’ll test your submission with a few extra test cases when we’re
+grading it. Maybe try to think about sneaky test cases we might try,
+like behaviors that are described in this write-up but not actually
+tested in any of the provided test cases. You might be able to write up
+a simple test case to try these out yourself.</p>
+<p>There is a 48 hour window for <strong>late submissions</strong>. If
+you submit late up to 24 hours after the due date, you will receive a
+10% penalty. If you submit 25-48 hours late, you will receive a 20%
+penalty. Use this if you need to, but try to keep all your points if you
+can. Getting started early can help you avoid this penalty.</p>
+<p><a name="outcomes"></a></p>
+<h1 id="learning-outcomes">Learning Outcomes</h1>
+<p>The syllabus lists a number of learning outcomes for this course.
+This assignment is intended to support several of theses:</p>
+<ul>
+<li><p>Compilation: implement C programs using the C standard library,
+with separately-compiled modules; explain the steps of compilation;
+identify and fix errors that happen during compilation and
+execution.</p></li>
+<li><p>Language: write, debug, and modify C programs using data types,
+control structures, operators, library utilities, and variables,
+including scope in a single function, across multiple functions, and
+across multiple modules.</p></li>
+<li><p>Memory and Representation: use functions and basic data
+structures involving arrays, structs, pointers, and function pointers;
+allocate and deallocate memory in C programs while avoiding memory leaks
+and dangling pointers.</p></li>
+<li><p>Tools: utilize software development tools to implement, test,
+build, and trace C programs including, build automation, version
+control, static analysis, and dynamic analysis tools.</p></li>
+<li><p>Security: describe and demonstrate how to avoid common
+programming errors that lead to security vulnerabilities, such as buffer
+overflows and injection attacks; describe security properties provided
+by cryptographic primitives (e.g., symmetric cryptography, asymmetric
+cryptography, and cryptographic hash functions).</p></li>
+</ul>
+</body>
+</html>
