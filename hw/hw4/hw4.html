@@ -1,0 +1,1318 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>CSC230 Homework 4</title>
+  <style>
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+  <link rel="stylesheet" href="./style.css" />
+</head>
+<body>
+<nav id="TOC" role="doc-toc">
+<ul>
+<li><a href="#nc-state-park-search" id="toc-nc-state-park-search">NC
+State Park Search</a>
+<ul>
+<li><a href="#rules-for-homework-4" id="toc-rules-for-homework-4">Rules
+for Homework 4</a></li>
+</ul></li>
+<li><a href="#requirements" id="toc-requirements">Requirements</a>
+<ul>
+<li><a href="#city-and-park-lists" id="toc-city-and-park-lists">City and
+Park Lists</a></li>
+<li><a href="#program-execution" id="toc-program-execution">Program
+Execution</a></li>
+<li><a href="#city-file-format" id="toc-city-file-format">City File
+Format</a></li>
+<li><a href="#park-file-format" id="toc-park-file-format">Park File
+Format</a></li>
+<li><a href="#user-queries" id="toc-user-queries">User Queries</a></li>
+<li><a href="#cities-query" id="toc-cities-query">Cities Query</a></li>
+<li><a href="#parks-query" id="toc-parks-query">Parks Query</a>
+<ul>
+<li><a href="#parks-limit-option" id="toc-parks-limit-option">Parks
+limit Option</a></li>
+<li><a href="#parks-with-option" id="toc-parks-with-option">Parks with
+Option</a></li>
+<li><a href="#parks-near-option" id="toc-parks-near-option">Parks near
+Option</a></li>
+<li><a href="#parks-show-options" id="toc-parks-show-options">Parks show
+Options</a></li>
+</ul></li>
+<li><a href="#invalid-commands" id="toc-invalid-commands">Invalid
+Commands</a></li>
+<li><a href="#program-termination" id="toc-program-termination">Program
+Termination</a></li>
+<li><a href="#extra-credit" id="toc-extra-credit">Extra Credit</a></li>
+</ul></li>
+<li><a href="#design" id="toc-design">Design</a>
+<ul>
+<li><a href="#program-organization"
+id="toc-program-organization">Program Organization</a></li>
+<li><a href="#struct-type-names" id="toc-struct-type-names">Struct Type
+Names</a></li>
+<li><a href="#global-coordinates" id="toc-global-coordinates">Global
+Coordinates</a></li>
+<li><a href="#city-and-citylist-representation"
+id="toc-city-and-citylist-representation">City and CityList
+Representation</a></li>
+<li><a href="#park-and-parklist-representation"
+id="toc-park-and-parklist-representation">Park and ParkList
+Representation</a></li>
+<li><a href="#expected-functions" id="toc-expected-functions">Expected
+Functions</a></li>
+<li><a href="#global-variables" id="toc-global-variables">Global
+Variables</a></li>
+<li><a href="#parsing-user-queries"
+id="toc-parsing-user-queries">Parsing User Queries</a></li>
+<li><a href="#sorting-parks-and-cities"
+id="toc-sorting-parks-and-cities">Sorting Parks and Cities</a></li>
+</ul></li>
+<li><a href="#selecting-parks" id="toc-selecting-parks">Selecting
+Parks</a>
+<ul>
+<li><a href="#customizing-park-output"
+id="toc-customizing-park-output">Customizing Park Output</a></li>
+<li><a href="#function-visibility" id="toc-function-visibility">Function
+Visibility</a></li>
+<li><a href="#output-alignment" id="toc-output-alignment">Output
+Alignment</a></li>
+<li><a href="#build-automation" id="toc-build-automation">Build
+Automation</a></li>
+</ul></li>
+<li><a href="#testing" id="toc-testing">Testing</a>
+<ul>
+<li><a href="#unit-testing" id="toc-unit-testing">Unit Testing</a></li>
+<li><a href="#system-testing" id="toc-system-testing">System
+Testing</a></li>
+<li><a href="#memory-errors-and-leaks"
+id="toc-memory-errors-and-leaks">Memory Errors and Leaks</a>
+<ul>
+<li><a href="#test-cases" id="toc-test-cases">Test Cases</a></li>
+</ul></li>
+<li><a href="#extra-credit-tests" id="toc-extra-credit-tests">Extra
+Credit Tests</a></li>
+</ul></li>
+<li><a href="#grading" id="toc-grading">Grading</a></li>
+<li><a href="#getting-started" id="toc-getting-started">Getting
+Started</a>
+<ul>
+<li><a href="#clone-your-repository"
+id="toc-clone-your-repository">Clone your Repository</a></li>
+<li><a href="#unpack-the-starter-into-your-cloned-repo"
+id="toc-unpack-the-starter-into-your-cloned-repo">Unpack the starter
+into your cloned repo</a></li>
+<li><a href="#instructions-for-submission"
+id="toc-instructions-for-submission">Instructions for
+Submission</a></li>
+<li><a href="#pushing-your-changes"
+id="toc-pushing-your-changes">Pushing your Changes</a></li>
+<li><a href="#checking-jenkins-feedback"
+id="toc-checking-jenkins-feedback">Checking Jenkins Feedback</a></li>
+</ul></li>
+<li><a href="#learning-outcomes" id="toc-learning-outcomes">Learning
+Outcomes</a></li>
+</ul>
+</nav>
+<h1 id="nc-state-park-search">NC State Park Search</h1>
+<p>For this homework assignment, we’ll be developing a program that lets
+users search for state parks or other locations of interest in North
+Carolina. It’s called <code>parksearch</code>. The following shows how a
+user might interact with the program. The text that’s in bold shows what
+the user types. The rest is output from the program.</p>
+<p>When we run the program, we use command-line arguments to give it the
+names of files containing lists of cities and parks. The two files shown
+here are examples given with the starter. The <code>cities-c.txt</code>
+file contains a list of 10 cities in North Carolina, and
+<code>parks-c.txt</code> contains information about 10 state parks and
+recreation areas.</p>
+<p>After starting, the program prompts the user for a query. First, the
+user asks for a list of all the cities. The program echos the user query
+then prints out a list of the cities read at program start-up, each with
+latitude and longitude.</p>
+<pre>
+$ <b>./parksearch cities-c.txt parks-c.txt</b>
+cmd> <b>cities</b>
+cities
+Burlington             36.096  -79.437
+Charlotte              35.227  -80.843
+Durham                 35.994  -78.899
+Fayetteville           35.053  -78.878
+Greensboro             36.073  -79.792
+Greenville             35.613  -77.366
+Huntersville           35.411  -80.843
+Kannapolis             35.487  -80.622
+Raleigh                35.772  -78.639
+RockyMount             35.938  -77.790
+cmd> <b>parks</b>
+parks
+Chimney Rock State Park                 
+Dismal Swamp State Park                 
+Eno River State Park                    
+Falls Lake State Recreation Area        
+Grandfather Mountain State Park         
+Hanging Rock State Park                 
+Jockey's Ridge State Park               
+Jordan Lake State Recreation Area       
+Kerr Lake State Recreation Area         
+Pilot Mountain State Park               
+cmd> <b>parks show features limit 5</b>
+parks show features limit 5
+Chimney Rock State Park                  biking birdwatching fishing hiking picnicking rock-climbing
+Dismal Swamp State Park                  biking birdwatching fishing hiking paddling picnicking
+Eno River State Park                     birdwatching camping fishing paddling picnicking
+Falls Lake State Recreation Area         biking birdwatching boating camping fishing hiking paddling picnicking swimming
+Grandfather Mountain State Park          birdwatching camping hiking
+cmd> <b>parks with swimming show location</b>
+parks with swimming show location
+Falls Lake State Recreation Area           36.012  -78.689
+Hanging Rock State Park                    36.412  -80.254
+Jockey's Ridge State Park                  35.964  -75.633
+Jordan Lake State Recreation Area          35.737  -79.017
+Kerr Lake State Recreation Area            36.441  -78.369
+cmd> <b>parks near Raleigh with camping show distance</b>
+parks near Raleigh with camping show distance
+Falls Lake State Recreation Area            16.79
+Jordan Lake State Recreation Area           21.33
+Eno River State Park                        29.45
+Kerr Lake State Recreation Area             48.63
+Hanging Rock State Park                    100.43
+Pilot Mountain State Park                  109.21
+Grandfather Mountain State Park            179.06
+cmd> <b>parks with camping show distance near Raleigh</b>
+parks with camping show distance near Raleigh
+Falls Lake State Recreation Area            16.79
+Jordan Lake State Recreation Area           21.33
+Eno River State Park                        29.45
+Kerr Lake State Recreation Area             48.63
+Hanging Rock State Park                    100.43
+Pilot Mountain State Park                  109.21
+Grandfather Mountain State Park            179.06
+cmd> 
+</pre>
+<p>Next, the user asks for a list of the parks, and the program responds
+with a list of all the parks it read in at start-up. The
+<code>parks</code> query supports a number of options the user can give
+in order to select particular parks or display information they’re
+interested in. After listing all the parks, the user asks for a list of
+at most 5 parks, each one with a list of park features. Then, the user
+asks for a list of parks that have swimming among their features,
+reporting each one with its GPS coordinates.</p>
+<p>Finally, the user user requests a list of parks that have camping,
+sorted by their distance to Raleigh each reported with their distance to
+Raleigh. The user enters this last query twice, with the options given
+in a different order. At the end, the user signals the end-of-file on
+standard input by pressing ctrl-d. This causes the program to
+terminate.</p>
+<p>As with the previous homework assignments, you’ll be developing this
+one using git for revision control. You should be able to just unpack
+the starter into the <code>hw4</code> directory of your cloned repo to
+get started. See the <a href="#started">Getting Started</a> section for
+instructions.</p>
+<p>This homework assignment supports a number of our course objectives.
+See the <a href="#outcomes">Learning Outcomes</a> section for a
+list.</p>
+<h2 id="rules-for-homework-4">Rules for Homework 4</h2>
+<p>You must complete this homework assignment individually. All code
+submitted for this assignment must be from the starter or written by you
+for this course. You are not permitted to use code that has been
+generated or obtained from sources other than course materials (class
+slides, the textbook, posted class examples), even if you modify this
+code before turning it in. If your editor is configured to write code
+for you (maybe using generative AI), you will need to disable these
+feature while working on this assignment. If you’re unsure what’s
+permitted, you can have a look at the academic integrity guidelines in
+the course syllabus.</p>
+<p>You must complete this assignment using material covered in the
+lecture slides up to lecture 16. In particular, you’ll need the material
+in lecture 10 to know how to use <code>sscanf()</code> and the material
+in lecture 16 to know how to use valgrind to detect memory leaks. Please
+don’t go find other resources for implementing your solution. This will
+help you to practice using the C language and library features we’ve
+covered up to this point in the class.</p>
+<p>In the design section, you’ll see some instructions for how your
+implementation is expected to work. Be sure you follow these rules. It’s
+not enough to just turn in a working program; your program has to follow
+the design constraints we’ve asked you to follow. For this assignment,
+we’re putting some constraints on the functions you’ll need to define,
+the data structures you’ll use and how you’re going to organize your
+code into components. Still, you will have lots of opportunities to
+design parts of your solution and to create additional functions to
+simplify your implementation.</p>
+<h1 id="requirements">Requirements</h1>
+<p>This section says what your program is supposed to be able to do, and
+what it should do when something goes wrong. The functional requirements
+for the program (<strong>FR-1</strong>, <strong>FR-2</strong>, …) are
+accompanied by more detailed specifications for exactly what the
+program’s input and output should be like and how it should behave for
+valid and invalid input. These details will help you to implement your
+program so it behaves exactly like we’re expecting. This will be
+important in grading your work.</p>
+<h2 id="city-and-park-lists">City and Park Lists</h2>
+<p>During execution, the <code>parksearch</code> program maintains a
+<em>city list</em> and a <em>park list</em>. The city list is a list of
+cities, each with a name and global coordinates stored as latitude and
+longitude. For each park, the park list stores a name, global
+coordinates and a list of features for the park. These lists are used to
+let the user select parks that offer the features they’re interested
+in.</p>
+<h2 id="program-execution">Program Execution</h2>
+<p><strong>FR-1</strong> : The city list and park list can be populated
+based on city files and park files read at program start-up.</p>
+<p>The <code>parksearch</code> program expects two types of filenames on
+the command line, city files and park files. The name of a city file
+must start with the string “cities-”. These files contain a list of
+cities in a format described below. The name of a park file must start
+with the string “parks-”; these files contains lists of parks. The
+program can be run with any number of park and city files given on the
+command line. It can even be run with no filenames, but then the city
+and park lists will be empty.</p>
+<p>If the program is run with invalid command-line arguments, it should
+print a line with the following usage message to standard error and
+terminate with an exit status of EXIT_FAILURE.</p>
+<pre><code>usage: parksearch [ parks-file.txt | cities-file.txt ]*</code></pre>
+<p>If the program can’t open one of the given files for reading, it
+should print the following message to standard error and exit with a
+status of EXIT_FAILURE. Here, <em>filename</em> is the name of the file
+given on the command line. The program should report the first filename
+on the command line that it can’t successfully open (i.e., if there are
+multiple filenames on the command line that can’t be opened, it just
+needs to report this error for the first one that can’t be opened).</p>
+<pre><code>Can&#39;t open file: filename</code></pre>
+<h2 id="city-file-format">City File Format</h2>
+<p>Like the example below, a city file consists of a sequence of zero or
+more records, each one describing a city. Each record has three fields,
+separated by whitespace. The first is a city name of 1 to 20
+non-whitespace characters. This is followed by two floating-point values
+giving the latitude and longitude of the city.</p>
+<pre><code>Apex 35.7327 -78.8503
+ChapelHill      35.9132       -79.0558
+Hendersonville
+35.3187
+-82.4609
+  HighPoint      35.956      -80.005
+Wilmington 34.236 -77.946</code></pre>
+<p>A city file is invalid if:</p>
+<ul>
+<li>a city name is too long</li>
+<li>latitude or longitude values can’t be parsed as a double</li>
+</ul>
+<p>If a city file is invalid, the program should print a line with the
+following message to standard error and terminate with a status of
+EXIT_FAILURE. Here, <em>filename</em> is the name of the file containing
+the bad city description.</p>
+<pre><code>Invalid city file: filename</code></pre>
+<p>The <code>parksearch</code> program can be run with multiple city
+files. If there is a duplicate city name across all the city input
+files, the program should print a line with the following error message
+to standard error (where <em>city</em> is the name of the duplicate
+city) and terminate with an exit status of EXIT_FAILURE. If there are
+multiple duplicate cities, you can report this message for any one of
+them (whichever one your program detects first).</p>
+<pre><code>Duplicate city name: city</code></pre>
+<h2 id="park-file-format">Park File Format</h2>
+<p>Like the example shown below, a park file contains zero or more
+records for parks. Each park record starts with a name of 1 to 40
+characters. The name may include spaces, so an entire input line is used
+for the name; it extends from the start of the line up to the last
+character before the newline.</p>
+<p>The park name is followed by GPS coordinates, given as floating point
+values for latitude and longitude. This is followed by an integer,
+<em>n</em> and then <em>n</em> strings giving features of the park. Each
+park can have between zero and 10 features and each feature is a string
+of 1 to 15 non-whitespace characters.</p>
+<p>Other than the park name, fields describing the park can be separated
+by any amount of whitespace. The first line of a park file must be the
+name of the first park, and the name of each subsequent park must start
+on the next line after the last feature of the previous park, or after
+the number of features, <em>n</em>, if the previous park has zero
+features.</p>
+<pre><code>Hanging Rock State Park
+36.411906 -80.254122 2 biking camping
+Kerr Lake State Recreation Area
+
+36.4411 -78.3688
+
+4 birdwatching fishing hiking paddling
+Pilot Mountain State Park
+      36.341276 -80.462938
+      3
+          horse-riding
+          picnicking
+          rock-climbing
+Grandfather Mountain State Park
+36.11139 -81.8125 3 birdwatching camping hiking</code></pre>
+<p>A park file is invalid if:</p>
+<ul>
+<li>a park name is empty or too long</li>
+<li>latitude or longitude values are can’t be parsed as a double</li>
+<li>the number of features can’t be parsed as an int, is less than zero
+or is greater than 10.</li>
+<li>A feature name is missing or longer than 15 characters</li>
+</ul>
+<p>If a park file is invalid, the program should print a line with the
+following message to standard error and terminate with a status of
+EXIT_FAILURE. Here, <em>filename</em> is the name of the file containing
+the bad park description.</p>
+<pre><code>Invalid park file: filename</code></pre>
+<p>The <code>parksearch</code> program can be run with multiple park
+files. If there is a duplicate park name across all the park input
+files, the program should print a line with the following error message
+to standard error (where <em>park</em> is the name of the duplicate
+park) and terminate with an exit status of EXIT_FAILURE. If there are
+multiple duplicate parks, you can report this message for any one of
+them (whichever one your program detects first).</p>
+<pre><code>Duplicate park name: park</code></pre>
+<h2 id="user-queries">User Queries</h2>
+<p><strong>FR-2</strong> : The user can enter queries to see the
+contents of the city list or the park list.</p>
+<p>After the <code>parksearch</code> program starts, the user will be
+able to enter queries to see a list of cities or to search through the
+park list. Before each query, the program will prompt the user with the
+following string. This string has one space at the end, right after the
+<code>&gt;</code> character.</p>
+<pre><code>cmd&gt; </code></pre>
+<p>After the user enters a query, the program will echo it back to the
+user. This just means that the program will print a copy of the query
+the user just entered before printing the response to the query. Echoing
+a copy of the query like this will help when we’re capturing program
+output in a file. It gives us a way to capture a copy of each user
+query, right before the program’s response to the query.</p>
+<p>If the user enters an empty line, the program will echo it (a blank
+line) then prompt again for another user input. Input lines that consist
+of only whitespace aren’t considered errors; they’re just ignored by the
+program.</p>
+<p>All queries start with the word <code>cities</code> or
+<code>parks</code>. The parks query can be followed by additional
+options to let the user select particular parks or report different
+information about the selected parks. There can be additional whitespace
+at the start or end of the user input or between the options for a
+<code>parks</code> query.</p>
+<p>User queries can be up to 100 characters long. If an input line is
+longer than 100 characters, the program will read and discard any
+additional characters on the line after the first 100. It will echo the
+first 100 characters of the input line, followed by the string ‘…’ to
+indicate that there was additional input that was discarded. A line
+longer than 100 characters is considered an invalid command, so an
+interaction with the program could look like:</p>
+<pre><code>cmd&gt; This is a long query.  The program won&#39;t even get a chance to parse it since it won&#39;t store the whole input line.
+This is a long query.  The program won&#39;t even get a chance to parse it since it won&#39;t store the whol...
+Invalid command</code></pre>
+<h2 id="cities-query">Cities Query</h2>
+<p><strong>FR-2.1</strong> : The user can enter a <code>cities</code>
+query to get a report of all the cities on the city list.</p>
+<p>If the user enters <code>cities</code>, the program should print a
+report of all the cities in the format shown below. Cities should be
+sorted lexicographically by their names. Each line of output should give
+the city name, left-justified in a 20-character field. This should be
+followed by a space, then the city latitude right justified in an
+8-character field. This should be followed by another space and then the
+city longitude right justified in an 8-character field. The latitude and
+longitude values should be rounded to three fractional digits.</p>
+<pre>
+Apex                   35.733  -78.850
+ChapelHill             35.913  -79.056
+Hendersonville         35.319  -82.461
+HighPoint              35.956  -80.005
+Wilmington             34.236  -77.946
+</pre>
+<p>If the city list is empty, the program should print a line with the
+following message to standard output and then prompt for another
+command.</p>
+<pre><code>City list empty</code></pre>
+<h2 id="parks-query">Parks Query</h2>
+<p><strong>FR-2.2</strong> : The user can enter a <code>parks</code>
+query to get a report of parks on the park list.</p>
+<p>If the user enters <code>parks</code>, the program should print a
+report of parks in the park list. The <em>basic parks report</em> is
+just a list of park names, sorted lexicographically by name. Each park
+name should be printed left-justified in a 40-character field. This
+means that there will typically be some spaces at the end of each output
+line, so every output line is exactly 40 characters in length. The
+spaces at the end of each line will help with options that report
+additional information about each park. Extra output columns added to
+the right will still line up.</p>
+<pre><code>Grandfather Mountain State Park         
+Hanging Rock State Park                 
+Kerr Lake State Recreation Area         
+Pilot Mountain State Park               </code></pre>
+<p>The <code>parks</code> query can be followed by several optional
+parameters, each one consisting of two values. Optional parameters can
+be given in any order after the word <code>parks</code>.</p>
+<h3 id="parks-limit-option">Parks limit Option</h3>
+<p><strong>FR-2.3</strong> : The output for a <code>parks</code> query
+can be limited to a user-specified number of parks.</p>
+<p>The <code>parks</code> query can be followed by the word,
+<code>limit</code>, and then a positive integer, <em>m</em>. This limits
+the number of parks printed to just the first <em>m</em>. For example,
+the following query would report at most 5 parks. If there are fewer
+than 5 parks on the park list or if other parameters are used to select
+parks, it could print fewer than 5.</p>
+<pre><code>cmd&gt; parks limit 5</code></pre>
+<p>The input is considered invalid if the value after the word,
+<code>limit</code> can’t be parsed as a positive integer.</p>
+<h3 id="parks-with-option">Parks with Option</h3>
+<p><strong>FR-2.4</strong> : The output for a <code>parks</code> query
+can be specialized to report only parks with a user-selected
+feature.</p>
+<p>The <code>parks</code> query can be followed by the word,
+<code>with</code>, and then a string of 1 to 15 non-whitespace
+characters, <em>f</em>. This causes the query to report only those parks
+that have the feature, <em>f</em>, in their feature list. To match, the
+park must have a feature that matches the given string exactly,
+including capitalization. For example, the following would list only
+those parks that had “swimming” on their feature list.</p>
+<pre><code>cmd&gt; parks with swimming</code></pre>
+<p>The <code>with</code> option is considered invalid if it isn’t
+followed by a word, or if the word is longer than 15 characters. It’s
+not considered an error if the user asks for a feature that’s not
+available at any park.</p>
+<h3 id="parks-near-option">Parks near Option</h3>
+<p><strong>FR-2.5</strong> : The output for a <code>parks</code> query
+can be ordered by distance to a city.</p>
+<p>The <code>parks</code> query can be followed by the word,
+<code>near</code>, and then the name of a city, <em>c</em>, from the
+city list. If this option is provided, the parks in the output will be
+ordered by their distance to the given city. Parks that tie for distance
+(unlikely) should be ordered by name. Distance will be approximated
+based on the global coordinates of the park and city and 3958.8 as the
+approximate radius of the earth, in Miles. For example, the following
+query will order cities based on their distance to Raleigh.</p>
+<pre><code>cmd&gt; parks near Raleigh</code></pre>
+<p>The <code>near</code> option is considered invalid if it isn’t
+followed by a word, or if the word isn’t the name of a city on the city
+list. The given name must match the name of a city on the city list
+exactly, including capitalization.</p>
+<h3 id="parks-show-options">Parks show Options</h3>
+<p><strong>FR-2.6</strong> : The output for a <code>parks</code> query
+can be configured to include global coordinates of each park, the list
+of features for each park or the distance to a selected city when the
+<code>near</code> option is used.</p>
+<p>The <code>parks</code> query can be followed by the word,
+<code>show</code> and then either the the word <code>location</code>,
+<code>features</code> or <code>distance</code>. If
+<code>show location</code> is specified, then each park name in the
+listing will be followed by global coordinates for that park. Global
+coordinates will be added to each line as a space, then the latitude of
+the park, right aligned in an 8-column field, then another space then
+the longitude in an 8-column field. Latitude and longitude values will
+be rounded to three fractional digits of precision. With this option,
+output of a <code>parks</code> query could look like:</p>
+<pre><code>Grandfather Mountain State Park            36.111  -81.812
+Hanging Rock State Park                    36.412  -80.254
+Kerr Lake State Recreation Area            36.441  -78.369
+Pilot Mountain State Park                  36.341  -80.463</code></pre>
+<p>If <code>show features</code> is specified, then each park name in
+the listing will be followed by the list of features for that park.
+Features for each park will be listed in the same order they occurred in
+the parks input file. Features will be separated by a single space, with
+a space at the start to separate them from the park name. With this
+option, output of a <code>parks</code> query could look like:</p>
+<pre><code>Grandfather Mountain State Park          birdwatching camping hiking
+Hanging Rock State Park                  biking camping
+Kerr Lake State Recreation Area          birdwatching fishing hiking paddling
+Pilot Mountain State Park                horse-riding picnicking rock-climbing</code></pre>
+<p>The <code>show distance</code> option requires that the
+<code>near</code> <em>c</em> option be included elsewhere in the query.
+With this option, the parks report will include the distance of each
+park to the given city, <em>c</em>. The distance report will start with
+a space, then the distance to the city (in miles), right aligned in an
+8-column field rounded to two fractional digits. With the
+<code>show distance</code> option, output of a <code>parks</code> query
+might look like:</p>
+<pre><code>parks near HighPoint show distance
+Hanging Rock State Park                     34.43
+Pilot Mountain State Park                   36.90
+Kerr Lake State Recreation Area             97.19
+Grandfather Mountain State Park            101.56</code></pre>
+<p>The <code>show</code> option is invalid if it isn’t followed by
+<code>location</code>, <code>features</code> or <code>distance</code>.
+The <code>show distance</code> option is only valid if a
+<code>near</code> option is given in elsewhere in the query (either
+before or after the <code>show</code> option).</p>
+<h2 id="invalid-commands">Invalid Commands</h2>
+<p><strong>FR-3</strong> : For invalid user inputs, the program will
+print an “Invalid command” message, ignore the command and prompt the
+user for another command.</p>
+<p>A query is considered invalid if:</p>
+<ul>
+<li>It’s longer than 100 characters</li>
+<li>It doesn’t start with <code>cities</code> or <code>parks</code></li>
+<li>A <code>cities</code> keyword is followed by non-whitespace
+characters.</li>
+<li>A <code>parks</code> keyword is followed by something that doesn’t
+match one of the valid options described above.</li>
+<li>The same option is given more than once for a <code>parks</code>
+query. For example, a query can’t give the limit option more than once,
+even if it has the same limit value, <em>m</em>. If you do the
+<strong>extra credit</strong> described below, you can permit more than
+one <code>with</code> option and more than one <code>show</code>
+option.</li>
+</ul>
+<p>If the user enters an invalid command, the program will echo the
+command (or the first 100 characters of it if it’s too long), then print
+a line saying “Invalid command” to standard output. Then, the program
+will prompt the user for another input.</p>
+<h2 id="program-termination">Program Termination</h2>
+<p><strong>FR-4</strong> : The program should terminate when it reaches
+the end-of-file on standard input.</p>
+<p>After the user is done entering queries, they can type ctrl-d to
+signal the end-of-file on standard input. If the program is reading
+input redirected from a file, it will just terminate when it reaches the
+end-of-file.</p>
+<h2 id="extra-credit">Extra Credit</h2>
+<p>This assignment includes a couple of additional requirements that you
+can implement for extra credit. Implementing each of these extra credit
+features is worth <strong>five extra credit points</strong>. If you
+implement both of them, that’s worth <strong>10 points of extra
+credit</strong>.</p>
+<p><strong>FR-2.7</strong> : A <code>parks</code> query may include
+multiple <code>with</code> options. If more than one <code>with</code>
+options is given, then the output should list parks that have all of the
+requested features.</p>
+<p>If you implement <strong>FR-2.7</strong>, then your
+<code>parksearch</code> program will be able to search for parks that
+have a set of features, not just a single, selected feature. Although
+this requirements permits multiple <code>with</code> options, a query
+with multiple <code>with</code> options for the same feature would still
+be considered invalid.</p>
+<p><strong>FR-2.8</strong> : A <code>parks</code> query may include
+multiple <code>show</code> options.</p>
+<p>If you implement <strong>FR-2.8</strong>, then your
+<code>parksearch</code> program can report multiple, optional output
+fields. Each of the show options can be given in the query, and the
+output will include the optional output fields in the same order they
+are specified in the query. Each of the optional output fields can be
+given at most once, and <code>show distance</code> can only be given if
+the query also includes a <code>near</code> option.</p>
+<p>Feature lists for each park may be different lengths; some parks may
+have more features or longer names for their features. So, for
+<strong>FR-2.8</strong>, if <code>show features</code> is given before
+<code>show distance</code> or <code>show location</code>, then the
+output for park location and distance probably won’t line up as a
+column. That’s OK. You’re not expected to make the output for
+<code>show features</code> take the same amount of space for all
+parks.</p>
+<h1 id="design">Design</h1>
+<p>The following sections describe how your program should work and some
+of the functions you will need to implement and use.</p>
+<h2 id="program-organization">Program Organization</h2>
+<p>Your implementation will be organized into four components. The
+<code>coords</code> component defines a structure for representing
+global coordinates and computing approximate distance between two
+locations on the surface of the earth. The <code>parklist</code> and
+<code>citylist</code> components will contain code for parsing, storing
+and managing the park list and city list. The <code>parksearch</code>
+component is the top-level component, containing <code>main()</code> and
+code to parse and execute user queries.</p>
+<p>The following figure shows the organization of these components. The
+<code>parksearch</code> component uses code from the other three
+components. The <code>citylist</code> and <code>parklist</code>
+components don’t directly interact with each other, but they both use
+the <code>coords</code> component help store city and park locations and
+to compute distances.</p>
+<figure>
+<img src="dependency.png"
+alt="Figure: components and dependency structure" />
+<figcaption aria-hidden="true">Figure: components and dependency
+structure</figcaption>
+</figure>
+<p>Since the <code>coords</code>, <code>parklist</code>, and
+<code>citylist</code> components provide functions that are used
+elsewhere in the program, they will each have a header file that
+prototypes these functions. These headers will also define types (e.g.,
+structs) used elsewhere in the program. The top-level component won’t
+need a header, since there aren’t any other components that use the
+functions it defines.</p>
+<h2 id="struct-type-names">Struct Type Names</h2>
+<p>This assignment depends on using <code>typedef</code> to map
+structure names to short type names. For example, <code>typedef</code>
+is used to map the structure for a park to the type name,
+<code>Park</code>. This lets us use shorter type names, without having
+to give the <code>struct</code> keyword over and over when we’re talking
+about these types.</p>
+<h2 id="global-coordinates">Global Coordinates</h2>
+<p>The starter for this assignment includes a complete implementation of
+the <code>coords</code> component. It defines a struct,
+<code>Coords</code>, for representing global coordinates as latitude and
+longitude, and it provides a function, <code>globalDistance()</code> for
+computing the approximate distance between any two locations on the
+surface of the earth.</p>
+<h2 id="city-and-citylist-representation">City and CityList
+Representation</h2>
+<p>This assignment is a good chance to get some experience using
+structs, dynamic memory allocation and resizable arrays. Each city will
+be represented by a struct, <code>City</code>, with a character array
+for its name and an instance of the <code>Coords</code> struct for its
+global coordinates.</p>
+<figure>
+<img src="city.png" alt="Figure: City representation" />
+<figcaption aria-hidden="true">Figure: City representation</figcaption>
+</figure>
+<p>The city list will be implemented as an instance of the
+<code>CityList</code> struct. It will contain fields for implementing a
+resizable array of <code>City</code> instances. The <code>list</code>
+field is a pointer to a dynamically allocated array of <code>City</code>
+instances, <code>capacity</code> records the size of the array, and
+<code>count</code> is the number of cities currently stored in the
+array. When a <code>CityList</code> is first created, it will allocate
+an array of <code>City</code> structs with a a capacity of 5. As cities
+are read from the input, it may need to enlarge this array, doubling its
+size whenever it runs out of space.</p>
+<figure>
+<img src="citylist.png" alt="Figure: CityList representation" />
+<figcaption aria-hidden="true">Figure: CityList
+representation</figcaption>
+</figure>
+<p>You can add more fields to the <code>City</code> and
+<code>CityList</code> structs, but don’t change or remove the existing
+fields. The unit test program depends on these fields for some of its
+tests.</p>
+<h2 id="park-and-parklist-representation">Park and ParkList
+Representation</h2>
+<p>Each park will be represented by an instance of the <code>Park</code>
+struct. It contains an array of characters for storing the park name, an
+instance of <code>Coords</code> for storing the park location, a 2D
+array, <code>flist</code>, for storing the list of park features and an
+integer <code>fcount</code> the number of features the park has.</p>
+<figure>
+<img src="park.png" alt="Figure: Park representation" />
+<figcaption aria-hidden="true">Figure: Park representation</figcaption>
+</figure>
+<p>The park list will be represented with a dynamically allocated
+instance of the <code>ParkList</code> struct. It will contain fields for
+implementing a resizable array of pointers to <code>Park</code>
+instances. Notice that this is different from the CityList. Here, the
+array is an array of pointers, with the <code>Park</code> instances
+stored elsewhere in memory. With the <code>City</code> list, the array
+contained all the <code>City</code> instances, so no additional heap
+memory was needed to store each city. Here, you’ll need to allocate
+space for the array of pointers, then another block of memory for each
+<code>City</code> instance one of these pointers points to. Your
+resizable array of pointers should start with an initial capacity of 5,
+and it should double in capacity whenever the array needs to be
+enlarged.</p>
+<figure>
+<img src="parklist.png" alt="Figure: ParkList representation" />
+<figcaption aria-hidden="true">Figure: ParkList
+representation</figcaption>
+</figure>
+<p>You can add more fields to the <code>Park</code> and
+<code>ParkList</code> structs, but don’t change or remove the existing
+fields provided with the starter. The unit test program uses some of
+these fields to help test your code.</p>
+<h2 id="expected-functions">Expected Functions</h2>
+<p>As part of your implementation, you will define and use the following
+functions. You can define more if you want to. Just try to put them in a
+component that’s suitable for whatever they do and remember to mark them
+as static where you can. A function that’s intended to be used by other
+components should be non-static, and it should have a prototype and a
+block comment in the header file for that component. A function that’s
+for internal use by just one component should be defined and marked
+static in that component; its block comment should be right before the
+definition of the function.</p>
+<p>Your <code>citylist</code> component should have the following five
+functions.</p>
+<ul>
+<li><p><code>CityList *makeCityList()</code><br />
+This function dynamically allocates storage for the CityList,
+initializes its fields and returns a pointer to the new CityList. It’s
+kind of like a constructor in Java.</p></li>
+<li><p><code>void freeCityList( CityList *cityList )</code><br />
+This function frees the memory used to store the given CityList,
+including the array of <code>City</code> structs and the
+<code>CityList</code> itself.</p></li>
+<li><p><code>void readCities( CityList *cityList, char const *filename )</code><br />
+This function reads all the cities from a city file with the given
+filename. For each city, it fills in one of the <code>City</code>
+structs in the <code>list</code> array, growing it as needed.</p></li>
+<li><p><code>void listCities( CityList *cityList, FILE *fp )</code><br />
+This function prints all the cities in the format described above,
+sending output to the given file. Of course, the caller can provide
+stdin as the file pointer to get this function to print to the
+terminal.</p></li>
+<li><p><code>bool locateCity( CityList *cityList, char const *name, Coords *loc )</code><br />
+This function looks for a city with the given name in the city list. If
+the city is found, it returns true and puts the city’s global
+coordinates in the given Coords struct. If the city can’t be found, the
+function returns false.</p></li>
+</ul>
+<p>Your <code>parklist</code> component should have the following five
+functions.</p>
+<ul>
+<li><p><code>ParkList *makeParkList()</code><br />
+This function dynamically allocates storage for the ParkList,
+initializes its fields for a resizable array of pointers to Park
+instances and returns a pointer to the new ParkList. It’s like a
+constructor in Java.</p></li>
+<li><p><code>void freeParkList( ParkList *parkList)</code><br />
+This function frees the memory used to store the given
+<code>ParkList</code>, including freeing space for all the
+<code>Park</code> instances, freeing the array of pointers to Parks and
+freeing space for the ParkList struct itself.</p></li>
+<li><p><code>void readParks( ParkList *parkList, char const *filename )</code><br />
+This function reads all the parks from a park file with the given
+filename. For each park in the input, it allocates an instance the
+<code>Park</code> struct and stores a pointer to it in the resizable
+array, growing the array when needed.</p></li>
+<li><p><code>void sortParks( ParkList *parkList, int (*comparator)(void const *, void const * ) )</code><br />
+This function sorts the parks in the given parkList. It uses the
+<code>qsort()</code> function together with the function pointer
+parameter to order the parks. The function pointer is described in the
+“Sorting Parks and Cities” section below.</p></li>
+<li><p><code>void listParks( ParkList *parkList, FILE *fp, bool (*selector)( Park * ), void (*customizer)( Park *, FILE * ), int limit )</code><br />
+This function prints parks from the park list. The <code>limit</code>
+parameter lets the caller specify a limit on the number of parks that
+should be printed. The <code>limit</code> parameter should be a
+non-negative value indicating the maximum number of parks to report. If
+<code>limit</code> is zero, the function should print arbitrarily many
+parks. The <code>selector</code> and <code>customizer</code> functions
+are for choosing what parks to print and for adding additional output to
+the report for each park. These are described in more detail below in
+the “Selecting Parks” and “Customizing Park Output” sections.</p></li>
+</ul>
+<p>Your top-level, <code>parksearch.c</code> file will contain the
+<code>main()</code> function. You’ll also implement and use the
+following two functions to help organize and simplify your solution:</p>
+<ul>
+<li><p><code>static int getLine( char line[], int limit )</code><br />
+This function is for reading lines of user input from the terminal. It
+stores the text of each line in the <code>line</code> array. The
+<code>limit</code> parameter tell the function the length of the
+<code>line</code> array, so it won’t buffer overflow. The function will
+always read a whole line of text, but it will have to discard characters
+if the input line is too long. The function should return EOF is there
+are no more lines to be read from standard input. It should return 1
+(true) if the next line is read successfully, and it should return 0
+(false) if the input line was too long and some of it had to be
+discarded. Use this function to read input from the user. Reading a
+whole input line at once will make it easy to parse the command in the
+<code>handleCommand()</code> function below, or to discard the whole
+line if it’s invalid.</p></li>
+<li><p><code>static bool handleCommand( char const *cmd )</code><br />
+This function is for parsing and responding to a user query, stored in
+the <code>cmd</code> string. You can use functions like sscanf() to
+parse parts of the command and then call functions in the
+<code>citylist</code> or <code>parklist</code> components to perform the
+requested action. The function should return true or false to indicate
+whether the given command is valid.</p></li>
+</ul>
+<h2 id="global-variables">Global Variables</h2>
+<p>In general, you should avoid using global variables in your program.
+It makes it more difficult to reuse code and it can create conflicts in
+the global namespace.</p>
+<p>In the starter code, the top-level <code>parksearch.c</code>
+component uses two static global variables to keep up with the park list
+and city list. It’ OK for you to use these two variables. You will also
+need to use some additional global variables to implement the
+<code>near</code> and <code>with</code> options. It’s OK to use global
+variables to support these features, but you shouldn’t need globals for
+other parts of the program.</p>
+<h2 id="parsing-user-queries">Parsing User Queries</h2>
+<p>With help from the <code>getLine()</code> function, it will be easy
+to read user input one line at a time. After reading a line of input,
+you can use <code>sscanf()</code> to parse the type of query and query
+options.</p>
+<p>Remember, unlike reading from a file, <code>sscanf()</code> doesn’t
+automatically resume parsing from where it left off on the last call.
+For example, you couldn’t call something like
+<code>sscanf( str, "%d", &amp;x );</code> to read an int then call
+<code>sscanf( str, "%d", &amp;y );</code> again to read the next int. If
+you gave <code>sscanf()</code> the same string in two successive calls,
+it would just start parsing at the start of the string each time. If you
+want to parse multiple values out of the same string, you can do it all
+at once, like <code>sscanf( str, "%d%d", &amp;x, &amp;y );</code>, or
+you could advance the pointer on successive calls to
+<code>sscanf()</code>, as in
+<code>sscanf( str + offset, "%d", &amp;y );</code>. We talked about this
+near the middle of lecture 11.</p>
+<h2 id="sorting-parks-and-cities">Sorting Parks and Cities</h2>
+<p>Cities in the input could be in an arbitrary order, but your program
+will need to report them in sorted order in response to a
+<code>cities</code> query. You should use the standard library
+<code>qsort()</code> to perform the sorting for you, but you’ll need to
+give it a pointer comparator function to get it to order the cities by
+name. Remember that you give <code>qsort()</code> a pointer to the start
+of the array you want to sort, it computes the addresses of elements of
+the array and passes those to your comparator function as void pointers.
+For the CityList, the array contains instances of <code>City</code>, so
+you will want to convert these void pointers to pointers to
+<code>City</code>, so you can get access to the cities fields.</p>
+<p>For sorting parks, the <code>sortParks()</code> lets client code
+order the park list using any comparison function that’s needed. Use
+this to get the list of parks the right order before printing it with
+<code>listParks()</code>. The array inside ParkList is an array of
+pointers to <code>Park</code> instances, so a pointer to an array
+element will be a pointer to a pointer to a Park. When
+<code>qsort()</code> calls the comparator function, it will provide two
+pointers to array elements as void pointers. You will need to convert
+these to pointers to pointers to <code>Park</code> in order to get to
+the fields of a park for that element.</p>
+<p>For sorting parks, you’ll need two comparator functions, one that
+orders parks by name and one that orders by distance. For the latter,
+you will need some way for the comparator to know the location of the
+reference city given with the <code>near</code> command. You can use a
+static global variable for this. Inside the comparator function, you can
+check the distance between the reference city and each of the given
+parks and return a value to indicate how the two parks compare. For
+example, if the first parameter to the comparator is closer to the city,
+your comparator should return a negative value.</p>
+<h1 id="selecting-parks">Selecting Parks</h1>
+<p>The <code>listParks()</code> function expects a pointer to a
+<code>selector</code> function. Use this to decide which parks to print.
+Given a pointer to a <code>Park</code>, this function returns true if
+that park should be printed. If you want to print every park, you can
+pass in a pointer to a function that always returns true. If you want to
+print just those parks with a particular feature, you can pass in a
+pointer to a function that looks for a specified feature on each park’s
+<code>flist</code>. Inside the selector function, you’ll need to know
+what feature to look for. You can use a static global variable for that.
+If you find the <code>with</code> option while parsing a query, you can
+save the requested feature in this global variable, then, inside your
+selector function, you can check this global variable to see what
+feature you should be looking for.</p>
+<h2 id="customizing-park-output">Customizing Park Output</h2>
+<p>The <code>show</code> option lets the user select additional output
+to report while listing parks. The customizer parameter for
+<code>listParks()</code> is used to add additional output while writing
+the parks report. After printing the name of each park,
+<code>listParks()</code> will call this function to give it the
+opportunity to add some output to the end of each line. For example, if
+you want to report the location of each park, you can pass in a pointer
+to a function that will print the latitude and longitude of a park. For
+reporting park features, you can use a pointer to a different customizer
+function. For reporting distance, you’ll need another customizer
+function. To compute distance, this last customizer function can use the
+same global variable used when sorting parks by distance to the
+reference city.</p>
+<h2 id="function-visibility">Function Visibility</h2>
+<p>Any functions that are needed by a different component should be
+prototyped and commented in the header. Functions that are intended for
+internal use within a component should not be prototyped in the header.
+A function for internal use should be commented in the implementation
+file, and should be marked static (given internal linkage), so it won’t
+be visible to any other part of the program. This is like making the
+function an implementation detail of its component, something we could
+change if we wanted without affecting other parts of the program.</p>
+<p>The comparator, selector and customizer functions are examples of
+functions that can be static. You’ll define them in the top-level,
+<code>parksearch.c</code>. Although they are called by a different
+component, they’re not actually called by name; they’re called using a
+function pointer. The linker won’t be responsible for hooking up the
+calls to these functions with their definitions. For the comparator,
+selector and customizer functions, we’re writing code to do that
+ourselves by passing function pointers to code that needs to use the
+function.</p>
+<h2 id="output-alignment">Output Alignment</h2>
+<p>Normally, printf will right-align output values in a given field
+width. You can use a negative value for the field width to get it to
+left align instead.</p>
+<h2 id="build-automation">Build Automation</h2>
+<p>You get to implement your own Makefile for this assignment (called
+<code>Makefile</code> with a capital ‘M’, no filename extension). Its
+default target should build your program, compiling each source file to
+an object file and then linking the objects together into an
+executable.</p>
+<p>As usual, your Makefile should correctly describe the program’s
+dependencies, so targets can be rebuilt selectively, based on what
+source files have changed. It should also have a <code>clean</code>
+rule, to let the user easily delete any temporary files or target files
+that can be rebuilt the next time make or the system test script is run
+(e.g., the object files, the executable and any temporary output
+files).</p>
+<p>In addition to the “-Wall” and “-std=c99” options that we normally
+include when we’re compiling, be sure to include the “-g” flag. This
+will be useful when you try to use <code>gdb</code> or
+<code>valgrind</code> to help debug the program. Since you’ll be using a
+constant for PI, you’ll need to use the <code>-D_GNU_SOURCE</code> when
+you compile a source file. You’ll also be using some functions from the
+math library, so you’ll need to use the <code>-lm</code> flag when you
+link. We had to use these same flags on exercise 15 when we were working
+with some similar code.</p>
+<h1 id="testing">Testing</h1>
+<p>The starter includes two source files for unit testing and an
+automated system test script. There are also test input files and
+expected outputs to help you check the correctness of your completed
+program. When we grade your program, we’ll test it with this script,
+along with a few other test inputs we’re not giving you.</p>
+<h2 id="unit-testing">Unit Testing</h2>
+<p>The starter has a simple unit test program for the
+<code>citylist</code> component and another one for
+<code>parklist</code>. To build the unit test program for the
+<code>citylist</code>, you should be able to run a command like the
+following:</p>
+<pre><code>$ gcc -D_GNU_SOURCE -Wall -std=c99 -g citylistTest.c citylist.c coords.c -o citylistTest -lm</code></pre>
+<p>You can build the unit test for <code>parklist</code> using a similar
+command:</p>
+<pre><code>$ gcc -D_GNU_SOURCE -Wall -std=c99 -g parklistTest.c parklist.c coords.c -o parklistTest -lm</code></pre>
+<p>Running these programs will try many of the functions provided by
+your implementation (not all of them) and make sure the results look
+right. At the end, each program reports the number of unit tests that
+were attempted and the number that passed. Using these unit tests should
+let you develop your program a little bit at a time. You don’t have to
+get the whole program written before you can check to make sure parts of
+your implementation are doing the right thing.</p>
+<p>Your Makefile isn’t expected to be able to build the unit tests, but
+you can add rules for them if you want. Just make sure they’re not the
+default targets.</p>
+<h2 id="system-testing">System Testing</h2>
+<p>To run the automated system test, you should be able to enter the
+following commands. The <code>chmod</code> command sets the script to be
+executable; you probably just need to do this once for the first time
+you run it, and you shouldn’t need it at all if you’re working in your
+NCSU Drive space on a common platform system.</p>
+<pre><code>$ chmod +x stest.sh # probably just need to do this once
+$ ./stest.sh</code></pre>
+<p>This will automatically build your program (using your Makefile) and
+see how it does against all the test inputs.</p>
+<p>As you develop your program, you’ll want to try it out with user
+input and see what it’s doing on individual test cases. Until your
+Makefile is working, you should be able to execute the compiler directly
+with the following command (although this isn’t as efficient as how your
+Makefile builds).</p>
+<pre><code>$ gcc -g -Wall -std=c99 -D_GNU_SOURCE parksearch.c parklist.c citylist.c coords.c -o parklist -lm</code></pre>
+<p>As it runs, the system test script reports how it’s running your
+program and how it’s checking the program output to see if it’s correct.
+To try out your program on one of the provided test cases, you can run
+it as follows. Here, we’re saving the program’s standard output and
+standard error to two different files. All of the tests have an expected
+output file for stdout, and some of them (the ones that exit
+unsuccessfully) also have an expected error output to stderr.</p>
+<p>Here, we’re running test 08 by hand. After running the program, we
+check its exit status to make sure it ran successfully (it should for
+this test). Then we check the output file to make sure we got what was
+expected. This particular test shouldn’t print any output to the
+standard error stream, but error tests will.</p>
+<pre><code>$ ./parksearch cities-d.txt parks-d.txt &lt; input-08.txt &gt; output.txt 2&gt; stderr.txt
+$ echo $?
+0
+$ diff expected-08.txt output.txt</code></pre>
+<h2 id="memory-errors-and-leaks">Memory Errors and Leaks</h2>
+<p>On any test that runs successfully, your program is expected to free
+all of the heap memory it allocates and close any files it opens.
+Although it’s not part of an automated test, we encourage you to try out
+your executable with valgrind. We certainly will when we’re grading your
+work. Any leaked memory, use of uninitialized memory, access to memory
+outside the range of an allocated block or leaked files will cost you
+some points. Valgrind, which is discussed in lecture 16, can help you
+find these errors before we do.</p>
+<p>Your program is not expected to free memory or close all its files on
+error tests, those tests where your program is supposed to exit
+unsuccessfully. On these test cases, your program may need to exit from
+inside some function, where you don’t have access to all the memory
+you’ve allocated or all the files you’ve opened. In these cases, your
+program can just exit right away, without having to free all
+resources.</p>
+<p>The compile instructions above include the <code>-g</code> flag when
+building your program. This will help valgrind give more useful reports
+of where it sees errors. To get valgrind to check for memory errors,
+including memory leaks, you can run your program like the following.
+This example runs the program on the first test case. You can use
+similar commands to try your program on any test case using
+valgrind.</p>
+<pre><code>$  valgrind --leak-check=full --show-leak-kinds=all --track-fds=yes ./parksearch cities-a.txt &lt; input-01.txt
+... lots of output ...</code></pre>
+<p>If you want to run valgrind, you have to run it on each test case
+individually. You can’t run the test script inside valgrind (well, you
+can, but then you will be getting valgrind output for the shell, rather
+than for the program you wrote). Sometimes students try to run something
+like “valgrind test.sh”. Just be aware that this won’t work.</p>
+<h3 id="test-cases">Test Cases</h3>
+<p>The tests for your program use the following city and park files.
+These contain various-sized files of parks, along with some invalid
+files for testing error handling.</p>
+<ul>
+<li><p>cities-a.txt : This file just contains one city.</p></li>
+<li><p>cities-b.txt : This file contains 5 cities, already sorted by
+name but with different amounts of spacing between the names and
+coordinates.</p></li>
+<li><p>cities-c.txt : This file contains 10 cities that are not sorted
+by name.</p></li>
+<li><p>cities-d.txt : This file contains 22 North Carolina cities,
+including all the cities from the previous city files.</p></li>
+<li><p>cities-e.txt : This is a large test input, with 10,000 cities
+from all over the world.</p></li>
+<li><p>cities-f.txt : This list has a bad value for one of the global
+coordinates.</p></li>
+<li><p>cities-g.txt : This list has a city name that’s too
+long.</p></li>
+<li><p>cities-h.txt : This list has two copies of the same
+city.</p></li>
+<li><p>parks-a.txt : This file just contains one park, with an empty
+feature list.</p></li>
+<li><p>parks-b.txt : This file contains 5 parks with empty feature
+lists. They’re sorted by name, but they have different amounts of space
+around the coordinates and the feature lists.</p></li>
+<li><p>parks-c.txt : This file contains 10 parks that aren’t in sorted
+order and have non-empty feature lists.</p></li>
+<li><p>parks-d.txt : This file contains 66 parks in North
+Carolina.</p></li>
+<li><p>parks-e.txt : This is a large test input, with 20,000 randomly
+generated parks and randomly generated feature lists.</p></li>
+<li><p>parks-f.txt : This file contains a park with a missing / empty
+name.</p></li>
+</ul>
+<p>We’ve prepared 24 tests for your program. Using the park and city
+files above. They exercise the various queries and options your program
+is supposed to support, working from the easier test cases to the more
+difficult tests and checks for error handling. In developing your
+program, you may want to follow the order of these tests, adding the
+code to support the first test, then working toward the later (more
+complex) tests as you get the earlier ones working.</p>
+<ol type="1">
+<li><p>This test reads a city file containing just one city and then
+runs a <code>cities</code> query.</p></li>
+<li><p>This test reads a park file containing just one park and then
+runs a <code>parks</code> query.</p></li>
+<li><p>This test reads a city file with five cities that are already
+sorted. It runs a <code>cities</code> query.</p></li>
+<li><p>This test reads a park file with five cities that are already
+sorted by name. It runs a <code>parks</code> query.</p></li>
+<li><p>This test runs <code>cities</code> with a cities file that
+requires sorting.</p></li>
+<li><p>This test runs <code>parks</code> with a parks file that requires
+sorting.</p></li>
+<li><p>This test gives multiple city files and park files on the command
+line. It runs a <code>cities</code> and a <code>parks</code>
+query.</p></li>
+<li><p>This test uses the <code>limit</code> option with a
+<code>parks</code> query.</p></li>
+<li><p>This test includes <code>parks</code> queries with the
+<code>show location</code> option.</p></li>
+<li><p>This test includes <code>parks</code> queries with the
+<code>show features</code> option.</p></li>
+<li><p>This test includes <code>parks</code> queries that have the
+<code>with</code> option to select parks with a particular
+feature.</p></li>
+<li><p>This test includes <code>parks</code> queries that have the
+<code>near</code> option to sort parks by distance to a reference
+city.</p></li>
+<li><p>This test includes <code>parks</code> queries that have the
+<code>near</code> and <code>distance</code> options.</p></li>
+<li><p>This test is the example shown at the start of the
+assignment.</p></li>
+<li><p>This is a large test, running several queries with a city list of
+10,000 cities and a park list with 20,000 parks. This will take a second
+or two to run, but your solution should be able to complete the test
+within 15 seconds.</p></li>
+<li><p>This test includes some invalid commands, like a
+<code>near</code> option with a city that doesn’t exist or a misspelled
+word in a query.</p></li>
+<li><p>This test includes some invalid commands, like an input line
+that’s too long, a location that’s misspelled, an invalid string after
+<code>show</code> and a <code>show distance</code> option without a
+reference city.</p></li>
+<li><p>This test runs the program without any city or park file inputs.
+This is OK, but both the city and park lists will be empty.</p></li>
+<li><p>This is a test for error handling. The program is given a city
+file with a bad value for city coordinates.</p></li>
+<li><p>This is a test for error handling. The program is given a city
+file with a city name that’s too long.</p></li>
+<li><p>This is a test for error handling. The program is given a city
+file with two copies of the same city name.</p></li>
+<li><p>This is a test for error handling. The program is given a park
+file where a park has an empty name.</p></li>
+<li><p>This is a test for error handling. The program is asked to read a
+park file that doesn’t exist.</p></li>
+<li><p>This is a test for error handling. The program is given a
+command-line option that’s not a city file or a parks file.</p></li>
+</ol>
+<h2 id="extra-credit-tests">Extra Credit Tests</h2>
+<p>The unit tests and system tests don’t test the extra credit part of
+this assignment, but the starter does include some inputs and sample
+outputs for testing the extra credit. These are intended to be used with
+the <code>cities-d.txt</code> and <code>parks-d.txt</code> files. You
+can run the first extra credit test using the following commands.</p>
+<pre><code>$ ./parksearch cities-d.txt parks-d.txt &lt; input-ec-01.txt &gt; output.txt
+$ echo $?
+0
+$ diff output.txt expected-ec-01.txt</code></pre>
+<p>Similar commands can be used to try out the other three extra credit
+tests. The first two tests check the support of multiple
+<code>with</code> options and the next two check for support of multiple
+<code>show</code> options.</p>
+<h1 id="grading">Grading</h1>
+<p>The grade for your program will depend mostly on how well it
+functions. You will also provide your own Makefile, and we’ll expect
+your program to compile cleanly, to follow the style guide and to adhere
+to the expected design.</p>
+<ul>
+<li>Compiling cleanly on the common platform: <strong>10
+points</strong></li>
+<li>Working Makefile: <strong>5 points</strong></li>
+<li>Behaves correctly on all tests: <strong>80 points</strong></li>
+<li>Program follows the style guide: <strong>20 points</strong></li>
+<li>Optionally implementing support for multiple <code>with</code>
+options: <strong>5 extra credit points</strong></li>
+<li>Optionally implementing support for multiple <code>show</code>
+options: <strong>5 extra credit points</strong></li>
+<li>Deductions
+<ul>
+<li>Up to <strong>-50 percent</strong> for not following the required
+design.</li>
+<li>Up to <strong>-30 percent</strong> for failing to submit required
+files, submitting files with the wrong name or having extraneous files
+in the repo.</li>
+<li>Up to <strong>-30 percent</strong> for exhibiting file leaks, memory
+leaks or other memory errors.</li>
+<li>Up to <strong>-10 percent</strong> penalty for late submission
+within 24 hours.</li>
+<li>Up to <strong>-20 percent</strong> penalty for late submission
+within 48 hours.</li>
+</ul></li>
+</ul>
+<p><a name="started"></a></p>
+<h1 id="getting-started">Getting Started</h1>
+<p><a name="started"></p>
+<p>To get started on this homework assignment, you’ll need to clone your
+github repo and unpack the given starter into the <code>hw4</code>
+directory. You’ll submit by committing files to your repo and pushing
+the changes back up to <code>github.com</code>.</p>
+<h2 id="clone-your-repository">Clone your Repository</h2>
+<p>You should have already cloned your assigned github repo when you
+were working on homework 1. If you haven’t already done this, go back to
+the assignment for <a
+href="https://dbsturgi.github.io/csc230//hw/hw1/hw1.html">homework 1</a>
+and follow the instructions for for cloning your repo.</p>
+<h2 id="unpack-the-starter-into-your-cloned-repo">Unpack the starter
+into your cloned repo</h2>
+<p>You will need to copy and unpack the homework 4 starter. We’re
+providing this file as a compressed tar archive. You can get a copy of
+the starter from the course homepage, or you can unpack it from the copy
+on our shared drive space on the remote Linux machines.</p>
+<p>If you download the starter from our course Moodle page, temporarily,
+put a copy in the <code>hw4</code> directory of your cloned repo. Then,
+you should be able to unpack it with the following command:</p>
+<pre><code>$ tar xzvpf starter4.tgz</code></pre>
+<p>Once you start working on the assignment, be sure you don’t
+accidentally commit the starter archive to your repo (that would be an
+example of an extraneous file that doesn’t need to be there). After
+you’ve successfully unpacked it, you may want to delete the starter from
+your <code>hw4</code> directory, or move it out of your repo.</p>
+<pre><code>$ rm starter4.tgz</code></pre>
+<p>Or, if you’re logged in on a machine in the remote.eos.ncsu.edu pool,
+you can access the starter archive in our shared directory without even
+having download a copy. Run the following command inside the
+<code>hw4</code> directory of your cloned repo. This should give you a
+copy of all the starter files.</p>
+<pre><code>$ tar xzvpf /mnt/coe/workspace/csc/CSC230/hw/hw4/starter4.tgz</code></pre>
+<h2 id="instructions-for-submission">Instructions for Submission</h2>
+<p>If you’ve set up your repository properly, pushing your changes to
+your assigned CSC230 repository should be all that’s required for
+submission. When you’re done, we’re expecting the <code>hw4</code>
+directory of your repo to contain the following files. You can use the
+web interface on github.com to confirm that the right versions of all
+your files made it.</p>
+<ul>
+<li><code>parksearch.c</code><br />
+Source file for the top-level component, mostly written by you.</li>
+<li><code>parklist.h</code> / <code>parklist.c</code><br />
+Source files for the <code>parklist</code> component, mostly written by
+you.</li>
+<li><code>citylist.h</code> / <code>citylist.c</code><br />
+Source files for the <code>citylist</code> component, mostly written by
+you.</li>
+<li><code>coords.h</code> / <code>coords.c</code><br />
+Source files for the <code>coords</code> component, provided with the
+starter.</li>
+<li><code>citylistTest.c</code><br />
+Source file for the unit tests for the <code>citylist</code> component,
+provided with the starter.</li>
+<li><code>parklistTest.c</code><br />
+Source file for the unit tests for the <code>parklist</code> component,
+provided with the starter.</li>
+<li><code>Makefile</code><br />
+The assignment’s Makefile, written by you.</li>
+<li><code>parks-*.txt</code><br />
+Park lists for the tests, provided with the starter.</li>
+<li><code>cities-*.txt</code><br />
+City lists for the tests, provided with the starter.</li>
+<li><code>input-*.txt</code><br />
+Test input files of user queries, provided with the starter.</li>
+<li><code>expected-*.txt</code><br />
+Expected output from the program, provided with the starter.</li>
+<li><code>error-*.txt</code><br />
+Expected standard error output for the error test cases, provided with
+the starter.</li>
+<li><code>stest.sh</code><br />
+System test script, provided with the starter.</li>
+<li><code>.gitignore</code><br />
+A file provided with the starter, to tell git not to track temporary
+files specific to this assignment.</li>
+</ul>
+<h2 id="pushing-your-changes">Pushing your Changes</h2>
+<p>To submit your homework, you’ll need to commit your changes to your
+cloned repo, then push them to <code>github.com</code>. <a
+href="https://dbsturgi.github.io/csc230//hw/hw1/hw1.html">Homework 1</a>
+has more detailed instructions for doing this, but they are also
+summarized here.</p>
+<p>Whenever you create a new file that needs to go into your repo, you
+need to stage it for the next commit using the <code>add</code>
+command:</p>
+<pre><code>$ git add some-new-file</code></pre>
+<p>Then, before you commit, it’s a good idea to check to make sure your
+index has the right files staged:</p>
+<pre><code>$ git status</code></pre>
+<p>Once you’ve added any new files, you can use a command like the
+following to commit them, along with any changes to files that were
+already being tracked:</p>
+<pre><code>$ git commit -am &quot;&lt;meaningful message for future self&gt;&quot;</code></pre>
+<p>Of course, you haven’t really submitted anything until you push your
+changes up to github:</p>
+<pre><code>$ git push</code></pre>
+<h2 id="checking-jenkins-feedback">Checking Jenkins Feedback</h2>
+<p>Checking Jenkins feedback is similar to previous assignments. Visit
+our Jenkins system at <a
+href="http://go.ncsu.edu/jenkins-csc230">http://go.ncsu.edu/jenkins-csc230</a>
+and you’ll see a new build job for homework 4. Our previous Jenkins jobs
+didn’t automatically detect a push to your repo. I’ll try to fix that
+for this assignment. Either way, there will be a “Build Now” button that
+you can use to request a rebuild of your project if it doesn’t
+automatically detect when you make a change to your source code.</p>
+<p><a name="outcomes"></a></p>
+<h1 id="learning-outcomes">Learning Outcomes</h1>
+<p>The syllabus lists a number of learning outcomes for this course.
+This assignment is intended to support several of these:</p>
+<ul>
+<li>
+<b>Compilation</b>: implement C programs using the C standard library,
+with separately-compiled modules; explain the steps of compilation;
+identify and fix errors that happen during compilation and execution.
+</li>
+<li>
+<b>Language</b>: write, debug, and modify C programs using data types,
+control structures, operators, library utilities, and variables,
+including scope in a single function, across multiple functions, and
+across multiple modules.
+</li>
+<li>
+<b>Memory and Representation</b>: use functions and basic data
+structures involving arrays, structs, pointers, and function pointers;
+allocate and deallocate memory in C programs while avoiding memory leaks
+and dangling pointers.
+</li>
+<li>
+<b>Tools</b>: utilize software development tools to implement, test,
+build, and trace C programs including, build automation, version
+control, static analysis, and dynamic analysis tools.
+</li>
+</ul>
+</body>
+</html>
