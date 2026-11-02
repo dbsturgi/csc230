@@ -1,0 +1,1257 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>CSC230 Project</title>
+  <style>
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+  <link rel="stylesheet" href="./style.css" />
+</head>
+<body>
+<nav id="TOC" role="doc-toc">
+<ul>
+<li><a href="#csc-230-project" id="toc-csc-230-project">CSC 230
+Project</a>
+<ul>
+<li><a href="#programming-language-interpreter"
+id="toc-programming-language-interpreter">Programming Language
+Interpreter</a></li>
+<li><a href="#rules-for-the-project"
+id="toc-rules-for-the-project">Rules for the Project</a></li>
+</ul></li>
+<li><a href="#requirements" id="toc-requirements">Requirements</a>
+<ul>
+<li><a href="#interpreter-execution"
+id="toc-interpreter-execution">Interpreter Execution</a></li>
+<li><a href="#tokens" id="toc-tokens">Tokens</a></li>
+<li><a href="#type-system" id="toc-type-system">Type System</a></li>
+<li><a href="#variables" id="toc-variables">Variables</a></li>
+<li><a href="#expressions" id="toc-expressions">Expressions</a></li>
+<li><a href="#statements" id="toc-statements">Statements</a></li>
+<li><a href="#error-handling" id="toc-error-handling">Error
+Handling</a></li>
+</ul></li>
+<li><a href="#design" id="toc-design">Design</a>
+<ul>
+<li><a href="#partial-implementation"
+id="toc-partial-implementation">Partial Implementation</a></li>
+<li><a href="#code-organization" id="toc-code-organization">Code
+Organization</a></li>
+<li><a href="#value-representation" id="toc-value-representation">Value
+Representation</a></li>
+<li><a href="#environment" id="toc-environment">Environment</a></li>
+<li><a href="#expression-inheritance-hierarchy"
+id="toc-expression-inheritance-hierarchy">Expression Inheritance
+Hierarchy</a></li>
+<li><a href="#statement-inheritance-hierarchy"
+id="toc-statement-inheritance-hierarchy">Statement Inheritance
+Hierarchy</a></li>
+<li><a href="#tokenization" id="toc-tokenization">Tokenization</a></li>
+<li><a href="#program-parsing-and-representation"
+id="toc-program-parsing-and-representation">Program Parsing and
+Representation</a></li>
+<li><a href="#commenting" id="toc-commenting">Commenting</a></li>
+<li><a href="#extra-credit" id="toc-extra-credit">Extra Credit</a></li>
+<li><a href="#sneaking-up-on-a-solution"
+id="toc-sneaking-up-on-a-solution">Sneaking up on a Solution</a></li>
+</ul></li>
+<li><a href="#build-automation" id="toc-build-automation">Build
+Automation</a></li>
+<li><a href="#testing" id="toc-testing">Testing</a>
+<ul>
+<li><a href="#unit-testing-and-code-coverage"
+id="toc-unit-testing-and-code-coverage">Unit Testing and Code
+Coverage</a></li>
+<li><a href="#automated-test-script"
+id="toc-automated-test-script">Automated Test Script</a></li>
+<li><a href="#testing-by-hand" id="toc-testing-by-hand">Testing by
+Hand</a></li>
+<li><a href="#sample-input-files" id="toc-sample-input-files">Sample
+Input Files</a></li>
+</ul></li>
+<li><a href="#grading" id="toc-grading">Grading</a></li>
+<li><a href="#getting-started" id="toc-getting-started">Getting
+Started</a>
+<ul>
+<li><a href="#clone-your-repository"
+id="toc-clone-your-repository">Clone your Repository</a></li>
+<li><a href="#unpack-the-starter-into-your-cloned-repo"
+id="toc-unpack-the-starter-into-your-cloned-repo">Unpack the starter
+into your cloned repo</a></li>
+<li><a href="#submission-instructions"
+id="toc-submission-instructions">Submission Instructions</a></li>
+<li><a href="#pushing-your-changes"
+id="toc-pushing-your-changes">Pushing your Changes</a></li>
+<li><a href="#checking-jenkins-feedback"
+id="toc-checking-jenkins-feedback">Checking Jenkins Feedback</a></li>
+<li><a href="#learning-outcomes" id="toc-learning-outcomes">Learning
+Outcomes</a></li>
+</ul></li>
+</ul>
+</nav>
+<h1 id="csc-230-project">CSC 230 Project</h1>
+<h2 id="programming-language-interpreter">Programming Language
+Interpreter</h2>
+<p>For this assignment, you get to write an interpreter for a simple
+programming language. It will be able to run programs like the following
+(<code>prog-18.txt</code> in the starter):</p>
+<pre><code># Print out a triangle of * characters.
+
+# Print ten rows.
+i = 1;
+while ( i &lt; 11 ) {
+  # On each row, print i stars
+  j = 0;
+  while ( j &lt; i ) {
+    print &quot;*&quot;; 
+    j = j + 1;
+  }
+
+  # Print a newline at the end of each row.
+  print &quot;\n&quot;;
+  i = i + 1; 
+}</code></pre>
+<p>You can run the interpreter on this program as follows:</p>
+<pre><code>$ ./interpret prog-18.txt
+*
+**
+***
+****
+*****
+******
+*******
+********
+*********
+**********</code></pre>
+<p>Much of the work for this project is already done for you. In the
+starter, you’ll be getting code for an interpreter that can already run
+some simple programs. To complete the project, you’ll be adding support
+for string values (it already supports integers). You’ll be adding
+support for additional types of expressions and statements and
+implementing a way to keep up with the current value of all
+variables.</p>
+<p>We’re providing you with a starter with a partial implementation of
+the interpreter, test inputs and expected outputs, a
+<code>.gitignore</code> file, and a simple Makefile. See the <a
+href="#started">Getting Started</a> section for instructions on how to
+get the starter and unpack it into your repo.</p>
+<h2 id="rules-for-the-project">Rules for the Project</h2>
+<p>You must complete this assignment individually. All code submitted
+for this assignment must be from the starter or written by you for this
+course. You are not permitted to use code that has been generated or
+obtained from sources other than course materials (class slides, the
+textbook, posted class examples), even if you modify this code before
+turning it in. If your editor is configured to write code for you (maybe
+using generative AI), you will need to disable these feature while
+working on this assignment. If you’re unsure what’s permitted, you can
+have a look at the academic integrity guidelines in the course
+syllabus.</p>
+<p>You must complete this assignment using material covered in the
+lecture slides up to lecture 19. In particular, you’ll need the material
+in lecture 19 for how to implement objects and overridable methods in C.
+Please don’t go find other resources for implementing your solution.
+This will help you to practice using the C language and library features
+we’ve covered up to this point in the class, and it will help show that
+you wrote your own code.</p>
+<p>In the design section, you’ll see some instructions for how your
+implementation is expected to work. Be sure you follow these rules. It’s
+not enough to just turn in a working program; your program has to follow
+the design constraints we’ve asked you to follow. For this assignment,
+we’re putting some constraints on the functions you’ll need to define,
+the data structures you’ll use and how you’re going to organize your
+code into components. Still, you will have lots of opportunities to
+design parts of your solution and to create additional functions to
+simplify your implementation.</p>
+<h1 id="requirements">Requirements</h1>
+<h2 id="interpreter-execution">Interpreter Execution</h2>
+<p>The interpreter program is called <strong>interpret</strong>. As its
+only command-line argument, it expects the name of a file containing the
+source for the program it’s supposed to run. For example, you can run
+the interpreter as follows to get it to run the program in the file,
+<code>prog-19.txt</code>:</p>
+<pre><code>$ ./interpret prog-19.txt</code></pre>
+<p>If the user doesn’t give exactly one command-line argument, the
+program will print the following error message to standard error and
+terminate with an exit status of 1.</p>
+<pre><code>usage: interpret &lt;program-file&gt;</code></pre>
+<p>If the interpreter can’t open the given input file, it will print the
+following error message to standard error (where <em>filename</em> is
+the filename given on the command line) then terminate with an exit
+status of 1.</p>
+<pre><code>Can&#39;t open file: filename</code></pre>
+<p>Code to process the command-line and read from the input file is
+already provided with the starter, but you will need to add the
+error-handling code.</p>
+<h2 id="tokens">Tokens</h2>
+<p>Code for the tokenizer is already provided for you. It automatically
+skips over whitespace and comments. As in lots of scripting languages,
+comments starts with the <strong>#</strong> character and extend up to
+the end of the current line.</p>
+<p>Tokens in our programming language can be any of the following:</p>
+<ul>
+<li><p>Identifiers, like in C or Java, these are a sequence of digits,
+letters or underscores. They can’t start with a digit.</p></li>
+<li><p>Integer values, a sequence of decimal digits, optionally starting
+with a - (for negative values).</p></li>
+<li><p>String values that start and end with double quotes. As in C,
+strings may use escape sequences for some special characters
+(<code>\t</code>, <code>\n</code>, <code>\"</code> and
+<code>\\</code>).</p></li>
+<li><p>The two-character tokens, <strong>==</strong>,
+<strong>&amp;&amp;</strong> and <strong>||</strong>.</p></li>
+<li><p>Other than the cases above, any single, non-whitespace character
+is considered a token.</p></li>
+</ul>
+<p>A token can be at most 1023 characters in length (so, it requires an
+array of at least 1024 characters).</p>
+<h2 id="type-system">Type System</h2>
+<p>Our language supports two types of values, integer values and string
+values. These are implemented using a little inheritance hierarchy
+(described in the design section). An integer value is stored as a
+signed, 32-bit int (the int type in C on the common platform). String
+values can be any sequence of ASCII characters.</p>
+<p>For conditional expressions, the integer value of zero is considered
+false. Any other value, integer or string is considered true. So, the
+following loop would run for 10 iterations:</p>
+<pre><code>i = 10;
+while ( i ) {
+  i = i - 1;
+}</code></pre>
+<p>The following code would print out the “hello world” message (since
+the string “world” isn’t considered false).</p>
+<pre><code>i = &quot;world&quot;;
+if ( i ) {
+   print &quot;hello &quot;;
+   print i;
+   print &quot;\n&quot;;
+}</code></pre>
+<h2 id="variables">Variables</h2>
+<p>Values can be stored in variables during computation. A variable name
+can be any identifier that’s no longer than 20 characters. Variables
+can’t have the same name as a reserved word (e.g., <code>print</code>,
+<code>if</code> or <code>while</code>).</p>
+<p>All variables start out undefined. They don’t have a value until
+something is assigned to them. Variables behave as if they are global.
+Once a value has been given a value, it can be accessed from any part of
+the code.</p>
+<p>Variables don’t have types, so any variable can hold any type of
+value (either Integer or String). Variables don’t be need to be declared
+before being used.</p>
+<h2 id="expressions">Expressions</h2>
+<p>Imperative programming languages like C and Java usually make a
+distinction between expressions, and statements. Expressions are parts
+of the syntax that evaluate to some value (like 7 + 3 or 1 &amp;&amp;
+0). Statements are parts of the syntax that can be executed, but they
+don’t evaluate to any kind of value. Our language does this also. It
+supports 14 different kinds of expressions. Some of these are already
+implemented for you. The last three are optional. They are for extra
+credit.</p>
+<ul>
+<li><p>literal value expressions<br />
+Example: <code>5</code><br />
+Example: <code>-2007</code><br />
+Example: <code>"abc"</code><br />
+Example: <code>"Hello World\n"</code><br />
+Either integers or strings can be used as literal values. An integer is
+any number that can be parsed using the <code>%d</code> conversion
+specifier in scanf. A string literal is any sequence of ASCII characters
+surrounded by double quotes. An empty string is also a legal string
+literal. Literal values are already implemented for you, but they only
+work for integers. When you add support for string values in the
+language, you will also need to add support for string literals. Literal
+values are already implemented in the starter.</p></li>
+<li><p>variable expression<br />
+Syntax: <em>varname</em><br />
+Example: <code>x</code><br />
+Example: <code>sandwich</code><br />
+A variable expression is simply the name of any variable. This is used
+for when a variable is part of an expression. It evaluates to the
+current value of that variable. If the program tries to evaluate a
+variable that doesn’t have a value (i.e., it has never been assigned a
+value), the program should print a line to standard error saying
+“Undefined variable: v” (where <em>v</em> is the name of the variable
+that didn’t have a value) and terminate with an exit status of 1.
+Variable expressions are implemented in the starter, but they won’t work
+until you complete the implementation of the Environment.</p></li>
+<li><p>add expression<br />
+Syntax: <em>op<sub>1</sub></em> + <em>op<sub>2</sub></em><br />
+Example: <code>7 + 15</code><br />
+Example: <code>3 + ( x * 2 )</code><br />
+Like in C, an add expression is written as an infix operator, with an
+operand expression on either side.<br />
+When evaluated, it evaluates its operands. If its left and right
+operands both evaluate to integers, it should evaluate to their sum. If
+not, it should print the line “Expected Integer value” to standard error
+and terminate with an exit status of 1. Add expressions are already
+implemented in the starter.</p></li>
+<li><p>subtract expression<br />
+Syntax: <em>op<sub>1</sub></em> - <em>op<sub>2</sub></em><br />
+Example: <code>10 - 3</code><br />
+Example: <code>x - ( y / 3 )</code><br />
+A subtract expression is like an add expression, but it evaluates to the
+value of its left-hand operand minus the value of its right-hand
+operand. It requires integer operands and handles invalid operands the
+same way as an add expression. You will need to add support for the
+subtract expression.</p></li>
+<li><p>multiply expression<br />
+Syntax: <em>op<sub>1</sub></em> * <em>op<sub>2</sub></em><br />
+Example: <code>x * y</code><br />
+Example: <code>10 * ( 3 + b )</code><br />
+A multiply expression is like an add expression, but it evaluates to the
+product of the values of its operands. It requires integer operands and
+handles invalid operands the same way as an add expression. You will
+need to add support for the multiply expression.</p></li>
+<li><p>divide expression<br />
+Syntax: <em>op<sub>1</sub></em> / <em>op<sub>2</sub></em><br />
+Example: <code>y / 2</code><br />
+Example: <code>( z + 1 ) / ( m + n )</code><br />
+A divide expression is like an add expression, but it evaluates to the
+value of its left-hand operand divided by the value of its right-hand
+operand. Division truncates, like integer division in C or Java. It
+requires integer operands and handles invalid operands the same way as
+an add expression. If the second operand evaluates to zero, it prints
+the line “Divide by zero” to standard error and exits with an exit
+status of 1.</p></li>
+<li><p>less expression<br />
+Syntax: <em>op<sub>1</sub></em> &lt; <em>op<sub>2</sub></em><br />
+Example: <code>i &lt; 5</code><br />
+Example: <code>( x + 3 ) &lt; y</code><br />
+A less expression takes two expressions as operands. It requires integer
+operands and handles invalid operands the same way as an add expression.
+If the left operand evaluates to to an integer that’s less than its
+right operand, then the less expression evaluates to 1 (true).
+Otherwise, it evaluates to 0 (false).</p></li>
+<li><p>equals expression<br />
+Syntax: <em>op<sub>1</sub></em> == <em>op<sub>2</sub></em><br />
+Example: <code>name == "bill"</code><br />
+Example: <code>x + 1 == y - 1</code><br />
+An equal expression takes two expressions as operands. If its two
+operands evaluate to the same value, then an equals expression evaluates
+to 1 (true). Otherwise, it evaluates to 0 (false). The equals expression
+should work for any type of value. All values have an equals function
+that lets you compare them against any other value. The == operator uses
+this function to compare values, and it evaluates to 0 or 1 to indicate
+whether they are equivalent.</p></li>
+<li><p>or expression<br />
+Syntax: <em>op<sub>1</sub></em> || <em>op<sub>2</sub></em><br />
+Example: <code>( i &lt; 5 ) || waiting</code><br />
+Example: <code>( x == "green" ) || ( x == "blue" )</code><br />
+An or expression interprets the value of its operands as truth values. A
+value of 0 being false and any other value being true. If either operand
+is true, then the or expression should evaluate to 1 (true). Otherwise,
+it should evaluate to 0 (false). This expression should perform short
+circuiting. If the left-hand operand evaluates to true, then it should
+<strong>not</strong> evaluate the right-hand operand. The or expression
+should work for any type of operands; they’re not required to be
+integers.</p></li>
+<li><p>and expression<br />
+Syntax: <em>op<sub>1</sub></em> &amp;&amp; <em>op<sub>2</sub></em><br />
+Example: <code>( i &lt; 5 ) &amp;&amp; ( j &lt; 10 )</code><br />
+The and expression is like the or expression, except it computes the
+logical and function. It should evaluate to 0 (false) if either of its
+operands evaluates to false (an integer value of 0). Otherwise, it
+should evaluate to 1 (true). Like the or expression, it should perform
+short circuiting. If the left-hand operand evaluates to false, then it
+should <strong>not</strong> evaluate the right-hand operand. The and
+expression should work for any type of operands; they’re not required to
+be integers.</p></li>
+<li><p>parentheses<br />
+Syntax: <code>(</code> <em>expr</em> <code>)</code><br />
+Example: <code>m * ( i + j + k )</code><br />
+Any expression can be put inside parentheses to alter precedence. This
+causes the expression inside the parentheses to be evaluated before its
+value is used as part of the surrounding expression. In the example
+above, the sum of variables i, j and k will be computed before the
+result is multiplied by m. Support for parentheses is already included
+in the parser code in the starter.</p></li>
+<li><p>strlen expression<br />
+Syntax: strlen( <em>expr</em> )<br />
+Example: <code>strlen( "abc" )</code><br />
+Example: <code>strlen( strVariable )</code><br />
+This expression is for extra credit. It is written like a function call.
+It should evaluate to an integer giving the length of the string
+parameter. For example, <strong>strlen( “abc” )</strong> should evaluate
+to 3. If the parameter doesn’t evaluate to a string (say, if it
+evaluates to an integer), then the interpreter should print a line
+saying ““Expected String value” to standard error and exit with an exit
+status of 1.</p></li>
+<li><p>cat expression<br />
+Syntax: <em>op<sub>1</sub></em> cat <em>op<sub>2</sub></em><br />
+Example: <code>"abc" cat "xyz"</code><br />
+Example: <code>str1 cat str2 cat str3</code><br />
+This expression is for extra credit. It is written like an infix
+operator and it evaluates to the concatenation of its two string
+operands. For example, <strong>“abc” cat “xyz”</strong> should evaluate
+to the string “abcxyz”. If either of the parameters doesn’t evaluate to
+a string (say, if it evaluates to an integer), then the interpreter
+should print a line saying ““Expected String value” to standard error
+and exit with an exit status of 1.</p></li>
+<li><p>substr expression<br />
+Syntax: substr( <em>str</em>, <em>start</em>, <em>end</em> )<br />
+Example: <code>substr( "Hello World!", 6, 11 )</code><br />
+Example: <code>substr( strVariable, i, j )</code><br />
+This expression is for extra credit. It is written like a function call
+with three, comma-separated parameters. It works like the substring
+method on the Java String class. It should evaluate to a substring of
+the first parameter, starting at the start index given by the middle
+parameter and ending right before the end index given by the last
+parameter. Indices start at zero, the index of the first character of a
+string. So, for example, substr( “Hello World!”, 6, 11 ) should evaluate
+to the string, “World”. The first parameter must evaluate to a string.
+If it evaluates to a different type of value, the interpreter should
+print a line saying ““Expected String value” to standard error and exit
+with an exit status of 1. The second and third parameters should
+evaluate to integers. If they don’t, the interpreter should print the
+line “Expected Integer value” to standard error and exit with an exit
+status of 1.</p></li>
+</ul>
+<p>Expressions in this language don’t respect the usual precedence of
+operators. Unless parentheses are used to alter the precedence, the
+operators just evaluate left-to-right. Thus, the following expression
+will add 1 and 2, multiply the result by 3, subtract 4 from that result
+and then divide the result by 5 (yielding 1).</p>
+<pre><code>1 + 2 * 3 - 4 / 5</code></pre>
+<p>You can always add parentheses if you want to force a particular
+evaluation order:</p>
+<pre><code>1 + ( 2 * 3 ) - ( 4 / 5 )</code></pre>
+<h2 id="statements">Statements</h2>
+<p>The language supports just five types of statements. These may
+contain expressions (or other statements), but, unlike expressions, a
+statement doesn’t produce a value when it’s executed. A few of these
+statements have already been implemented for you in the starter.</p>
+<ul>
+<li><p>print<br />
+Syntax: <code>print</code> <em>expr</em> <code>;</code><br />
+Example: <code>print "hello world\n";</code><br />
+Example: <code>print x + 5;</code><br />
+The print statement contains an expression. When it’s executed, it
+evaluates the expression and prints the resulting value to standard
+output. Support for the print statement is provided in the
+starter.</p></li>
+<li><p>assignment<br />
+Syntax: <em>varname</em> <code>=</code> <em>expr</em>
+<code>;</code><br />
+Example: <code>x = 5;</code><br />
+Example: <code>y = "abc";</code><br />
+Example: <code>z = z + 10;</code><br />
+An assignment contains a variable name (on the left) and an expression
+(on the right). When it’s executed, it evaluates the expression then
+sets the variable to the resulting value. Support for the assignment
+statement is provided in the starter, but you will need to complete the
+Environment implementation for it to work.</p></li>
+<li><p>if statement<br />
+Syntax: <code>if (</code> <em>cond</em> <code>)</code> <em>body</em>
+;<br />
+Example: <code>if ( i &lt; 10 ) i = i + 1;</code><br />
+An if statement contains a condition expression and another statement as
+its body (typically, a compound statement). When it’s executed, it
+evaluates the condition. If the condition evaluates to true, it executes
+the body.</p></li>
+<li><p>while statement<br />
+Syntax: <code>while (</code> <em>cond</em> <code>)</code> <em>body</em>
+;<br />
+Example: <code>while ( i &lt; 1000 ) i = i * 2;</code><br />
+Syntactically, a while statement looks almost exactly like an if
+statement, with a condition expression and a statement for the body.
+When it’s executed, it evaluates the condition. If the condition
+evaluates to true, it executes the body and then evaluates the condition
+again. This repeats until the condition evaluates to false.</p></li>
+<li><p>compound statement<br />
+Syntax: <code>{</code> <em>stmt<sub>1</sub></em>
+<em>stmt<sub>2</sub></em> … <code>}</code><br />
+Example: <code>{ x = "hello\n"; print x; }</code><br />
+A compound statement is a sequence of zero or more statements inside
+curly brackets. When executed, it just executes the sequence of
+statements it contains in order from first to last. Support for compound
+statements is provided in the starter.</p></li>
+</ul>
+<h2 id="error-handling">Error Handling</h2>
+<p>The interpreter could encounter errors, either while reading in the
+input program or while the program is being executed. This section
+explains what to do when an error is encountered. Many of these errors
+are already handled in the starter, but you will need to add code to
+help detect these errors (e.g., uninitialized variables) or to detect
+errors in new code you add (e.g., bad parameter types for the string
+functions if you do the extra credit).</p>
+<p>If the tokenizer encounters an error while trying to parse a token,
+it reports an error. The tokenizer uses a static global variable to keep
+up with the current line number in the input program. This line number
+is used in error messages during tokenization or parsing.</p>
+<p>If the parser encounters invalid syntax, it should print out an error
+message like the following (where n is the line number in the input file
+where the error was detected) and the exit with an exit status of 1.</p>
+<pre><code>line n: syntax error</code></pre>
+<p>After a program has been parsed, it may encounter errors during
+execution. If the program uses a variable that has never been assigned a
+value, the interpreter should print the following line to standard error
+and exit with an exit status of 1. The <em>v</em> in this error message
+should be the name of the variable that was used without first being
+assigned a value.</p>
+<pre><code>Undefined variable: v</code></pre>
+<p>Some types of expressions require integer operands (e.g., the
+arithmetic operators). If one of these operands doesn’t evaluate to an
+integer, your interpreter should print the following message to standard
+error and exit with an exit status of 1.</p>
+<pre><code>Expected Integer value</code></pre>
+<p>If the program attempts to divide by zero, the program should print
+the following line to standard error and exit with an exit status of
+1.</p>
+<pre><code>Divide by zero</code></pre>
+<p>If you do the extra credit part of the assignment, then you will be
+implementing expression types that require a string as one of their
+operands (e.g., the first operand for substr). If one of these operands
+doesn’t evaluate to a string, your interpreter should print the
+following message to standard error and exit with an exit status of
+1.</p>
+<pre><code>Expected String value</code></pre>
+<h1 id="design">Design</h1>
+<h2 id="partial-implementation">Partial Implementation</h2>
+<p>With this project, you are getting a good bit of partial
+implementation. The tokenizer is already done for you, along with a
+definition for the abstract classes (structs containing function
+pointers) used to represent values, expressions and statements. Most of
+the parser code is already done, but you’ll need to add parser code for
+new syntax your adding: additional types of expressions, additional
+types of statements, literal strings and string operators if you do the
+extra credit.</p>
+<h2 id="code-organization">Code Organization</h2>
+<p>The interpreter is defined in five components. One of these (the
+top-level, main component) just has an implementation file, and the
+other four have header and implementation files.</p>
+<ul>
+<li><p><code>value.c</code> and <code>value.h</code><br />
+This component provides Value, the abstract class for representing
+values. It provides the Integer subclass of Value (for representing
+Integer values). It will also provide an implementation of the
+Environment, a representation of the current values for all variables in
+the program currently being run. You get to decide how you want to
+implement the Environment and fill in that part of the value
+component.</p></li>
+<li><p><code>syntax.c</code> and <code>syntax.h</code><br />
+This provides the implementation of the Expr and Stmt abstract classes,
+along with most of the concrete subclasses representing different parts
+of the program currently being run. This is where you’ll need to add
+code to represent all the expression and statement types you’re
+responsible for. The existing implementations of a few basic expression
+and statement types should give you some good ideas for how to extend
+the representation.</p></li>
+<li><p><code>stringval.c</code> and <code>stringval.h</code><br />
+You get to fill in the implementation of this component. It provides the
+subclass of Value used to store strings. If you do the extra credit,
+this is also where you will put the implementation of the three types of
+expressions that work on strings (strlen, cat and substr).</p></li>
+<li><p><code>parse.c</code> and <code>parse.h</code><br />
+This component contains the parser. It has a low-level function to
+extract individual tokens from the input and higher-level functions to
+instantiate subclasses of Expr and Stmt as the expressions and
+statements of the input program are parsed. It already has support for
+parsing the expression and statement types implemented in the starter.
+You’ll need to add more parsing code to handle the additional expression
+and statement types you’re responsible for.</p></li>
+<li><p><code>interpret.c</code><br />
+This component contains the main() function. It uses the other
+components to parse and execute statements from the input program. You
+should just need to add some error-handling code to this component, but
+you can make other changes if you need to.</p></li>
+</ul>
+<figure>
+<img src="dependency.png" alt="Dependency between design components" />
+<figcaption aria-hidden="true">Dependency between design
+components</figcaption>
+</figure>
+<h2 id="value-representation">Value Representation</h2>
+<p>Values in the language are represented using a little inheritance
+hierarchy. The C programming language doesn’t support objects and
+inheritance automatically, but we can implement it ourselves using the
+same techniques that are used internally in languages like C++ and Java.
+We talked about this in lecture 19.</p>
+<p>We’ll use a struct named Value to represent an arbitrary type of
+value in our programming language. The source code for the Value struct
+is copied below.</p>
+<pre><code>typedef struct ValueStruct Value;
+
+struct ValueStruct {
+
+  void (*print)( Value *value, FILE *stream );
+
+  bool (*equals)( Value *value, Value *other );
+  
+  Value *(*copy)( Value *value );
+  
+  void (*destroy)( Value *value );
+};</code></pre>
+<p>The Value type will work like an interface or an abstract class in
+Java. It contains four function pointers that we will use like methods.
+Client code can call one of these functions to get the value to print
+itself, to compare itself to another value, to create a copy of itself
+or to free all of its memory. Notice that the first parameter passed to
+any of these functions will be a pointer to the Value the function is
+being called on. This happens automatically in a real object-oriented
+language. In C, we have to do it ourselves.</p>
+<p>Here’s what each of these functions is supposed to do with its
+value:</p>
+<ul>
+<li>print<br />
+The print function will print the contents of the value to the given
+file stream. For example, an integer value should print itself as a
+decimal integer, or a string should print the sequence of characters it
+contains.</li>
+<li>equals<br />
+The equals comparison will return true if the given value is equal to
+the given, other value. To be equal, two values must be the same type
+(e.g., two Integer values or two String values). If they are the same
+type, then they must contain identical values (e.g., the same number for
+two Integer values or the same sequence of characters for two String
+values).</li>
+<li>copy<br />
+The copy function should create a dynamically allocated copy of the
+given value and return it.</li>
+<li>destroy<br />
+The destroy function should free all the memory being used by the given
+value.</li>
+</ul>
+<p>Different subclasses of Value will be implemented as structs that
+have these same four function pointers at the start of their struct
+definition. They can fill in these function pointers to point to
+functions that print, compare, copy or free the memory for that subclass
+of Value.</p>
+<figure>
+<img src="value-hierarchy.png"
+alt="Representation of Value superclass and Integer subclass" />
+<figcaption aria-hidden="true">Representation of Value superclass and
+Integer subclass</figcaption>
+</figure>
+<p>The starter already includes one subclass of value, Integer. It’s for
+storing integer values. In addition to the four function pointers that
+all Values are expected to have, Integer adds another field that
+contains the integer value it represents. So, for example, the print
+function for an Integer just gets the value of this val field and prints
+it out as an integer.</p>
+<p>You will be extending the programming language by adding support for
+another kind of value, a String. You will implement this as a different
+subclass of Value. You’ll need a new type of struct, String, for storing
+String values. It will need function pointers for the four methods all
+Value subclasses must be able to do. You’ll add another field holding a
+pointer to a dynamically allocated string containing the string this
+value holds.</p>
+<figure>
+<img src="string-value.png"
+alt="Representation of the String subclass of Value" />
+<figcaption aria-hidden="true">Representation of the String subclass of
+Value</figcaption>
+</figure>
+<p>Your implementation of the String subclass of Value will go in the
+stringval component. You’ll need a function for creating new string
+values. The struct used for representing String values and the
+definitions of its functions for print, equals, copy and destroy can be
+hidden inside the stringval.c implementation file. Other components
+won’t need to be able to access these directly. Other components will
+just need a way to create new String objects. They can call the methods
+for a String value using the four function pointers at the start of the
+struct.</p>
+<h2 id="environment">Environment</h2>
+<p>The values of all variables will be stored in a struct named
+Environment. As statements and expressions are evaluated, the
+Environment object is passed around to permit retrieval and update of
+the current value of each variable.</p>
+<p>There are four functions for working with an Environment. These are
+declared in value.h and defined in value.c. In the starter, the
+definitions of the environment functions are mostly empty. You’ll need
+to define a struct for representing the Environment (you get to decide
+how you want to to represent the environment). You will also need to
+implement the following four functions to let you query and update the
+current value of any variable:</p>
+<ul>
+<li><p><code>Environment *makeEnvironment()</code><br />
+This function dynamically allocates a new, empty Environment (i.e., one
+with no values stored for any of the variables).</p></li>
+<li><p><code>void freeEnvironment( Environment *env )</code><br />
+This function frees the memory for an Environment, including freeing any
+memory it uses to store the list of variables and the current value for
+each variable.</p></li>
+<li><p><code>Value *lookupVariable( Environment *env, char const *name )</code><br />
+This function returns the current value of the variable with the given
+name. It returns it as a pointer to a Value, so the value being returned
+could be either an Integer or a String. The value returned is considered
+part of the Environment data structure (i.e., it’s a pointer to the
+current value of a variable in the environment, not a pointer to a copy
+of that value). The caller should not modify this value or free it. If
+needed, the caller can make a copy of the value using the value’s copy
+function.</p></li>
+<li><p><code>void setVariable( Environment *env, char const *name, Value *value )</code><br />
+This function updates the environment with the given value for the
+variable with the given name. When this function is called, the
+environment is given ownership of the memory pointed to by value. It can
+use it as part of the Environment representation (to store the
+variable’s value), or it can free it immediately if it isn’t
+needed.</p></li>
+</ul>
+<p>Although the client code can use a pointer to an Environment, the
+actual structure definition for Environment is hidden from the header
+file and from client code. Client code can use the Environment type in
+name only. The code that manipulates the environment and knows how it is
+organized is an implementation detail of the value.c source file. In
+lecture 19, we talked about using techniques like this to help organize
+our code and hide implementation details from client code.</p>
+<h2 id="expression-inheritance-hierarchy">Expression Inheritance
+Hierarchy</h2>
+<p>We’re representing expressions using the same object-oriented
+techniques used to represent Values (from Lecture 19). Expressions are a
+little bit easier, they don’t need as many function pointers. The
+<code>Expr</code> struct is like an abstract superclass for representing
+different expressions in the source code of the program being run. We
+could have an expression to represent syntax like <strong>a + 3</strong>
+or <strong>(x + 1) &lt; 100</strong>.</p>
+<p>The definition of the Expr is copied below. We’ll define subclasses
+of <code>Expr</code> by defining other struct types that start out with
+the same two fields, so every type of expression will have an
+<code>eval</code> function pointer and a <code>destroy</code> function
+pointer.</p>
+<pre><code>typedef struct ExprStruct Expr;
+
+struct ExprStruct {
+
+  Value *(*eval)( Expr *expr, Environment *env );
+
+  void (*destroy)( Expr *expr );
+};</code></pre>
+<p>The following figure shows how a subclass of <code>Expr</code> would
+be organized in memory. After the two function pointer fields common to
+all <code>Expr</code> objects, subclasses can contain any additional
+fields used to store values needed by the subclass.</p>
+<figure>
+<img src="expr-hierarchy.png"
+alt="Subclasses of Expr will always start with the same function pointer fields. Additional fields required by the subclass can follow these two fields in memory." />
+<figcaption aria-hidden="true">Subclasses of Expr will always start with
+the same function pointer fields. Additional fields required by the
+subclass can follow these two fields in memory.</figcaption>
+</figure>
+<p>The <code>eval</code> function pointer is for evaluating an
+expression. For any kind of expression, it points to a function that
+evaluates that type of expression, taking the expression itself as the
+first argument (so the function can get to fields in the instance it’s
+called on) and a pointer to an Environment as the second argument (in
+case the expression needs to use variables). The job of the eval
+function is to return a pointer to a dynamically allocated Value
+representing what the expression evaluates to. The code that calls the
+eval function is responsible for freeing the returned value when it is
+no longer needed. For example, an expression representing <strong>5 +
+3</strong> should return a pointer to an Integer value containing
+<strong>8</strong>.</p>
+<p>The <code>destroy</code> function pointer points to a function
+responsible for freeing the memory allocated for a particular type of
+expression, including freeing memory for all of its sub-expressions.</p>
+<p>The starter includes support for a few subclasses of
+<code>Expr</code>. This includes some some structs for representing
+different types of expressions. You can re-use some of these structs if
+you want. In particular, the InfixExpr type could be used to represent
+most types of expressions, with the eval pointer pointing to to a
+function that’s specific to what that expression type is supposed to
+do.</p>
+<p>In the starter, the syntax.c component provides constructor functions
+for a few expression types. You’ll provide similar constructors for each
+new type of expression you need to support.</p>
+<ul>
+<li><code>Expr *makeSub( Expr *left, Expr *right )</code></li>
+<li><code>Expr *makeMul( Expr *left, Expr *right )</code></li>
+<li><code>Expr *makeDiv( Expr *left, Expr *right )</code></li>
+<li><code>Expr *makeEquals( Expr *left, Expr *right )</code></li>
+<li><code>Expr *makeLess( Expr *left, Expr *right )</code></li>
+<li><code>Expr *makeOr( Expr *left, Expr *right )</code></li>
+<li><code>Expr *makeAnd( Expr *left, Expr *right )</code></li>
+</ul>
+<p>As you can see in the partial implementation, the structure
+definitions for subclasses of Expr will be given in the implementation
+file (rather than the header). That way, client code will be insulated
+from this implementation detail. Client code can use different types of
+Expr objects, without knowing the specific types it’s using. Likewise,
+functions used as methods of an Expr subclass can be given <em>internal
+linkage</em>. Client code doesn’t need to be able to call these
+functions directly; it can access them through the function pointers on
+an Expr object.</p>
+<p>Along with your implementation of subtypes of Expr, you will need to
+add code to the <code>parseExpr()</code> function in the parser to
+recognize these operators when they occur in the input program and to
+instantiate your new types of Expr objects using your constructors.</p>
+<h2 id="statement-inheritance-hierarchy">Statement Inheritance
+Hierarchy</h2>
+<p>Like the Expr definition, the <code>Stmt</code> struct represents a
+superclass for different types of statements in our programming
+language. It’s copied below. This class works a lot like Expr, but its
+execute method is a little simpler than the eval method in expr; execute
+doesn’t need to return a value, its job is just to do what the statement
+says.</p>
+<pre><code>typedef struct StmtStruct Stmt;
+
+struct StmtStruct {
+
+  void (*execute)( Stmt *stmt, Environment *env );
+
+  void (*destroy)( Stmt *stmt );
+};</code></pre>
+<p>The starter already contains support for three types of statements.
+You’ll need to add support for if statements and while statements. You
+may want to make a new subclass of Stmt for this, but you can probably
+use the same struct definition for both. An if statement and a while
+loop both need to store the same things, a condition and a statement for
+the body.</p>
+<figure>
+<img src="stmt-hierarchy.png"
+alt="Subclasses of Stmt will start with the two function pointer fields. Additional fields can be added later in memory by subclasses." />
+<figcaption aria-hidden="true">Subclasses of Stmt will start with the
+two function pointer fields. Additional fields can be added later in
+memory by subclasses.</figcaption>
+</figure>
+<p>In your <code>syntax</code> component, you’ll need to add constructor
+functions to make instances of Expr for your two additional statement
+types. You’ll also need to add code to the <code>parseStmt()</code>
+function in the parser to get it to parse your new statement types.</p>
+<ul>
+<li><code>Stmt *makeIf( Expr *cond, Stmt *body )</code></li>
+<li><code>Stmt *makeWhile( Expr *cond, Stmt *body )</code></li>
+</ul>
+<h2 id="tokenization">Tokenization</h2>
+<p>The tokenizer is already written for you as part of the
+<code>parser</code> component. Its job is to break the program’s source
+up into individual tokens. It also keeps up with the current line as it
+reads the program source, to help with error reporting. The following
+function can be used to read the next token from the given file, storing
+it in the given string. The string must have capacity for a string
+length MAX_TOKEN (1023). The function returns false if there are no more
+tokens in the input.</p>
+<pre><code>bool parseToken( char *token, FILE *fp );</code></pre>
+<h2 id="program-parsing-and-representation">Program Parsing and
+Representation</h2>
+<p>The parser is implemented as three functions,
+<code>parseStmt()</code>, <code>parseExpr()</code> and
+<code>parseTerm()</code>. These functions extract tokens from the input
+and build instances of Stmt (in the case of <code>parseStmt()</code>) or
+Expr (for <code>parseExpr()</code> and <code>parseTerm()</code>) based
+on what they read from the input. The starter includes a partial
+implementation of all three functions, but you will need to extend
+parseTerm() and parseExpr() as you add support for new values and
+expression types.</p>
+<p>The parser functions use a one-token look-ahead. The caller needs to
+read the next token from input and pass it in as the tok parameter to
+these functions. This makes it easy for main() to tell when we’ve
+reached the last statement in the input, and there are some other cases
+(like parsing compound statements) where the parser needs to look a
+token ahead in the input to know what to do next.</p>
+<p>The parser also includes some convenience functions to help simplify
+parsing, including a function to print the syntax error message, and
+functions to identify particular types of tokens.</p>
+<p>As you’d expect, the parsing functions are mutually recursive. A
+statement or expression may be made up of smaller statements or
+expressions, so the parsing functions call each other as they parse the
+syntax of the language. For example, the following syntax is an example
+of a print statement.</p>
+<pre><code>print 5 * 7 &amp;&amp; x;</code></pre>
+<p>Parsing this statement should create a tree of objects like the
+following figure. At the top, we have a PrintStmt, with an AndExpr
+(assuming this is the struct you use to represent a
+<strong>&amp;&amp;</strong> expression) as its argument. This AndExpr
+has a variable, x, as its right-hand operand and a Multiply expression
+as its left-hand operand. Of course, the Multiply and And expressions
+could really represented using the InfixExpr struct, with an eval
+pointer pointing to a function that knows how to multiply its two
+operands or perform an and with short circuiting. The Multiply
+expression has a literal value for 5 as its left operand and a literal
+value for 7 as its right operand.</p>
+<figure>
+<img src="parse-tree.png"
+alt="Parse tree resulting from parsing “print 5 * 7 &amp;&amp; x ;”." />
+<figcaption aria-hidden="true">Parse tree resulting from parsing “print
+5 * 7 &amp;&amp; x ;”.</figcaption>
+</figure>
+<p>This tree of objects is built by the parser, as it recursively
+traverses the syntax of the input program. At the top, the parseStmt()
+function looks at the first token and notices that it’s parsing a print
+statement. Then, it calls parseExpr() to parse the expression given as
+the argument to print. The parseExpr() function uses parseTerm() to get
+the first part of the expression (the literal value 5). It notices that
+this is followed by a * operator and another term, so it combines these
+into a Multiply expression and looks ahead to the next token. After
+noticing that there’s a &amp;&amp; operator, it combines the left-hand
+expression (the Multiply expression it just built) with the right-hand
+expression (a variable x) into an AndExpr and returns that to
+parseStmt(). The parseStmt() function uses this expression to build a
+PrintStmt object representing the whole statement.</p>
+<p>The parser already knows how to build this kind of tree for a few
+statement and expression types. You’ll need to add code for if
+statements, while loops and all the missing expression types.</p>
+<h2 id="commenting">Commenting</h2>
+<p>From the style guide, remember that functions with a prototype in a
+header should have their block comment on that prototype, instead of on
+the function implementation (lots of these comments have already been
+written for you). In general, it’s most important to document functions
+that will be used by other developers, and the ones with a prototype in
+a header are exactly those kinds of functions. Developers writing client
+code will have access to the header, so they can read the comment even
+if they don’t have access to the source file. This could be the case if,
+say, your code is distributed as a library rather than as source.</p>
+<p>Functions with internal linkage are less important to comment.
+They’re an implementation detail of a particular source file. You can
+see, the implementation functions for methods (the ones pointed to by
+function pointers in a struct) are like this. These functions are
+defined as static, and client code can only call them via one of these
+function pointers. For these functions, you don’t need to provide a full
+block comment. You can just say what function they implement for what
+type of object (e.g., “Implementation of print for Integer”). The
+description of what this function does is already part of the
+documentation on the function pointer in the abstract superclass.</p>
+<h2 id="extra-credit">Extra Credit</h2>
+<p>For this project, you can earn up to <strong>8 points of extra
+credit</strong> by implementing the cat, strlen and substr operators
+described in the requirements. These will let you compute on string
+values, giving us ways to iterate over the characters in a string, build
+new strings or take strings apart into substrings.</p>
+<p>Adding support for the string operations will require three new
+subclasses of Expr, one for each of the string operations. You can
+implement these in the stringval component. You’ll also need to extend
+the parser to get it to recognize these operators in a source program
+and to instantiate your new Expr objects when they are used in an
+expression.</p>
+<p>The starter includes some test cases for checking the extra credit
+part of the assignment. These aren’t part of the stest.sh script, but
+you can run these tests yourself to see how your extra credit code is
+doing. The extra credit tests are prog-31.txt up to prog-36.txt. You can
+run one of these tests using code like the following:</p>
+<pre><code># Run the interpreter on an extra credit test.
+$ ./interpret prog-31.txt &gt; output.txt
+# Make sure it exited successfully.
+$ echo $?
+0
+# Make sure it produced the right output.
+$ diff output.txt expected-31.txt </code></pre>
+<p>Tests prog-35.txt and prog-36.txt test for error handling, so the
+interpreter should exit unsuccessfully and it should print out an error
+message. You can try out one of these tests using code like the
+following:</p>
+<pre><code># Run the interpreter on an extra credit error test.
+$ ./interpret prog-35.txt &gt; output.txt 2&gt; stderr.txt
+# Make sure it exited unsuccessfully.
+$ echo $?
+1
+# Make sure the output and error message are right.
+$ diff output.txt expected-35.txt 
+$ diff stderr.txt error-35.txt </code></pre>
+<h2 id="sneaking-up-on-a-solution">Sneaking up on a Solution</h2>
+<p>You have to write a few parts of the interpreter to finish this
+project, but none of them are too large or difficult. I suggest adding
+features to the language in the same order they are used in the test
+inputs. This will let you add and test just a few features at a time,
+checking with valgrind as you go to make sure you’re not overlooking
+memory leaks or other errors that will be harder to debug later.</p>
+<p>I’d try to add features in this order:</p>
+<ul>
+<li>Add support for the String values. This will require adding code to
+the stringval component to store Strings as a subclass of Value. You’ll
+also have to add parsing code to parse.c to recognize literal strings.
+Once this code is working, you should be able to pass all the tests up
+to prog-04.txt.</li>
+<li>Add support for the missing arithmetic and relational operators (-,
+*, /, &lt; and ==). These will mostly be similar to the implementation
+of plus, and it will let you pass test cases up to prog-06.txt.</li>
+<li>Implement your Environment for storing variable values. My
+implementation of environment was less 70 lines. Once you get this
+working, you should be able to pass all the tests up prog-12.txt.</li>
+<li>Implement the &amp;&amp; and || operators. Remember, many of the
+other operators only work for integer values, but these should work for
+any type of value. Once &amp;&amp; and || working working, you should be
+able to pass all the remaining tests.</li>
+<li>If you have time, consider trying the string operators for extra
+credit. I’d try strlen(), then cat, then substr(). These will require
+additional code in the parser, and a few new expression types in the
+stringval component. Even if you can’t get them all done, you can get a
+little extra credit if just one or two of them are working.</li>
+</ul>
+<h1 id="build-automation">Build Automation</h1>
+<p>You are expected to provide a Makefile for your implementation. It
+should compile all the source files to objects, then link them together
+into an executable program. The rules in your makefile should accurately
+capture your project’s dependencies, just rebuilding the parts of the
+project that need to be rebuilt when a source file changes.</p>
+<p>The default target for your Makefile should be the
+<code>interpret</code> executable. You should have a make clean rule
+that removes any temporary files, permitting you to get a clean rebuild.
+You may want to include the code coverage support files in your make
+clean rule. The .gitignore file tries to exclude these from your repo,
+but there are also a type of temporary file that you may want your
+Makefile to help clean up.</p>
+<h1 id="testing">Testing</h1>
+<h2 id="unit-testing-and-code-coverage">Unit Testing and Code
+Coverage</h2>
+<p>The starter comes with a partial implementation of a unit test file
+for the <code>value.c</code> component. It’s called
+<code>valueTest.c</code>. Right now, it just tests the existing Integer
+value implementation. As you implement your Environment, you’ll extend
+this test program to exercise your additional code for the Environment.
+A small part of your grade will be based on your test coverage results
+for the code in Value.c.</p>
+<p>To run the unit test with coverage enabled, you should be able to
+build your program with the following line. On the common platform, this
+will create additional files with a gcno extension when you compile and
+then more files with a gcda extension when you run. The naming for these
+file seems to be a little different, depending on the version of gcc
+you’re using.</p>
+<pre><code>gcc -D_GNU_SOURCE -Wall -std=c99 -g -ftest-coverage -fprofile-arcs valueTest.c value.c -o valueTest</code></pre>
+<p>When you run the <code>valueTest</code> program, if will write
+information about what lines were executed to your gcda files. It will
+also report on any failed test cases using the same TestCase() macro we
+used on an earlier homework assignment.</p>
+<p>After running test unit test, the following command should give you a
+report on your statement coverage.</p>
+<pre><code>gcov value.c</code></pre>
+<p>If you’re running on a Linux system with a newer compiler, it may
+keep the coverage information in a file named
+<code>valueTest-value.gcda</code>. If you’re seeing filenames like this,
+you’ll need to run the following command to get your coverage
+report:</p>
+<pre><code>gcov valueTest-value.c</code></pre>
+<p>You should attempt to extend <code>valueTest.c</code> get at least 95
+percent coverage for your completed <code>value.c</code> component.
+After I finished my extra test cases, I got a little better than 96
+percent. The only code I was missing was the little bit of error
+handling code in the starter for exiting the program if you try to
+convert the wrong type of Value to a 32-bit int. That’s going to be
+difficult to test with a single unit test program; I suppose we could
+test it last.</p>
+<h2 id="automated-test-script">Automated Test Script</h2>
+<p>The starter includes a system test script, along with test input
+files and expected outputs. When we grade your program, we’ll test it
+with a modified version of this script, along with a few other tests
+we’re not giving you. To run the automated test script, you should be
+able to enter the following:</p>
+<pre><code>$ chmod +x stest.sh # probably just need to do this once
+$ ./stest.sh</code></pre>
+<p>As with the previous projects, this test script reports on how it’s
+running your program for each test case, so this should make it easy to
+see how to test your program by hand if something goes wrong. You can
+copy-and-paste to run a particular test yourself, including running it
+with gdb or valgrind if you need to.</p>
+<h2 id="testing-by-hand">Testing by Hand</h2>
+<p>You’ll want to be able run some of these tests by hand, to have a
+closer look at what’s going on and maybe to run your programs in gdb or
+under valgrind. In fact, you should probably be willing to write simple
+test inputs of your own, to test out particular behaviors for your
+interpreter; it’s not difficult.</p>
+<p>You can run your interpreter on a program input using commands like
+the following. These commands run the interpreter on an input program,
+check the exit status and then compare the output against the expected
+output.</p>
+<pre><code>$ ./interpret prog-05.txt &gt; output.txt
+$ echo $?
+0
+$ diff output.txt expected-05.txt</code></pre>
+<p>You’ll also want to test with valgrind, to look for leaks or memory
+errors. As with previous assignments, your solution is expected to be
+error-free for all successful executions. If the program has to
+terminate early because of an error in the input, you’re not required to
+free all memory or close all the files you’ve opened.</p>
+<h2 id="sample-input-files">Sample Input Files</h2>
+<p>The starter includes 21 test programs to try out with your
+interpreter. Generally, a description of each test is given in comments
+inside each test input program, so be sure to look at these inputs to
+see what they are trying to do. If you understand the programming
+language you’re creating, they should be easy to read and looking at the
+test inputs can help you figure out what’s going wrong.</p>
+<p>Programs <code>prog_01.txt</code> through <code>prog_21.txt</code>
+are working programs. Program <code>prog_21.txt</code> is a bad program
+for testing error handling (an uninitialized variable).</p>
+<h1 id="grading">Grading</h1>
+<p>We’ll be grading your program by making sure it compiles cleanly,
+runs correctly on all our system test cases (including some we’re not
+giving out), follows the required design and adheres to the style guide.
+You’ll also earn a few points for the unit test code coverage in your
+<code>value.c</code> component and for having a working Makefile.
+Failing to follow the expected design or exhibiting memory errors or
+leaks could also cost you some points.</p>
+<ul>
+<li>Program compiles cleanly on the common platform: <strong>10
+points</strong></li>
+<li>Working Makefile: <strong>5 points</strong></li>
+<li>Code coverage of 95 percent: <strong>8 points</strong></li>
+<li>The interpreter behaves correctly on all test cases: <strong>80
+points</strong></li>
+<li>Follows the style guide: <strong>20 points</strong></li>
+<li>Extra credit support for string operations: <strong>8
+points</strong></li>
+<li>Potential Deductions:
+<ul>
+<li>Up to <strong>-60 percent</strong> for not following the required
+design.</li>
+<li>Up to <strong>-30 percent</strong> for exhibiting memory errors,
+memory leaks or file leaks (the kinds of errors valgrind can help
+detect)</li>
+<li>Up to <strong>-30 percent</strong> for failing to submit required
+files, submitting files with the wrong names or for having unneeded
+files in the repo.</li>
+<li><strong>-20 percent</strong> for a late submission.</li>
+</ul></li>
+</ul>
+<h1 id="getting-started">Getting Started</h1>
+<p><a name="started"></p>
+<p>To get started on this assignment, you’ll need to clone your github
+repo and unpack the given starter into the <code>proj</code> directory.
+You’ll submit by committing files to your repo and pushing the changes
+back up to <code>github.com</code>.</p>
+<h2 id="clone-your-repository">Clone your Repository</h2>
+<p>You should have already cloned your assigned github repo when you
+were working on homework 1. If you haven’t already done this, go back to
+the assignment for <a
+href="https://dbsturgi.github.io/csc230//hw/hw1/hw1.html">homework 1</a>
+and follow the instructions for for cloning your repo.</p>
+<h2 id="unpack-the-starter-into-your-cloned-repo">Unpack the starter
+into your cloned repo</h2>
+<p>You will need to copy and unpack the project starter. We’re providing
+this file as a compressed tar archive. You can get a copy of the starter
+from the course homepage, or you can unpack it from the copy on our
+shared drive space on the remote Linux machines.</p>
+<p>If you download the starter from our course Moodle page, temporarily,
+put a copy in the <code>proj</code> directory of your cloned repo. Then,
+you should be able to unpack it with the following command:</p>
+<pre><code>$ tar xzvpf proj-starter.tgz</code></pre>
+<p>Once you start working on the assignment, be sure you don’t
+accidentally commit the starter archive to your repo (that would be an
+example of an extraneous file that doesn’t need to be there). After
+you’ve successfully unpacked it, you may want to delete the starter from
+your <code>proj</code> directory, or move it out of your repo.</p>
+<pre><code>$ rm proj-starter.tgz</code></pre>
+<p>Or, if you’re logged in on a machine in the remote.eos.ncsu.edu pool,
+you can access the starter archive in our shared directory without even
+having download a copy. Run the following command inside the
+<code>proj</code> directory of your cloned repo. This should give you a
+copy of all the starter files.</p>
+<pre><code>$ tar xzvpf /mnt/coe/workspace/csc/CSC230/proj/proj-starter.tgz</code></pre>
+<h2 id="submission-instructions">Submission Instructions</h2>
+<p>If you’ve set up your repository properly, pushing your changes to
+your assigned CSC230 repository should be all that’s required for
+submission. When you’re done, we’re expecting your repo to contain the
+following files in the proj directory. You can use the web interface on
+github.com to confirm that the right versions of all your files made
+it.</p>
+<ul>
+<li><code>interpret.c</code><br />
+The main source file for the interpreter, provided with the
+starter.</li>
+<li><code>parse.h</code> and <code>parse.c</code><br />
+This is the parser and tokenizer. It’s provided with the starter, but
+you’ll need to extend it to parse additional syntax.</li>
+<li><code>stringval.h</code> and <code>stringval.c</code><br />
+This is the representation string values. These files are mostly empty
+in the starter. You’ll need to add code for the implementation of string
+values.</li>
+<li><code>syntax.h</code> and <code>syntax.c</code><br />
+This is the representation for expressions and statements in our
+language. It’s provided with the starter, but you’ll need to add code to
+parse literal strings and the <strong>&amp;&amp;</strong> and
+<strong>||</strong> operators.</li>
+<li><code>value.h</code> and <code>value.c</code><br />
+This is the abstract representation for values and the current value of
+all variables. It’s provided with the starter, but you’ll need to add
+code to implement the Environment.</li>
+<li><code>Makefile</code><br />
+A simple Makefile for building the project, provided with the
+starter.</li>
+<li><code>stest.sh</code><br />
+Automated testing script.</li>
+<li><code>prog-</code>*<code>.txt</code><br />
+Input programs for the interpreter.</li>
+<li><code>expected-</code>*<code>.txt</code><br />
+Expected output for the input programs.</li>
+<li><code>error-</code>*<code>.txt</code><br />
+Expected error output for tests that cause errors.</li>
+<li><code>.gitignore</code><br />
+The new .gitignore file for this project.</li>
+</ul>
+<h2 id="pushing-your-changes">Pushing your Changes</h2>
+<p>To submit your homework, you’ll need to commit your changes to your
+cloned repo, then push them to <code>github.com</code>. <a
+href="https://dbsturgi.github.io/csc230//hw/hw1/hw1.html">Homework 1</a>
+has more detailed instructions for doing this, but they are also
+summarized here.</p>
+<p>Whenever you create a new file that needs to go into your repo, you
+need to stage it for the next commit using the <code>add</code>
+command:</p>
+<pre><code>$ git add some-new-file</code></pre>
+<p>Then, before you commit, it’s a good idea to check to make sure your
+index has the right files staged:</p>
+<pre><code>$ git status</code></pre>
+<p>Once you’ve added any new files, you can use a command like the
+following to commit them, along with any changes to files that were
+already being tracked:</p>
+<pre><code>$ git commit -am &quot;&lt;meaningful message for future self&gt;&quot;</code></pre>
+<p>Of course, you haven’t really submitted anything until you push your
+changes up to github:</p>
+<pre><code>$ git push</code></pre>
+<h2 id="checking-jenkins-feedback">Checking Jenkins Feedback</h2>
+<p>Checking Jenkins feedback is similar to previous assignments. Visit
+our Jenkins system at <a
+href="http://go.ncsu.edu/jenkins-csc230">http://go.ncsu.edu/jenkins-csc230</a>
+and you’ll see a new build job for your project. I’ll create these jobs
+shortly after the due date for homework 4.</p>
+<p><a name="outcomes"></a></p>
+<h2 id="learning-outcomes">Learning Outcomes</h2>
+<p>The syllabus lists a number of learning outcomes for this course.
+This assignment is intended to support several of theses:</p>
+<ul>
+<li><p>Write small to medium C programs having several
+separately-compiled modules.</p></li>
+<li><p>Explain what happens to a program during preprocessing, lexical
+analysis, parsing, code generation, code optimization, linking, and
+execution, and identify errors that occur during each phase. In
+particular, they will be able to describe the differences in this
+process between C and Java.</p></li>
+<li><p>Correctly identify error messages and warnings from the
+preprocessor, compiler, and linker, and avoid them.</p></li>
+<li><p>Find and eliminate runtime errors using a combination of logic,
+language understanding, trace printout, and gdb or a similar
+command-line debugger.</p></li>
+<li><p>Interpret and explain data types, conversions between data types,
+and the possibility of overflow and underflow.</p></li>
+<li><p>Explain, inspect, and implement programs using structures such as
+enumerated types, unions, and constants and arithmetic, logical,
+relational, assignment, and bitwise operators.</p></li>
+<li><p>Trace and reason about variables and their scope in a single
+function, across multiple functions, and across multiple
+modules.</p></li>
+<li><p>Allocate and deallocate memory in C programs while avoiding
+memory leaks and dangling pointers. In particular, they will be able to
+implement dynamic arrays and singly-linked lists using allocated
+memory.</p></li>
+<li><p>Use the C preprocessor to control tracing of programs,
+compilation for different systems, and write simple macros.</p></li>
+<li><p>Write, debug, and modify programs using library utilities,
+including, but not limited to assert, the math library, the string
+library, random number generation, variable number of parameters,
+standard I/O, and file I/O.</p></li>
+<li><p>Use simple command-line tools to design, document, debug, and
+maintain their programs.</p></li>
+<li><p>Use an automatic packaging tool, such as make or ant, to
+distribute and maintain software that has multiple compilation
+units.</p></li>
+<li><p>Use a version control tools, such as subversion (svn) or Git, to
+track changes and do parallel development of software.</p></li>
+<li><p>Distinguish key elements of the syntax (what’s legal), semantics
+(what does it do), and pragmatics (how is it used) of a programming
+language.</p></li>
+</ul>
+</body>
+</html>
