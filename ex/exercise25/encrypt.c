@@ -43,6 +43,10 @@ int main( int argc, char *argv[] ) {
   if ( EVP_EncryptInit_ex( ctx, EVP_aes_128_ecb(), NULL, key, NULL ) != 1 )
     fail( "EVP_EncryptInit_ex failed" );
 
+  // Disable automatic padding, so we can encrypt one block at a time.
+  if ( EVP_CIPHER_CTX_set_padding( ctx, 0 ) != 1 )
+      fail( "Failed to set padding\n" );
+
   // Read the input file 16 bytes at a time, encrypting each block with
   // the key.  If the last block is too short (i.e., if the file isn't
   // a multiple of 16 bytes in length), pad with zeros.
