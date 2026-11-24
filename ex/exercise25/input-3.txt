@@ -1,0 +1,17 @@
+The length of this
+file isn't a multiple
+of 16, so the last
+block will be padded
+with zeros before it
+is encrypted.  This
+makes sense for a text
+file, those zeros would
+never be part of the text
+so they can easily be
+discarded after decryption.
+Padding with zeros isn't
+a standard padding
+technique.  For a short
+message, it could leave
+you vulnerable to a
+brute force attack.
